@@ -21,7 +21,7 @@ USE `SICOV` ;
 -- Table `SICOV`.`municipio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SICOV`.`municipio` (
-  `idmunicipio` INT NOT NULL,
+  `idmunicipio` INT NOT NULL auto_increment,
   `nombre` VARCHAR(65) NOT NULL,
   PRIMARY KEY (`idmunicipio`))
 ENGINE = InnoDB;
@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 -- Table `SICOV`.`servicioPublico`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SICOV`.`servicioPublico` (
-  `idservicioPublico` INT NOT NULL,
+  `idservicioPublico` INT NOT NULL auto_increment,
   `nombre` VARCHAR(65) NOT NULL,
   PRIMARY KEY (`idservicioPublico`))
 ENGINE = InnoDB;
@@ -41,7 +41,7 @@ ENGINE = InnoDB;
 -- Table `SICOV`.`colonia`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SICOV`.`colonia` (
-  `idcolonia` INT NOT NULL,
+  `idcolonia` INT NOT NULL auto_increment,
   `nombre` VARCHAR(65) NOT NULL,
   `codigoPostal` VARCHAR(10) NOT NULL,
   `municipio_idmunicipio` INT NOT NULL,
@@ -59,7 +59,7 @@ ENGINE = InnoDB;
 -- Table `SICOV`.`comite`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SICOV`.`comite` (
-  `idcomite` INT NOT NULL,
+  `idcomite` INT NOT NULL auto_increment,
   `nombre` VARCHAR(45) NOT NULL,
   `colonia_idcolonia` INT NOT NULL,
   PRIMARY KEY (`idcomite`),
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `SICOV`.`ciudadano` (
   `nombre` VARCHAR(45) NOT NULL,
   `primerApellido` VARCHAR(45) NOT NULL,
   `segundoApellido` VARCHAR(45) NULL,
-  `fotografia` BLOB NOT NULL,
+  `fotografia` BLOB,
   `numeroTelefonico` VARCHAR(15) NULL,
   `correoElectronico` VARCHAR(100) NULL,
   `numeroEmpleado` VARCHAR(20) NOT NULL,
@@ -120,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `SICOV`.`comiteVecinal` (
   `idcomiteVecinal` INT NOT NULL AUTO_INCREMENT,
   `ciudadano_idciudadano` INT NOT NULL,
   `comite_idcomite` INT NOT NULL,
-  `esPresidente` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`idcomiteVecinal`),
   INDEX `fk_comiteVecinal_ciudadano1_idx` (`ciudadano_idciudadano` ASC) VISIBLE,
   INDEX `fk_comiteVecinal_comite1_idx` (`comite_idcomite` ASC) VISIBLE,
@@ -169,7 +168,7 @@ ENGINE = InnoDB;
 -- Table `SICOV`.`comentario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SICOV`.`comentario` (
-  `idcomentario` INT NOT NULL,
+  `idcomentario` INT NOT NULL auto_increment,
   `comentario` VARCHAR(255) NOT NULL,
   `anexo` BLOB NULL,
   `ciudadano_idciudadano` INT NOT NULL,
@@ -206,7 +205,116 @@ CREATE TABLE IF NOT EXISTS `SICOV`.`evidencia` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `SICOV`.`bitacora_actividad`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SICOV`.`bitacora_actividad` (
+  `idBitacoraActividad` INT NOT NULL AUTO_INCREMENT,
+  `operacion` VARCHAR(10) DEFAULT NULL,
+  `usuario` VARCHAR(40) DEFAULT NULL,
+  `host` VARCHAR(30) NOT NULL,
+  `fecha` DATETIME DEFAULT NULL,
+  `tabla` VARCHAR(40) NOT NULL,
+  `datos` VARCHAR(400) DEFAULT NULL,
+  PRIMARY KEY (`idBitacoraActividad`))
+ENGINE = InnoDB;
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- -----------------------------------------------------
+-- Table `SICOV`.`bitacora_login`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SICOV`.`bitacora_login` (
+  `idBitacoraLogin` INT NOT NULL AUTO_INCREMENT,
+  `fechaAcceso` DATETIME NOT NULL,
+  `correoUsuario` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idBitacoraLogin`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- TRIGGERS Bitacora Actividades
+-- -----------------------------------------------------
+
+DROP TRIGGER IF EXISTS `bitacoraMunicipioIns`;
+DELIMITER //
+  CREATE TRIGGER `bitacoraMunicipioIns` AFTER INSERT ON `municipio`
+  FOR EACH ROW BEGIN
+    INSERT INTO bitacora_actividad(host, usuario, operacion, fecha, tabla, datos)
+    VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), "INSERTAR", NOW(), 'MUNICIPIO',
+		CONCAT('Nombre del municipio: ',new.nombre)
+    );
+    END
+//
+
+DROP TRIGGER IF EXISTS `bitacoraColoniaIns`;
+DELIMITER //
+  CREATE TRIGGER `bitacoraColoniaIns` AFTER INSERT ON `colonia`
+  FOR EACH ROW BEGIN
+    INSERT INTO bitacora_actividad(host, usuario, operacion, fecha, tabla, datos)
+    VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), "INSERTAR", NOW(), 'COLONIA',
+		CONCAT('Nombre de la colonia: ',new.nombre,',', ' Codigo Postal: ',new.codigoPostal)
+    );
+    END
+//
+
+DROP TRIGGER IF EXISTS `bitacoraRolIns`;
+DELIMITER //
+  CREATE TRIGGER `bitacoraRolIns` AFTER INSERT ON `rol`
+  FOR EACH ROW BEGIN
+    INSERT INTO bitacora_actividad(host, usuario, operacion, fecha, tabla, datos)
+    VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), "INSERTAR", NOW(), 'ROL',
+		CONCAT('Nombre del rol: ',new.nombre)
+    );
+    END
+//
+
+DROP TRIGGER IF EXISTS `bitacoraServicioPublicoIns`;
+DELIMITER //
+  CREATE TRIGGER `bitacoraServicioPublicoIns` AFTER INSERT ON `servicioPublico`
+  FOR EACH ROW BEGIN
+    INSERT INTO bitacora_actividad(host, usuario, operacion, fecha, tabla, datos)
+    VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), "INSERTAR", NOW(), 'SERVICIO PUBLICO',
+		CONCAT('Nombre del servicio publico: ',new.nombre)
+    );
+    END
+//
+
+-- -----------------------------------------------------
+-- Registros
+-- -----------------------------------------------------
+
+/*Tabla: Municipio*/
+INSERT INTO `sicov`.`municipio` (`idmunicipio`, `nombre`) VALUES ('1','Emiliano Zapata');
+
+/*Tabla: Colonia*/
+INSERT INTO `sicov`.`colonia` (`idcolonia`, `nombre`, `codigoPostal`, `municipio_idmunicipio`) VALUES ('1','Tezoyuca', '62767', '1');
+
+/*Tabla: Comite*/
+INSERT INTO `sicov`.`comite` (`idcomite`, `nombre`, `colonia_idcolonia`) VALUES ('1','Comite Vecinal Tezoyuca', '1');
+
+/*Tabla: Rol*/
+INSERT INTO `sicov`.`rol` (`idrol`, `nombre`) VALUES ('1','Administrador');
+INSERT INTO `sicov`.`rol` (`idrol`, `nombre`) VALUES ('2','Presidente de Comité');
+INSERT INTO `sicov`.`rol` (`idrol`, `nombre`) VALUES ('3','Enlace');
+INSERT INTO `sicov`.`rol` (`idrol`, `nombre`) VALUES ('4','Ciudadano');
+
+/*Tabla: Ciudadano*/
+INSERT INTO `sicov`.`ciudadano` (`idciudadano`, `nombre`, `primerApellido`, `segundoApellido`, 
+				`numeroTelefonico`, `correoElectronico`, `numeroEmpleado`, `rol_idrol`,`municipio_idmunicipio`) 
+VALUES ('1', 'Jean', 'Hernandez', 'Gonzalez', '7776023979', 'jeanhernandez@utez.edu.mx', '1234', '1', '1');
+
+/*Tabla: Comite Vecinal*/
+INSERT INTO `sicov`.`comiteVecinal` (`idcomiteVecinal`, `ciudadano_idciudadano`, `comite_idcomite`) 
+VALUES ('1','1','1');
+
+/*Tabla: Servicio Publico*/
+INSERT INTO `sicov`.`servicioPublico` (`idservicioPublico`, `nombre`) VALUES ('1', 'Dreanje');
+INSERT INTO `sicov`.`servicioPublico` (`idservicioPublico`, `nombre`) VALUES ('2', 'Alumbrado Público');
+INSERT INTO `sicov`.`servicioPublico` (`idservicioPublico`, `nombre`) VALUES ('3', 'Agua Potable');
+INSERT INTO `sicov`.`servicioPublico` (`idservicioPublico`, `nombre`) VALUES ('4', 'Seguridad');
+INSERT INTO `sicov`.`servicioPublico` (`idservicioPublico`, `nombre`) VALUES ('5', 'Recoleccion de Basura');
+
+/*Tabla: Incidencia*/
+INSERT INTO `sicov`.`incidencia` (`idincidencia`, `descripcion`, `estado`, `fechaRegistro`, `costo`, `estaPagado`, 
+								`servicioPublico_idServiciosPublico`, `comiteVecinal_idcomiteVecinal`) 
+VALUES ('1', 'Esta es la descripción de la incidencia', '1', now(), '100', '0', '1', '1');
+
+
