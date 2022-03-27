@@ -1,0 +1,62 @@
+.nav-color {
+  background-color:lightskyblue ;
+}
+
+@media screen and (orientation: landscape) {
+  .nav-color {
+    background-color: yellow !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .nav-color {
+    background-color: blue !important;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .nav-color {
+    background-color:lightskyblue !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .nav-color {
+    background-color: purple !important;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .nav-color {
+    background-color:lightskyblue !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nav-color {
+    background-color:lightskyblue !important;
+  }
+  
+  
+}
+
+
+.fondo{
+	height: 450px;
+	background: url(/images/mascotas/fondo.jpg);
+	background-size: cover;
+  	background-repeat:no-repeat;
+  	background-position: center center;
+}
+
+
+.info{
+	background-color:white;
+	margin-top: 50px;
+	border-radius: 20px;
+	height: 375px;
+	    width: 700px;
+    text-align: center;
+    margin-left: 185px;
+}
+  

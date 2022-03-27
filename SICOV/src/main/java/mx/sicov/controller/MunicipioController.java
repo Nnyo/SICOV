@@ -55,4 +55,8 @@ public class MunicipioController {
         return "redirect:/municipio/list";
     }
 
+    @GetMapping("/pantallas")
+    public String mostrarPantallas(){
+        return "login";
+    }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+</head>
+<body>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form action="#">
+            <image src="./../images/robot.png" width="50%" height="40%"/>
+			<h3>Pídele al administrador que te registre en el sistema</h3>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form action="#">
+			<h1>Iniciar Sesión</h1>
+			<input type="email" placeholder="example@gmail.com" />
+			<input type="password" placeholder="********" />
+			<a href="#">¿Olvidaste tu contraseña?</a>
+			<button>Ingresar</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>¡Mantente al tanto de los Comités Vecinales!</h1>
+				<p>Para mantenerte conectado con nosotros, ingresa al sistema.</p>
+				<button class="ghost" id="signIn">Iniciar Sesión</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>¡Bienvenido(a) de vuelta!</h1>
+				<p>Ingresa tus datos y comienza una buena administración</p>
+				<button class="ghost" id="signUp">¿No tienes cuenta?</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script th:src="@{/js/login.js}"></script>
+</body>
+</html>
