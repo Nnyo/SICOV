@@ -1,4 +1,4 @@
-<link rel="stylesheet" th:href="@{/css/menu.css"/>
+<link rel="stylesheet" th:href="@{/css/menuHeader.css"/>
 
 <nav class="navbar navbar-expand-lg navbar-light " th:fragment="header">
 	<a class="navbar-brand text-light" href="#">SICOV</a>
@@ -17,7 +17,7 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link text-light" href="#">
+				<a class="nav-link text-light">
 					Colonias
 				</a>
 			</li>
@@ -26,9 +26,12 @@
 					Comités
 				</a>
 			</li>
+			<li class="nav-item">
+				<a class="btn btnCerrar" style="color: white;">Cerrar Sesión
+					<ion-icon name="log-out-outline"></ion-icon>
+				</a>
+			</li>
 		</ul>
 	</div>
-	<a class="btn btnCerrar" style="color: white;">Cerrar Sesión
-		<ion-icon name="log-out-outline"></ion-icon>
-	</a>
+	
 </nav>

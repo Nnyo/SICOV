@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Colonias</title>
+    <title>Listado de Comités</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
@@ -17,19 +17,26 @@
             <div class="col">
                 <div class="card mt-12">
                     <div class="card-body">
-                        <h2 style="text-align: center;">Listado de Colonias</h2>
+                        <h2 style="text-align: center;">Listado de Comités</h2>
                         <h5>Municipio: Temixco</h5>
                         <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
                             data-target="#registroColonia">
-                            <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Colonia
+                            <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Comité
                         </a>
 
+                        <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
+                            data-target="#registroColonia">
+                            <ion-icon name="eye"></ion-icon>&nbsp;Ver Solicitudes
+                        </a>
                         <table class="table">
                             <thead class="text-center">
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Nombre de la Colonia</th>
-                                    <th scope="col">Código Postal</th>
+                                    <th scope="col">Colonia</th>
+                                    <th scope="col">Nombre del Integrante</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Imagen de Identificación</th>
+                                    <th scope="col">Rol</th>
                                     <th colspan="3">Acciones</th>
                                 </tr>
                             </thead>
@@ -37,7 +44,12 @@
                                 <tr>
                                     <td scope="row">1</td>
                                     <td>Azteca</td>
-                                    <td>62588</td>
+                                    <td>Anastacia Fernández</td>
+                                    <td>7776786545</td>
+                                    <td>
+                                        <image src="./../images/user.png" width="50" height="50"/>
+                                    </td>
+                                    <td>Presidente</td>
                                     <td>
                                         <a class="btn btn-opciones">
                                             <ion-icon name="eye"></ion-icon>
@@ -56,37 +68,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="registroColonia" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Registro de Colonia</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group form-inline">
-                                <div clas="col-4">
-                                    <label for="nombreColonia">Nombre de la Colonia</label>
-                                    <input type="text" placeholder="Azteca" />
-                                </div>
-                                <div class="col-4">
-                                    <label>Código Postal</label>
-                                    <input type="text" placeholder="62588" />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btnRegistrar">Registrar</button>
-                                <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

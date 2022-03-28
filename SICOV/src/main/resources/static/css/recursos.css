@@ -1,5 +1,6 @@
 .btn-registro{
     background-color: #06334b;
+    margin-right: 5px;
 }
 
 ion-icon{
@@ -11,4 +12,20 @@ thead{
 }
 .btn-opciones{
     background-color: #112731;
+}
+.modal-content{
+    background-color: #A9B6C3;
+    color:white;
+}
+.modal-title{
+    font-size: 30px;
+    
+}
+.btnCancelar{
+    background-color: #7A8EA1;
+    color:white;
+}
+.btnRegistrar{
+    background-color:#112731 ;
+    color:white;
 }

@@ -57,6 +57,6 @@ public class MunicipioController {
 
     @GetMapping("/pantallas")
     public String mostrarPantallas(){
-        return "login";
+        return "/enlace/listComites";
     }
 }
