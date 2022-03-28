@@ -10,59 +10,53 @@
 	
 </head>
     <body>
-        <div class="container-fluid">    
+        <div class="container-fluid">
         <div th:insert="~{fragments/header::header}"></div>
-            <div class="row">
+        <div class="row">
             <div class="col">
                 <div class="card mt-12">
                     <div class="card-body">
-                    <h2 style="text-align: center;">Listado de Colonias</h2>
-                            <!--  <a th:href="@{/municipio/create}" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
-                                <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Municipio
-                            </a> -->
-                            
-                            <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-                             data-toggle="modal" data-target="#exampleModal">
-  								Nuevo Municipio
-							</button>
-                            
-                            <table class="table">
-                                <thead class="text-center">
+                        <h2 style="text-align: center;">Listado de Categorías</h2>
+                        <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+                            <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categoría
+                        </a>
+
+                        <table class="table">
+                            <thead class="text-center">
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Nombre del Municipio</th>
+                                    <th scope="col">Nombre de la Categoría</th>
                                     <th colspan="3">Acciones</th>
                                 </tr>
                             </thead>
-                                <tbody class="text-center">
-                                    <tr th:each="municipio, contador : ${listMunicipio}">
-                                        <th th:text="${contador.count}"></th>
-                                        <td th:text="${municipio.nombre}"></td>
-                                        
-                                        <td>
-                                            <a th:href="@{/municipio/update/{idmunicipio} (idmunicipio=${municipio.idmunicipio})}" class="btn btn-opciones">
-                                                <ion-icon name="create"></ion-icon>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a th:href="@{/municipio/delete/{idmunicipio} (idmunicipio=${municipio.idmunicipio})}" class="btn btn-opciones">
-                                                <ion-icon name="trash"></ion-icon>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td scope="row">1</td>
+                                    <td>Agua</td>
+									<td>
+										<a class="btn btn-opciones">
+											<ion-icon name="create"></ion-icon>
+										</a>
+									</td>
+									<td>
+										<a class="btn btn-opciones">
+											<ion-icon name="trash"></ion-icon>
+										</a>
+									</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
         
  <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Registro de Municipios</h5>
+        <h5 class="modal-title">Registro de Categorías</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -71,8 +65,8 @@
         <form>
   <div class="form-row">
   <div class="form-group col-md-6">
-    <label for="municipio">Nombre del municipio</label>
-    <input type="text" class="form-control" id="municipio" placeholder="Emiliano Zapata">
+    <label for="categoria">Nombre de la categoría</label>
+    <input type="text" class="form-control" id="categoria" placeholder="Drenaje">
   </div>
 </form>
       </div>
