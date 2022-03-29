@@ -28,18 +28,17 @@ public class Ciudadano {
     @Column(length = 10)
     private String numeroTelefonico;
 
-    @Column(length = 100)
+    @Column(length = 100, name = "username")
     private String correoElectronico;
 
     @Column(length = 30)
     private String numeroEmpleado;
 
-    @Column(columnDefinition = "tinyint not null")
+    @Column(columnDefinition = "tinyint not null", name = "enabled")
     private Integer estatus;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_idrol", nullable = false)
-    private Rol rol;
+    @Column(length = 50)
+    private String password;
 
     @ManyToOne
     @JoinColumn(name = "municipio_idmunicipio", nullable = false)
