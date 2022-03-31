@@ -3,9 +3,11 @@
 <!DOCTYPE html>
 <head>
 	<title>Listado de Municipios</title>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" th:href="@{/css/menu.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
 	
 </head>
@@ -16,15 +18,12 @@
             <div class="col">
                 <div class="card mt-12">
                     <div class="card-body">
-                    <h2 style="text-align: center;">Listado de Colonias</h2>
-                            <!--  <a th:href="@{/municipio/create}" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
-                                <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Municipio
-                            </a> -->
-                            
-                            <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-                             data-toggle="modal" data-target="#exampleModal">
-  								Nuevo Municipio
-							</button>
+                    <h2 style="text-align: center;">Listado de Municipios</h2>
+                         
+                            <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
+                            data-target="#registroMunicipio">
+                            <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Municipio
+                        	</a>
                             
                             <table class="table">
                                 <thead class="text-center">
@@ -58,36 +57,38 @@
             </div>
         </div>
         
- <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Registro de Municipios</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-  <div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="municipio">Nombre del municipio</label>
-    <input type="text" class="form-control" id="municipio" placeholder="Emiliano Zapata">
-  </div>
-</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-registro" style="color: white;">Guardar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-      </div>
-    </div>
-  </div>
-</div>
-    
-        <!--Ionicons-->
+	
+            <!-- Modal -->
+            <div class="modal fade" id="registroMunicipio" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Registro de la Categoría</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group form-inline">
+                                <div clas="col-4">
+                                    <label for="nombreMunicipio">Nombre del Municipio</label>
+                                    <input type="text" placeholder="Jiutepec" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btnRegistrar">Registrar</button>
+                                <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-        
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>
@@ -97,5 +98,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+        <script th:src="@{/js/tinymce.min.js}"></script>
     </body>
 </html>

@@ -18,24 +18,28 @@
             <div class="col">
                 <div class="card mt-12">
                     <div class="card-body">
-                        <h2 style="text-align: center;">Listado de Categorías</h2>
-                        <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
-                            data-target="#registroCategoria">
-                            <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categoría
-                        </a>
+                        <h2 style="text-align: center;">Listado de Enlaces</h2>
+                        
+                         <a th:href="@{/enlace/create}" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+                                <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Enlace
+                         </a>
 
                         <table class="table">
                             <thead class="text-center">
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Nombre de la Categoría</th>
+                                    <th scope="col">Nombre del Enlace</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Correo</th>
                                     <th colspan="3">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
                                 <tr>
                                     <td scope="row">1</td>
-                                    <td>Agua</td>
+                                    <td>Jacob Estrada Luna</td>
+                                    <td>7772150348</td>
+                                    <td>jacobest@example.com</td>
 									<td>
 										<a class="btn btn-opciones">
 											<ion-icon name="create"></ion-icon>
@@ -54,35 +58,7 @@
             </div>
         </div>
     </div>
-        
-	
-            <!-- Modal -->
-            <div class="modal fade" id="registroCategoria" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Registro de la Categoría</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group form-inline">
-                                <div clas="col-4">
-                                    <label for="nombreCategoría">Nombre de la Categoría</label>
-                                    <input type="text" placeholder="Agua..." />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btnRegistrar">Registrar</button>
-                                <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
