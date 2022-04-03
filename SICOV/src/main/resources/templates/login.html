@@ -18,8 +18,8 @@
 	<div class="form-container sign-in-container">
 		<form th:action="@{/login}" method="post">
 			<h1>Iniciar Sesión</h1>
-			<input type="email" placeholder="example@gmail.com" />
-			<input type="password" placeholder="********" />
+			<input name="username" type="email" placeholder="example@gmail.com" />
+			<input name="password" type="password" placeholder="********" />
 			<a href="#">¿Olvidaste tu contraseña?</a>
 			<button type="submit">Ingresar</button>
 		</form>
