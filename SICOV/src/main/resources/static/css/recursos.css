@@ -29,3 +29,10 @@ thead{
     background-color:#112731 ;
     color:white;
 }
+.textSolicitud{
+    text-align: center;
+    font-weight: bold;
+}
+.bodySolicitud{
+    font-weight: bold;
+}

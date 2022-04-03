@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes de Comité</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
+    <link rel="stylesheet" th:href="@{/css/recursos.css}" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div th:insert="~{fragments/header::header}"></div>
+        <div class="row">
+            <div class="card col-4 col-sm-6 col-lg-3">
+					<div class="card-body">
+					  <h5 class="card-title">Título Solicitud</h5>
+					  <p class="card-text">Descripción:</p>
+					  <p class="card-text">Estatus:</p>
+					  <p class="card-text">Monto</p>
+                      <a class="btn btnRegistrar mt-3" href="#">Ver Detalles</a>
+                      <a class="btn btnCancelar mt-3" href="#">Editar</a>
+                   
+				   </div>
+			   </div>
+        </div>
+    </div>
+</body>
+</html>
