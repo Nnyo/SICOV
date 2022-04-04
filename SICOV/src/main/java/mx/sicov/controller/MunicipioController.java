@@ -21,11 +21,6 @@ public class MunicipioController {
         return "municipio/listMunicipios";
     }
 
-    @GetMapping(value = "/create")
-    public String createMunicipio(Municipio municipio, Model model){
-        return "municipio/createMunicipio";
-    }
-
     @PostMapping("/save")
     public String saveMunicipio(Municipio municipio, Model model){
         if(municipio.getIdmunicipio() == null){

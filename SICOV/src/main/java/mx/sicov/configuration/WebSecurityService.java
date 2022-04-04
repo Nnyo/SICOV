@@ -22,23 +22,20 @@ import javax.sql.DataSource;
 )
 public class WebSecurityService extends WebSecurityConfigurerAdapter{
 
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**", "/login", "/js/**", "/images/**")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                    .formLogin().loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/home")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                .and()
-                .logout().permitAll();
+            .antMatchers("/css/**", "/login", "/js/**", "/images/**").permitAll()
+            .anyRequest().authenticated()
+            .and().formLogin().loginPage("/login").permitAll()
+                .defaultSuccessUrl("/home")
+                .usernameParameter("username")
+                .passwordParameter("password")
+            .and().logout().permitAll();
     }
-
-    @Autowired
-    DataSource dataSource;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

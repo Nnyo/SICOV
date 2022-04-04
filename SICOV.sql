@@ -77,7 +77,7 @@ CREATE TABLE `ciudadano` (
   `idciudadano` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(100) DEFAULT NULL,
   `enabled` tinyint NOT NULL,
-  `fotografia` longblob NOT NULL,
+  `fotografia` longblob,
   `nombre` varchar(45) NOT NULL,
   `numero_empleado` varchar(30) DEFAULT NULL,
   `numero_telefonico` varchar(10) DEFAULT NULL,
@@ -318,6 +318,57 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES ('dannyo.gonzalez2502@gmail.com','$2a$10$97c5uJhR.L8.nm0HUTHwSOXSrHzgDQSP2sXSHiZX/3HNRMrTindfi',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+/*
+	Triggers
+*/
+
+DROP TRIGGER IF EXISTS `insCiudadanoUser`;
+DELIMITER //
+  CREATE TRIGGER `insCiudadanoUser` AFTER INSERT ON `ciudadano`
+  FOR EACH ROW BEGIN
+    INSERT INTO users(username,enabled,password)
+    VALUES (new.username, new.enabled, new.password);
+    END
+//
+
+DROP TRIGGER IF EXISTS `insCiudadanoAuthorities`;
+DELIMITER //
+  CREATE TRIGGER `insCiudadanoAuthorities` AFTER INSERT ON `ciudadano`
+  FOR EACH ROW BEGIN
+    INSERT INTO authorities(username,authority)
+    VALUES (new.username,'ROLE_ADMINISTRADOR');
+    END
+//
+
+/*
+	Inicio de sesion
+*/
+
+DROP TABLE IF EXISTS `bitacoralogin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bitacoralogin` (
+  `idControl` int NOT NULL AUTO_INCREMENT,
+  `fechaAcceso` datetime NOT NULL,
+  `correoUsuario` varchar(45) NOT NULL,
+  PRIMARY KEY (`idControl`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP PROCEDURE IF EXISTS `sp_login`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login`(IN p_username VARCHAR(100), IN p_password VARCHAR(100), OUT acceso int)
+BEGIN
+	SELECT count(*) INTO acceso FROM users u WHERE u.username = p_username AND u.password = p_password;
+	IF acceso = 1 THEN
+		INSERT INTO `bitacoraLogin` (`fechaAcceso`, `correoUsuario`) VALUES (now(), p_username);
+    END IF;
+END ;;
+DELIMITER ;
+
+call sp_login('jeanhernandez@utez.edu.mx','12345',@acceso);
+
+
 
 --
 -- Dumping routines for database 'sicov'
