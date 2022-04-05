@@ -23,11 +23,7 @@ public class MunicipioController {
 
     @PostMapping("/save")
     public String saveMunicipio(Municipio municipio, Model model){
-        if(municipio.getIdmunicipio() == null){
-            model.addAttribute("listMunicipio", municipioServiceImpl.save(municipio));
-        }else{
-            model.addAttribute("listMunicipio", municipioServiceImpl.save(municipio));
-        }
+        municipioServiceImpl.save(municipio);
         return "redirect:/municipio/list";
     }
 

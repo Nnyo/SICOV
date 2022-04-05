@@ -341,6 +341,22 @@ DELIMITER //
     END
 //
 
+DROP TRIGGER IF EXISTS `delCiudadanoAuthorities`;
+DELIMITER //
+  CREATE TRIGGER `delCiudadanoAuthorities` AFTER DELETE ON `ciudadano`
+  FOR EACH ROW BEGIN
+	DELETE FROM authorities WHERE (`username` = old.username);
+    END
+//
+
+DROP TRIGGER IF EXISTS `delCiudadanoUser`;
+DELIMITER //
+  CREATE TRIGGER `delCiudadanoUser` AFTER DELETE ON `authorities`
+  FOR EACH ROW BEGIN
+	DELETE FROM users WHERE (`username` = old.username);
+    END
+//
+
 /*
 	Inicio de sesion
 */

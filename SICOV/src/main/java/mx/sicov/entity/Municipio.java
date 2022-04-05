@@ -3,6 +3,7 @@ package mx.sicov.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -14,6 +15,7 @@ public class Municipio {
     private Long idmunicipio;
 
     @Column(nullable = false, length = 80)
+    @NotBlank(message = "El nombre del municipio es obligatorio")
     private String nombre;
 
     public Municipio() {
@@ -40,6 +42,9 @@ public class Municipio {
         this.nombre = nombre;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Municipio [idmunicipio=" + idmunicipio + ", nombre=" + nombre + "]";
+    }
 
 }
