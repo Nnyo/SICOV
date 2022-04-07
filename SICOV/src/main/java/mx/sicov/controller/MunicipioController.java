@@ -3,7 +3,10 @@ package mx.sicov.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import mx.sicov.entity.Municipio;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
@@ -13,7 +16,7 @@ import mx.sicov.service.municipio.MunicipioServiceImpl;
 public class MunicipioController {
     
     @Autowired
-    MunicipioServiceImpl municipioServiceImpl;
+    private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
     public String listarMunicipios(Model model){

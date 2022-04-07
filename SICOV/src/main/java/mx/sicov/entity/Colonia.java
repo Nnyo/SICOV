@@ -30,4 +30,57 @@ public class Colonia {
     @NotNull(message = "El municipio es requerido")
     private Municipio municipio;
 
+    public Colonia() {
+    }
+
+    public Colonia(Long idcolonia,
+            @NotBlank(message = "El nombre es requerido") @Size(min = 2, max = 120, message = "El nombre no puede tener mas de 80 caracteres") String nombre,
+            @NotNull(message = "El codigo postal es requerido") @Size(min = 5, max = 5, message = "El codigo postal debe tener 5 digitos") String codigoPostal,
+            @NotNull(message = "El municipio es requerido") Municipio municipio) {
+        this.idcolonia = idcolonia;
+        this.nombre = nombre;
+        this.codigoPostal = codigoPostal;
+        this.municipio = municipio;
+    }
+
+    public Long getIdcolonia() {
+        return idcolonia;
+    }
+
+    public void setIdcolonia(Long idcolonia) {
+        this.idcolonia = idcolonia;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
+
+    @Override
+    public String toString() {
+        return "Colonia [codigoPostal=" + codigoPostal + ", idcolonia=" + idcolonia + ", municipio=" + municipio
+                + ", nombre=" + nombre + "]";
+    }
+
+    
+
 }

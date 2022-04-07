@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<head>
+	<title>Listado de Colonias</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
+    <link rel="stylesheet" th:href="@{/css/recursos.css}" />
+	
+</head>
+    <body>
+        <div class="container-fluid">    
+        <div th:insert="~{fragments/header::header}"></div>
+            <div class="row">
+            <div class="col">
+                <div class="card mt-12">
+                    <div class="card-body">
+                    <h2 style="text-align: center;">Listado de Colonias</h2>
+                         
+                            <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
+                            data-target="#registroColonia">
+                            <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Colonia
+                        	</a>
+                            
+                            <table class="table">
+                                <thead class="text-center">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Nombre de la Colonia</th>
+                                    <th scope="col">Código Postal</th>
+                                    <th scope="col">Municipio</th>
+                                    <th colspan="3">Acciones</th>
+                                </tr>
+                            </thead>
+                                <tbody class="text-center">
+                                    <tr th:each="colonia, contador : ${listColonia}">
+                                        <th th:text="${contador.count}"></th>
+                                        <td th:text="${colonia.nombre}"></td>
+                                        <td th:text="${colonia.codigoPostal}"></td>
+                                        <td th:text="${colonia.municipio.nombre}"></td>
+                                        
+                                        <td>
+                                            <a th:href="@{/colonia/update/{idcolonia} (idcolonia=${colonia.idcolonia})}" class="btn btn-opciones">
+                                                <ion-icon name="create"></ion-icon>
+                                            </a>
+                                            <a th:href="@{/colonia/delete/{idcolonia} (idcolonia=${colonia.idcolonia})}" class="btn btn-opciones">
+                                                <ion-icon name="trash"></ion-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+	
+            <!-- Modal -->
+            <div class="modal fade" id="registroColonia" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Registro de Colonias</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/colonia/save}" method="POST">
+                                <div class="form-group col">
+                                    <label for="nombreColonia">Nombre de la Colonia</label>
+                                    <input name="nombre" type="text" placeholder="Escribe la Colonia" class="form-control form-control-lg"/>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="codigoPostal">Código Postal</label>
+                                    <input name="codigoPostal" type="text" placeholder="Escribe el Código Postal" class="form-control form-control-lg"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btnRegistrar">Registrar</button>
+                                    <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script th:src="@{/js/tinymce.min.js}"></script>
+    </body>
+</html>

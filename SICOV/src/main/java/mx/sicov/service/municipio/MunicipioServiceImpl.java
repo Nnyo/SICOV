@@ -11,8 +11,9 @@ import mx.sicov.repository.MunicipioRepository;
 
 @Service
 public class MunicipioServiceImpl implements MunicipioService{
+    
     @Autowired
-    MunicipioRepository municipioRepository;
+    private MunicipioRepository municipioRepository;
 
     @Override
     public List<Municipio> listAll(){

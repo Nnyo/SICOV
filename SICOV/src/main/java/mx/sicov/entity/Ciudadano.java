@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -40,7 +39,6 @@ public class Ciudadano {
 
     @Column(length = 10)
     @NotNull(message = "El Numero telefonico es requerido")
-    @Pattern(regexp="[0-9]")
     @Size(min = 10, max = 15, message = "El numero telefonico debe tener 10 digitos")
     private String numeroTelefonico;
 
