@@ -1,5 +1,6 @@
 package mx.sicov.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,9 @@ public class LoginController {
     }
 
     @GetMapping("/home")
-    public String home(){
+    public String home(Authentication authentication){
+        System.out.println("Auth: " + authentication.getName());//Correo
+        System.out.println("Auth: " + authentication.getAuthorities().toString());//Rol
         return "home";
     }
 
