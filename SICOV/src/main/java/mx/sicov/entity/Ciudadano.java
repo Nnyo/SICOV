@@ -5,6 +5,11 @@ import lombok.Data;
 import java.util.Arrays;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Data
 @Entity
@@ -14,13 +19,19 @@ public class Ciudadano {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idciudadano;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 120)
+    @NotBlank(message = "El nombre es requerido")
+    @Size(min = 2, max = 120, message = "El nombre no puede tener mas de 120 caracteres")
     private String nombre;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 120)
+    @NotBlank(message = "El primer apellido es requerido")
+    @Size(min = 2, max = 120, message = "El primer apellido no puede tener mas de 120 caracteres")
     private String primerApellido;
 
-    @Column(length = 45)
+    @Column(length = 120)
+    @NotBlank(message = "El segundo apellido es requerido")
+    @Size(min = 2, max = 120, message = "El segundo apellido no puede tener mas de 120 caracteres")
     private String segundoApellido;
 
     @Lob
@@ -28,12 +39,17 @@ public class Ciudadano {
     private Byte[] fotografia;
 
     @Column(length = 10)
+    @NotNull(message = "El Numero telefonico es requerido")
+    @Pattern(regexp="[0-9]")
+    @Size(min = 10, max = 15, message = "El numero telefonico debe tener 10 digitos")
     private String numeroTelefonico;
 
     @Column(length = 100, name = "username")
+    @Email(message = "El correo electronico no es valido")
     private String correoElectronico;
 
     @Column(length = 30)
+    @Size(min = 4, max = 4, message = "El número del empleado no puede tener mas de 4 caracteres")
     private String numeroEmpleado;
 
     @Column(columnDefinition = "tinyint not null", name = "enabled")
@@ -44,6 +60,7 @@ public class Ciudadano {
 
     @ManyToOne
     @JoinColumn(name = "municipio_idmunicipio", nullable = false)
+    @NotNull(message = "El municipio es requerido")
     private Municipio municipio;
 
     public Ciudadano() {

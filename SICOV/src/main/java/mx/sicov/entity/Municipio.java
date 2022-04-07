@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @Entity
@@ -14,8 +15,9 @@ public class Municipio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idmunicipio;
 
-    @Column(nullable = false, length = 80)
+    @Column(nullable = false, length = 120)
     @NotBlank(message = "El nombre del municipio es obligatorio")
+    @Size(min = 2, max = 120, message = "El nombre del municipio no puede tener mas de 120 caracteres")
     private String nombre;
 
     public Municipio() {
