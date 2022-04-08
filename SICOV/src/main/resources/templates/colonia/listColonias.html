@@ -81,6 +81,14 @@
                                     <label for="codigoPostal">Código Postal</label>
                                     <input name="codigoPostal" type="text" placeholder="Escribe el Código Postal" class="form-control form-control-lg"/>
                                 </div>
+                                <div class="form-group col">
+                                    <label for="municipio">Municipio</label>
+                                    <select name="municipio" class="form-control form-control-lg">
+                                        <option selected>Selecciona un Municipio...</option>
+                                        <option th:each="municipio : ${listMunicipio}" th:value="${municipio.idmunicipio}" th:text="${municipio.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btnRegistrar">Registrar</button>
                                     <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>

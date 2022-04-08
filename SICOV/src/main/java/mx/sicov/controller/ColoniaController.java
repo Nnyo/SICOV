@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import mx.sicov.entity.Colonia;
 import mx.sicov.service.colonia.ColoniaServiceImpl;
@@ -29,9 +30,15 @@ public class ColoniaController {
     }
 
     @PostMapping("/save")
-    public String saveMunicipio(Colonia colonia, Model model){
+    public String saveColonia(Colonia colonia, Model model){
         coloniaServiceImpl.save(colonia);
-        return "redirect:/municipio/list";
+        return "redirect:/colonia/list";
+    }
+
+    @GetMapping("/delete/{idcolonia}")
+    public String deleteColonia(@PathVariable Long idcolonia){
+        coloniaServiceImpl.delete(idcolonia);
+        return "redirect:/colonia/list";
     }
 
 }
