@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<title>Crear Usuario</title>
+	<title>Nuevo Ciudadano</title>
 	<meta charset="UTF-8">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,30 +16,30 @@
             <div class="col">
                 <div class="card mt-12">
                     <div class="card-body">
-						<h2 class="mb-3">Nuevo Usuario</h2>
+						<h2 class="mb-3">Nuevo Ciudadano</h2>
 						<form th:action="@{/ciudadano/save}" method="POST" th:object="${ciudadano}">
   							<div class="form-row">
     							<div class="form-group col-md-4">
     								<label for="nombre">Nombre</label>
-      								<input name="nombre" type="text" class="form-control" placeholder="Escribe el nombre...">
+      								<input name="nombre" id="nombre" type="text" class="form-control" placeholder="Escribe el nombre...">
     							</div>
 								<div class="form-group col-md-4">
-    								<label for="nombre">Primer Apellido</label>
-      								<input name="primerApellido" type="text" class="form-control" placeholder="Escribe el primer apellido...">
+    								<label for="primerApellido">Primer Apellido</label>
+      								<input name="primerApellido" id="primerApellido" type="text" class="form-control" placeholder="Escribe el primer apellido...">
     							</div>
 								<div class="form-group col-md-4">
-    								<label for="nombre">Segundo Apellido</label>
-      								<input name="segundoApellido" type="text" class="form-control" placeholder="Escribe el segundo apellido...">
+    								<label for="segundoApellido">Segundo Apellido</label>
+      								<input name="segundoApellido" id="segundoApellido" type="text" class="form-control" placeholder="Escribe el segundo apellido...">
     							</div>
   							</div>
   							<div class="form-row">
 								<div class="form-group col-md-4">
-    								<label for="numEmpleado">Número de empleado</label>
-      								<input name="numeroEmpleado" type="number" class="form-control" placeholder="Escribe el número del empleado...">
+    								<label for="numeroEmpleado">Número de empleado</label>
+      								<input name="numeroEmpleado" id="numeroEmpleado" type="number" class="form-control" placeholder="Escribe el número del empleado...">
     							</div>
     							<div class="form-group col-md-4">
-    								<label for="telefono">Teléfono</label>
-      								<input name="numeroTelefonico" type="text" class="form-control" placeholder="Escribe el telefono...">
+    								<label for="numeroTelefonico">Teléfono</label>
+      								<input name="numeroTelefonico" id="numeroTelefonico" type="text" class="form-control" placeholder="Escribe el telefono...">
     							</div>
     							<div class="form-group col-md-4">
     								<label>Municipio</label>
@@ -51,12 +51,12 @@
   							</div>
   							<div class="form-row">
 								<div class="form-group col-md-6">
-    								<label for="correo">Correo electronico</label>
-      								<input name="correoElectronico" type="email" class="form-control" placeholder="Escribe el correo electronico...">
+    								<label for="correoElectronico">Correo electrónico</label>
+      								<input name="correoElectronico" id="correoElectronico" type="email" class="form-control" placeholder="Escribe el correo electrónico...">
    	 							</div>
     							<div class="form-group col-md-6">
     								<label for="password">Contraseña</label>
-      								<input name="password" type="password" class="form-control" placeholder="********">
+      								<input name="password" id="password" type="password" class="form-control" placeholder="********">
    	 							</div>
   							</div>
   							<div class="form-row">
@@ -67,7 +67,7 @@
   							</div>
   							<div style="text-align: center;">
 								<button type="submit" class="btn btn-lg btnRegistrar">Registrar</button>
-                                <button type="button" class="btn btn-lg btnCancelar" data-dismiss="modal">Cancelar</button>
+                                <a type="button" class="btn btn-lg btnCancelar" th:href="@{/ciudadano/list}">Cancelar</a>
 							</div>
 						</form>
 					</div>
@@ -76,27 +76,8 @@
 
 		</div>
 	</div>
-
-	<!--Ionicons-->
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-	<!--Toast-->
-	<script th:src="@{/js/toast.min.js}"></script>
-
-	<script th:if="${msg_success != null}">
-		new Toast({
-			message: '[[${msg_success}]]',
-			type: 'success'
-		});
-	</script>
-	<script th:if="${msg_error != null}">
-		new Toast({
-			message: '[[${msg_error}]]',
-			type: 'danger'
-		});
-	</script>
-
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>

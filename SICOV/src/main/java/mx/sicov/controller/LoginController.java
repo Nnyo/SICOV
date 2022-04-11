@@ -34,9 +34,8 @@ public class LoginController {
     }
 
     @GetMapping("/home")
-    public String home(Authentication authentication){
-        System.out.println("Auth: " + authentication.getName());//Correo
-        System.out.println("Auth: " + authentication.getAuthorities().toString());//Rol
+    public String home(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
         return "home";
     }
 

@@ -1,6 +1,7 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,19 +25,22 @@ public class CiudadanoController {
     private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
-    public String listarCiudadanos(Model model){
+    public String listarCiudadanos(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listCiudadanos", ciudadanoServiceImpl.listAll());
-        return "administrador/listEnlaces";
+        return "Administrador/listEnlaces";
     }
 
     @GetMapping(value = {"/create"})
-    public String crearCiudadano(Ciudadano ciudadano, Model model) {
+    public String crearCiudadano(Authentication authentication,Ciudadano ciudadano, Model model) {
+        model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
         return "/administrador/createEnlace";
     }
 
     @PostMapping(value = {"/save"})
-    public String save(Ciudadano ciudadano) {
+    public String save(Authentication authentication,Ciudadano ciudadano, Model model) {
+        model.addAttribute("role",authentication.getAuthorities().toString());
         ciudadanoServiceImpl.save(ciudadano);
         return "redirect:/ciudadano/list";
     }
@@ -53,11 +57,12 @@ public class CiudadanoController {
 	}
 
     @GetMapping(value = {"/update/{idciudadano}"})
-	public String updateCiudadano(@PathVariable long idciudadano,Model model, RedirectAttributes redirectAttributes){
+	public String updateCiudadano(@PathVariable long idciudadano,Authentication authentication,Model model, RedirectAttributes redirectAttributes){
 		Ciudadano ciudadano = ciudadanoServiceImpl.findById(idciudadano);
 		if (ciudadano != null) {
 			model.addAttribute("ciudadano", ciudadano);
             model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+            model.addAttribute("role",authentication.getAuthorities().toString());
 			return "administrador/editEnlace";
 		}
 		redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");

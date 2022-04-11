@@ -2,7 +2,7 @@
 <html>
 <!DOCTYPE html>
 <head>
-	<title>Listado de Municipios</title>
+	<title>Listado de Servicios</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -18,12 +18,11 @@
             <div class="col">
                 <div class="card mt-12">
                     <div class="card-body">
-                        <h2 style="text-align: center;">Listado de Categorías</h2>
+                        <h2 style="text-align: center;">Listado de Servicios</h2>
                         <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
                             data-target="#registroCategoria">
-                            <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categoría
+                            <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Servicio
                         </a>
-
                         <table class="table">
                             <thead class="text-center">
                                 <tr>
@@ -54,8 +53,6 @@
             </div>
         </div>
     </div>
-        
-	
             <!-- Modal -->
             <div class="modal fade" id="registroCategoria" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
                 aria-hidden="true">
@@ -71,7 +68,7 @@
                             <div class="form-group form-inline">
                                 <div clas="col-4">
                                     <label for="nombreCategoría">Nombre de la Categoría</label>
-                                    <input type="text" placeholder="Agua..." />
+                                    <input id="nombreCategoría" type="text" placeholder="Agua..." />
                                 </div>
                             </div>
                             <div class="modal-footer">

@@ -39,8 +39,49 @@ CREATE TABLE `authorities` (
 
 LOCK TABLES `authorities` WRITE;
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('dannyo.gonzalez2502@gmail.com','ROLE_ADMINISTRADOR');
+INSERT INTO `authorities` VALUES ('administrador@gmail.com','ROLE_ADMINISTRADOR'),('dannyo.gonzalez2502@gmail.com','ROLE_ADMINISTRADOR'),('enlace@gmail.com','ROLE_ENLACE'),('presidente@gmail.com','ROLE_PRESIDENTE');
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `delCiudadanoUser` AFTER DELETE ON `authorities` FOR EACH ROW BEGIN
+	DELETE FROM users WHERE (`username` = old.username);
+    END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `bitacoralogin`
+--
+
+DROP TABLE IF EXISTS `bitacoralogin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bitacoralogin` (
+  `idControl` int NOT NULL AUTO_INCREMENT,
+  `fechaAcceso` datetime NOT NULL,
+  `correoUsuario` varchar(45) NOT NULL,
+  PRIMARY KEY (`idControl`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bitacoralogin`
+--
+
+LOCK TABLES `bitacoralogin` WRITE;
+/*!40000 ALTER TABLE `bitacoralogin` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bitacoralogin` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -81,14 +122,14 @@ CREATE TABLE `ciudadano` (
   `nombre` varchar(45) NOT NULL,
   `numero_empleado` varchar(30) DEFAULT NULL,
   `numero_telefonico` varchar(10) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
+  `password` varchar(250) DEFAULT NULL,
   `primer_apellido` varchar(45) NOT NULL,
   `segundo_apellido` varchar(45) DEFAULT NULL,
   `municipio_idmunicipio` bigint NOT NULL,
   PRIMARY KEY (`idciudadano`),
   KEY `FKoms284ih1v8mu0hxgq9nwd4pk` (`municipio_idmunicipio`),
   CONSTRAINT `FKoms284ih1v8mu0hxgq9nwd4pk` FOREIGN KEY (`municipio_idmunicipio`) REFERENCES `municipio` (`idmunicipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,8 +138,62 @@ CREATE TABLE `ciudadano` (
 
 LOCK TABLES `ciudadano` WRITE;
 /*!40000 ALTER TABLE `ciudadano` DISABLE KEYS */;
+INSERT INTO `ciudadano` VALUES (2,'enlace@gmail.com',1,'','Enlace','1200','7771076799','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W','Perez','Sanchez',2),(3,'presidente@gmail.com',1,'','Presidente','1201','7771579210','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.','Perez','Sanchez',2),(4,'administrador@gmail.com',1,'','administrador','1204','7771646278','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa','Perez','Sanchez',6);
 /*!40000 ALTER TABLE `ciudadano` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `insCiudadanoUser` AFTER INSERT ON `ciudadano` FOR EACH ROW BEGIN
+    INSERT INTO users(username,enabled,password)
+    VALUES (new.username, new.enabled, new.password);
+    END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `insCiudadanoAuthorities` AFTER INSERT ON `ciudadano` FOR EACH ROW BEGIN
+    INSERT INTO authorities(username,authority)
+    VALUES (new.username,'ROLE_ADMINISTRADOR');
+    END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `delCiudadanoAuthorities` AFTER DELETE ON `ciudadano` FOR EACH ROW BEGIN
+	DELETE FROM authorities WHERE (`username` = old.username);
+    END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `colonia`
@@ -282,7 +377,7 @@ CREATE TABLE `municipio` (
   `idmunicipio` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(80) NOT NULL,
   PRIMARY KEY (`idmunicipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,6 +386,7 @@ CREATE TABLE `municipio` (
 
 LOCK TABLES `municipio` WRITE;
 /*!40000 ALTER TABLE `municipio` DISABLE KEYS */;
+INSERT INTO `municipio` VALUES (2,'Emiliano Zapata'),(6,'Cuernavaca'),(9,'Jiutepec'),(10,'Temixco');
 /*!40000 ALTER TABLE `municipio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,63 +411,22 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('dannyo.gonzalez2502@gmail.com','$2a$10$97c5uJhR.L8.nm0HUTHwSOXSrHzgDQSP2sXSHiZX/3HNRMrTindfi',1);
+INSERT INTO `users` VALUES ('administrador@gmail.com','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa',1),('dannyo.gonzalez2502@gmail.com','$2a$10$97c5uJhR.L8.nm0HUTHwSOXSrHzgDQSP2sXSHiZX/3HNRMrTindfi',1),('enlace@gmail.com','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W',1),('presidente@gmail.com','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
-/*
-	Triggers
-*/
-
-DROP TRIGGER IF EXISTS `insCiudadanoUser`;
-DELIMITER //
-  CREATE TRIGGER `insCiudadanoUser` AFTER INSERT ON `ciudadano`
-  FOR EACH ROW BEGIN
-    INSERT INTO users(username,enabled,password)
-    VALUES (new.username, new.enabled, new.password);
-    END
-//
-
-DROP TRIGGER IF EXISTS `insCiudadanoAuthorities`;
-DELIMITER //
-  CREATE TRIGGER `insCiudadanoAuthorities` AFTER INSERT ON `ciudadano`
-  FOR EACH ROW BEGIN
-    INSERT INTO authorities(username,authority)
-    VALUES (new.username,'ROLE_ADMINISTRADOR');
-    END
-//
-
-DROP TRIGGER IF EXISTS `delCiudadanoAuthorities`;
-DELIMITER //
-  CREATE TRIGGER `delCiudadanoAuthorities` AFTER DELETE ON `ciudadano`
-  FOR EACH ROW BEGIN
-	DELETE FROM authorities WHERE (`username` = old.username);
-    END
-//
-
-DROP TRIGGER IF EXISTS `delCiudadanoUser`;
-DELIMITER //
-  CREATE TRIGGER `delCiudadanoUser` AFTER DELETE ON `authorities`
-  FOR EACH ROW BEGIN
-	DELETE FROM users WHERE (`username` = old.username);
-    END
-//
-
-/*
-	Inicio de sesion
-*/
-
-DROP TABLE IF EXISTS `bitacoralogin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `bitacoralogin` (
-  `idControl` int NOT NULL AUTO_INCREMENT,
-  `fechaAcceso` datetime NOT NULL,
-  `correoUsuario` varchar(45) NOT NULL,
-  PRIMARY KEY (`idControl`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-DROP PROCEDURE IF EXISTS `sp_login`;
+--
+-- Dumping routines for database 'sicov'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `sp_login` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login`(IN p_username VARCHAR(100), IN p_password VARCHAR(100), OUT acceso int)
 BEGIN
@@ -381,14 +436,10 @@ BEGIN
     END IF;
 END ;;
 DELIMITER ;
-
-call sp_login('jeanhernandez@utez.edu.mx','12345',@acceso);
-
-
-
---
--- Dumping routines for database 'sicov'
---
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -399,4 +450,4 @@ call sp_login('jeanhernandez@utez.edu.mx','12345',@acceso);
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-02 21:58:23
+-- Dump completed on 2022-04-11 17:58:45

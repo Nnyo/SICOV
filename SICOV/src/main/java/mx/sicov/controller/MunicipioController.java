@@ -1,6 +1,7 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,31 +20,60 @@ public class MunicipioController {
     private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
-    public String listarMunicipios(Model model){
+    public String listarMunicipios(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
         return "municipio/listMunicipios";
     }
 
     @PostMapping("/save")
-    public String saveMunicipio(Municipio municipio, Model model){
-        municipioServiceImpl.save(municipio);
-        return "redirect:/municipio/list";
+    public String saveMunicipio(Authentication authentication, Municipio municipio, Model model){
+        Long id = municipio.getIdmunicipio();
+        if(municipioServiceImpl.save(municipio)){
+            model.addAttribute("alert","success");
+            if(id == null){
+                model.addAttribute("message","Municipio registrado");
+            }else{
+                model.addAttribute("message","Municipio actualizado");
+            }
+        }else{
+            model.addAttribute("alert","error");
+            if(id == null){
+                model.addAttribute("message","Error al registrar municipio");
+            }else{
+                model.addAttribute("message","Error al actualizar municipio");
+            }
+        }
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+        return "municipio/listMunicipios";
     }
 
     @GetMapping("/update/{idmunicipio}")
-    public String update(@PathVariable long idmunicipio, Model model){
+    public String update(@PathVariable long idmunicipio, Model model, Authentication authentication){
         Municipio municipio = municipioServiceImpl.findById(idmunicipio);
         if(municipio != null){
+            model.addAttribute("role",authentication.getAuthorities().toString());
             model.addAttribute("municipio", municipio);
             return "municipio/createMunicipio";
         }
-        return "redirect:/municipio/list";
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+        return "municipio/listMunicipios";
     }
 
     @GetMapping("/delete/{idmunicipio}")
-    public String deleteMunicipio(@PathVariable Long idmunicipio){
-        municipioServiceImpl.delete(idmunicipio);
-        return "redirect:/municipio/list";
+    public String deleteMunicipio(@PathVariable Long idmunicipio, Authentication authentication, Model model){
+        if(municipioServiceImpl.delete(idmunicipio)){
+            model.addAttribute("message","Municipio eliminado");
+            model.addAttribute("alert","success");
+        }else{
+            model.addAttribute("message","Error al eliminar municipio");
+            model.addAttribute("alert","error");
+        }
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+        return "municipio/listMunicipios";
     }
 
     

@@ -56,7 +56,7 @@ public class MunicipioServiceImpl implements MunicipioService{
 		boolean exist = municipioRepository.existsById(idmunicipio);
 		if(exist){
 			municipioRepository.deleteById(idmunicipio);
-			return municipioRepository.existsById(idmunicipio);
+			return true;
 		}
 		return false;
 	}

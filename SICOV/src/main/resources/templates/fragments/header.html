@@ -1,4 +1,4 @@
-<link rel="stylesheet" th:href="@{/css/menuHeader.css"/>
+<link rel="stylesheet" th:href="@{/css/menuHeader.css}" >
 
 <nav class="navbar navbar-expand-lg navbar-light " th:fragment="header">
 	<a class="navbar-brand text-light" href="#">SICOV</a>
@@ -11,19 +11,34 @@
 			<li class="nav-item active">
 				<a class="nav-link text-light" th:href="@{/home}">Inicio <span class="sr-only">(current)</span></a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" th:if="${role == '[ROLE_ADMINISTRADOR]'}">
 				<a class="nav-link text-light" th:href="@{/municipio}">
 					Municipios
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" th:if="${role == '[ROLE_ENLACE]'}">
 				<a class="nav-link text-light" th:href="@{/colonia}">
 					Colonias
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" th:if="${role == '[ROLE_ADMINISTRADOR]'}">
+				<a class="nav-link text-light" th:href="@{/servicios_publicos/list}">
+					Servicios públicos
+				</a>
+			</li>
+			<li class="nav-item" th:if="${role == '[ROLE_ADMINISTRADOR]'}">
+				<a class="nav-link text-light" th:href="@{/ciudadano/list}">
+					Ciudadanos
+				</a>
+			</li>
+			<li class="nav-item" th:if="${role == '[ROLE_ENLACE]'}">
 				<a class="nav-link text-light" th:href="@{/comite}">
 					Comités
+				</a>
+			</li>
+			<li class="nav-item" th:if="${role == '[ROLE_PRESIDENTE]'}">
+				<a class="nav-link text-light" th:href="@{/incidencias/list}">
+					Incidencias
 				</a>
 			</li>
 			<li class="nav-item">
@@ -36,5 +51,4 @@
 			</li>
 		</ul>
 	</div>
-	
 </nav>
