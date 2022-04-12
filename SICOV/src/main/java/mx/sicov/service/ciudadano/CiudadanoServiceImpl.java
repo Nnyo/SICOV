@@ -48,6 +48,11 @@ public class CiudadanoServiceImpl implements CiudadanoService {
     }
 
     @Override
+    public Long findCiudadanoByCorreoElectronico(String username){
+        return ciudadanoRepository.findCiudadanoByCorreoElectronico(username).getMunicipio().getIdmunicipio();
+    }
+
+    @Override
     public boolean update(Ciudadano ciudadano){
         Optional<Ciudadano> optCiudadano = ciudadanoRepository.findById(ciudadano.getIdciudadano());
         if(!optCiudadano.isPresent()){

@@ -11,5 +11,6 @@ public interface ColoniaService {
     boolean save(Colonia idcolonia);
     boolean update(Colonia idcolonia);
     boolean delete(long idcolonia);
-    
+    List<Colonia> findColoniasByCiudadano(String ciudadano);
+
 }

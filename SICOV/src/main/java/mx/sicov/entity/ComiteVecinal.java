@@ -24,7 +24,7 @@ public class ComiteVecinal {
 
     @ManyToOne
     @JoinColumn(name = "comite_idcomite", nullable = false)
-    @NotNull(message = "El comite es requerido")
+    @NotNull(message = "El comité es requerido")
     private Comite comite;
 
 }

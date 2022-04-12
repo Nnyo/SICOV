@@ -38,16 +38,16 @@ public class Ciudadano {
     private Byte[] fotografia;
 
     @Column(length = 10)
-    @NotNull(message = "El Numero telefonico es requerido")
+    @NotNull(message = "El número telefónico es requerido")
     @Size(min = 10, max = 15, message = "El numero telefonico debe tener 10 digitos")
     private String numeroTelefonico;
 
     @Column(length = 100, name = "username")
-    @Email(message = "El correo electronico no es valido")
+    @Email(message = "El correo electrónico no es válido")
     private String correoElectronico;
 
     @Column(length = 30)
-    @Size(min = 4, max = 4, message = "El número del empleado no puede tener mas de 4 caracteres")
+    @Size(min = 4, max = 4, message = "El número del empleado no puede tener más de 4 caracteres")
     private String numeroEmpleado;
 
     @Column(columnDefinition = "tinyint not null", name = "enabled")
@@ -55,6 +55,9 @@ public class Ciudadano {
 
     @Column(name = "password", length = 250)
     private String password;
+
+    @Column(name = "rol", length = 50)
+    private String rol;
 
     @ManyToOne
     @JoinColumn(name = "municipio_idmunicipio", nullable = false)

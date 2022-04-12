@@ -30,6 +30,9 @@ public class Colonia {
     @NotNull(message = "El municipio es requerido")
     private Municipio municipio;
 
+    @Column(length = 100, name = "ciudadano")
+    private String ciudadano;
+
     public Colonia() {
     }
 

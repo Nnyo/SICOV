@@ -21,6 +21,11 @@ public class ColoniaServiceImpl implements ColoniaService {
     }
 
     @Override
+    public List<Colonia> findColoniasByCiudadano(String ciudadano){
+        return coloniaRepository.findColoniasByCiudadano(ciudadano);
+    }
+
+    @Override
     public Colonia findById(Long idcolonia){
         Optional<Colonia> optional = coloniaRepository.findById(idcolonia);
         if(optional.isPresent()){

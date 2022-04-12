@@ -41,7 +41,6 @@
                                         <td th:text="${colonia.nombre}"></td>
                                         <td th:text="${colonia.codigoPostal}"></td>
                                         <td th:text="${colonia.municipio.nombre}"></td>
-                                        
                                         <td>
                                             <a th:href="@{/colonia/update/{idcolonia} (idcolonia=${colonia.idcolonia})}" class="btn btn-opciones">
                                                 <ion-icon name="create"></ion-icon>
@@ -58,8 +57,6 @@
                 </div>
             </div>
         </div>
-        
-	
             <!-- Modal -->
             <div class="modal fade" id="registroColonia" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
                 aria-hidden="true">
@@ -75,15 +72,15 @@
                             <form th:action="@{/colonia/save}" method="POST">
                                 <div class="form-group col">
                                     <label for="nombreColonia">Nombre de la Colonia</label>
-                                    <input name="nombre" type="text" placeholder="Escribe la Colonia" class="form-control form-control-lg"/>
+                                    <input name="nombre" id="nombreColonia" type="text" placeholder="Escribe la Colonia" class="form-control form-control-lg"/>
                                 </div>
                                 <div class="form-group col">
                                     <label for="codigoPostal">Código Postal</label>
-                                    <input name="codigoPostal" type="text" placeholder="Escribe el Código Postal" class="form-control form-control-lg"/>
+                                    <input name="codigoPostal" id="codigoPostal" type="text" placeholder="Escribe el Código Postal" class="form-control form-control-lg"/>
                                 </div>
                                 <div class="form-group col">
                                     <label for="municipio">Municipio</label>
-                                    <select name="municipio" class="form-control form-control-lg">
+                                    <select id="municipio" name="municipio" class="form-control form-control-lg">
                                         <option selected>Selecciona un Municipio...</option>
                                         <option th:each="municipio : ${listMunicipio}" th:value="${municipio.idmunicipio}" th:text="${municipio.nombre}">
                                         </option>

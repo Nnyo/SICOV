@@ -18,7 +18,7 @@ public class Incidencia {
     private Long idincidencia;
 
     @Column(nullable = false)
-    @NotBlank(message = "La descripción es requerido")
+    @NotBlank(message = "La descripción es requerida")
     private String descripcion;
 
     @Column(columnDefinition = "tinyint not null")
@@ -41,12 +41,12 @@ public class Incidencia {
 
     @ManyToOne
     @JoinColumn(name = "categoria_idcategoria", nullable = false)
-    @NotNull(message = "La categoria es requerida")
+    @NotNull(message = "La categoría es requerida")
     private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "comiteVecinal_idcomiteVecinal", nullable = false)
-    @NotNull(message = "El comite vecinal es requerido")
+    @NotNull(message = "El comité vecinal es requerido")
     private ComiteVecinal comiteVecinal;
 
 }

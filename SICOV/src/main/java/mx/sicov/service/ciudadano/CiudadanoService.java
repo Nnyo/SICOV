@@ -11,5 +11,6 @@ public interface CiudadanoService {
     boolean save(Ciudadano ciudadano);
     boolean update(Ciudadano ciudadano);
     boolean delete(long idciudadano);
+    Long findCiudadanoByCorreoElectronico(String username);
     
 }

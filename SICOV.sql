@@ -125,6 +125,7 @@ CREATE TABLE `ciudadano` (
   `password` varchar(250) DEFAULT NULL,
   `primer_apellido` varchar(45) NOT NULL,
   `segundo_apellido` varchar(45) DEFAULT NULL,
+  `rol` varchar(50) DEFAULT NULL,
   `municipio_idmunicipio` bigint NOT NULL,
   PRIMARY KEY (`idciudadano`),
   KEY `FKoms284ih1v8mu0hxgq9nwd4pk` (`municipio_idmunicipio`),
@@ -138,7 +139,7 @@ CREATE TABLE `ciudadano` (
 
 LOCK TABLES `ciudadano` WRITE;
 /*!40000 ALTER TABLE `ciudadano` DISABLE KEYS */;
-INSERT INTO `ciudadano` VALUES (2,'enlace@gmail.com',1,'','Enlace','1200','7771076799','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W','Perez','Sanchez',2),(3,'presidente@gmail.com',1,'','Presidente','1201','7771579210','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.','Perez','Sanchez',2),(4,'administrador@gmail.com',1,'','administrador','1204','7771646278','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa','Perez','Sanchez',6);
+INSERT INTO `ciudadano` VALUES (2,'enlace@gmail.com',1,'','Enlace','1200','7771076799','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W','Perez','Sanchez','ROLE_ENLACE',2),(3,'presidente@gmail.com',1,'','Presidente','1201','7771579210','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.','Perez','Sanchez','ROLE_PRESIDENTE',2),(4,'administrador@gmail.com',1,'','administrador','1204','7771646278','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa','Perez','Sanchez','ROLE_ADMINISTRADOR',6);
 /*!40000 ALTER TABLE `ciudadano` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -170,7 +171,7 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `insCiudadanoAuthorities` AFTER INSERT ON `ciudadano` FOR EACH ROW BEGIN
     INSERT INTO authorities(username,authority)
-    VALUES (new.username,'ROLE_ADMINISTRADOR');
+    VALUES (new.username,new.rol);
     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -206,11 +207,12 @@ CREATE TABLE `colonia` (
   `idcolonia` bigint NOT NULL AUTO_INCREMENT,
   `codigo_postal` varchar(10) NOT NULL,
   `nombre` varchar(80) NOT NULL,
+  `ciudadano` varchar(100) NOT NULL,
   `municipio_idmunicipio` bigint NOT NULL,
   PRIMARY KEY (`idcolonia`),
   KEY `FKgxuh6wkythoeds8x7sww8lx1s` (`municipio_idmunicipio`),
   CONSTRAINT `FKgxuh6wkythoeds8x7sww8lx1s` FOREIGN KEY (`municipio_idmunicipio`) REFERENCES `municipio` (`idmunicipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,6 +221,7 @@ CREATE TABLE `colonia` (
 
 LOCK TABLES `colonia` WRITE;
 /*!40000 ALTER TABLE `colonia` DISABLE KEYS */;
+INSERT INTO `colonia` VALUES (1,'62765','Modesto Rangel','enlace@gmail.com',2),(2,'62765','Campo nuevo','enlace@gmail.com',2),(4,'62765','Tezoyuca','enlace@gmail.com',2);
 /*!40000 ALTER TABLE `colonia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,6 +419,10 @@ INSERT INTO `users` VALUES ('administrador@gmail.com','$2a$10$p7xaMj.hnttJdFnf5E
 UNLOCK TABLES;
 
 --
+-- Dumping events for database 'sicov'
+--
+
+--
 -- Dumping routines for database 'sicov'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `sp_login` */;
@@ -450,4 +457,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-11 17:58:45
+-- Dump completed on 2022-04-12 17:02:13
