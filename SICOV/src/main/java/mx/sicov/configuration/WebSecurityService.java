@@ -29,12 +29,20 @@ public class WebSecurityService extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers("/css/**", "/login", "/js/**", "/images/**").permitAll()
+            .antMatchers("/colonia/**").hasRole("ENLACE")
+            .antMatchers("/municipio/**").hasRole("ADMINISTRADOR")
+            .antMatchers("/servicios_publicos/**").hasRole("ADMINISTRADOR")
+            .antMatchers("/ciudadano/**").hasRole("ADMINISTRADOR")
             .anyRequest().authenticated()
             .and().formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/home")
                 .usernameParameter("username")
                 .passwordParameter("password")
-            .and().logout().permitAll();
+            .and()
+                .logout()
+                .permitAll()
+            .and()
+                .exceptionHandling().accessDeniedPage("/Error403");
     }
 
     @Autowired
