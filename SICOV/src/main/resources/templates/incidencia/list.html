@@ -2,19 +2,21 @@
 <html>
 <head>
   <title>Estado de incidencias</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-  <link rel="stylesheet" th:href="@{/css/menu.css}" />
-  <link rel="stylesheet" th:href="@{/css/recursos.css}" />
+  <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
+    <link rel="stylesheet" th:href="@{/css/recursos.css}" />
 
 </head>
 <body>
-<div class="container-fluid">
+  <div class="container-fluid">    
   <div th:insert="~{fragments/header::header}"></div>
-  <div class="row">
-    <div class="col">
-      <div class="card mt-12">
+      <div class="row">
+      <div class="col">
+          <div class="card mt-12">
+             
         <div class="card-body">
           <h2 style="text-align: center;">Estado de incidencias</h2>
           <!-- <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
@@ -33,8 +35,11 @@
               <th scope="col">Persona que registro</th>
               <th scope="col">Fecha de registro</th>
               <th scope="col">Anexos (imagnes o PDF)</th>
-              <th scope="col">Comentarios</th>
+              <th scope="col">Ver</th>
+              <th scope="col">Agregar</th>
+              <th scope="col">Estado</th>
               <th colspan="3">Acciones</th>
+
             </tr>
             </thead>
             <tbody class="text-center">
@@ -44,20 +49,40 @@
               <td>Michelle Gonzalez</td>
               <td>22-03-22</td>
               <td><image src="./../images/user.png" width="50" height="50"/></td>
-              <td>  <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-                            data-toggle="modal" data-target="#exampleModal2">
-                Nuevo Comentario
-              </button></td>
+              <td>  
+                <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
+                data-toggle="modal" data-target="#exampleModalCenter">
+                Ver Comentario
+              </button>
+              
+            </td>
+            <td>  <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
+              data-toggle="modal" data-target="#exampleModal2">
+              Agregar Comentario
+            </button>
+            </td>
+            <td>  En un rato subo esto
+            </td>
               <td>
+                
                 <a class="btn btn-opciones">
                   <ion-icon name="create"></ion-icon>
                 </a>
               </td>
               <td>
                 <a class="btn btn-opciones">
+                  
+                  <ion-icon name="eye" type="button" class="btn" data-toggle="modal" data-target="#detalles">
+            
+                  </ion-icon>
+                                  </a>
+              </td>
+              <td>
+                <a class="btn btn-opciones">
                   <ion-icon name="trash"></ion-icon>
                 </a>
               </td>
+           
             </tr>
             </tbody>
           </table>
@@ -134,7 +159,46 @@
     </div>
   </div>
 </div>
-
+<!-- Modal  ver deatlles-->
+<div class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Detalles de todo
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"  style="background-color: #973333" >Cerrar</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal  ver comnetario-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Comentario registrado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Comentario de prueba que escribo en este gran modal 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #973333" >Cerrar</button>
+        <button type="button" class="btn btn-primary"  style="background-color: #74839B" >Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!--Ionicons-->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -149,4 +213,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 </body>
+
+
 </html>
