@@ -68,4 +68,18 @@ public class CiudadanoController {
 		redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
 		return "redirect:/ciudadano/list";
 	}
+    
+    @GetMapping("/mostrar/{idciudadano}")
+	public String mostrarMascota(@PathVariable long idciudadano, Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+    	Ciudadano ciudadano = ciudadanoServiceImpl.mostrar(idciudadano);
+		if (!ciudadano.equals(null)) {
+			model.addAttribute("ciudadano", ciudadano);
+            model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+            model.addAttribute("role",authentication.getAuthorities().toString());
+			return "administrador/detailEnlace";
+
+		}
+		redirectAttributes.addFlashAttribute("msg_error", "Ciudadano no encontrado");
+		return "redirect:/ciudadano/list";
+	}
 }

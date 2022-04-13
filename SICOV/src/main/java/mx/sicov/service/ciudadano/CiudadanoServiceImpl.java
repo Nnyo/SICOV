@@ -72,5 +72,15 @@ public class CiudadanoServiceImpl implements CiudadanoService {
 		}
 		return false;
 	}
+    
+    @Override
+	public Ciudadano mostrar(long idciudadano){
+		Optional<Ciudadano> obj = ciudadanoRepository.findById(idciudadano);
+        if(obj.isPresent()){
+            return obj.get();
+        }
+            return null;
+        
+	}
 
 }

@@ -41,12 +41,15 @@
 										<a th:href="@{/ciudadano/update/{idciudadano} (idciudadano=${ciudadano.idciudadano})}" class="btn btn-opciones">
 											<ion-icon name="create"></ion-icon>
 										</a>
-										<a class="btn btn-opciones">
-											<ion-icon name="eye"></ion-icon>
-										</a>
-                                        <a th:href="@{/ciudadano/delete/{idciudadano} (idciudadano=${ciudadano.idciudadano})}" class="btn btn-opciones">
+										
+										<a class="btn btn-opciones" th:href="@{/ciudadano/mostrar/{idciudadano} (idciudadano=${ciudadano.idciudadano})}">
+                            				<ion-icon name="eye"></ion-icon>&nbsp;
+                        				</a>
+                        				
+                        				<a th:href="@{/ciudadano/delete/{idciudadano} (idciudadano=${ciudadano.idciudadano})}" class="btn btn-opciones">
                                             <ion-icon name="trash"></ion-icon>
                                         </a>
+                                        
 									</td>
                                 </tr>
                             </tbody>
