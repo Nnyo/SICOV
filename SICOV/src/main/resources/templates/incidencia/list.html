@@ -9,7 +9,6 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
-
 </head>
 <body>
   <div class="container-fluid">    
@@ -17,7 +16,6 @@
       <div class="row">
       <div class="col">
           <div class="card mt-12">
-             
         <div class="card-body">
           <h2 style="text-align: center;">Estado de incidencias</h2>
           <!-- <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
@@ -27,7 +25,6 @@
                   data-toggle="modal" data-target="#exampleModal">
             Nueva incidencia
           </button>
-
           <table class="table">
             <thead class="text-center">
             <tr>
@@ -37,10 +34,8 @@
               <th scope="col">Fecha de registro</th>
               <th scope="col">Anexos (imagnes o PDF)</th>
               <th scope="col">Comentarios</th>
-              
               <th scope="col">Estado</th>
               <th colspan="3">Acciones</th>
-
             </tr>
             </thead>
             <tbody class="text-center">
@@ -50,14 +45,12 @@
               <td>Michelle Gonzalez</td>
               <td>22-03-22</td>
               <td><image src="./../images/user.png" width="50" height="50"/></td>
-              <td>  
-                <a  href="ver.html" type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-                >
-                Ver Comentario
+              <td>
+                <a  th:href="@{/incidencias/comentario}" type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+                  Ver Comentario
+                </a>
               </button>
-              
             </td>
-         
             <td>
               <!--
                 <div th:switch="${tmpMascota.validacion}">
@@ -94,9 +87,8 @@
                 </div>
               </div>
             </td>
-             
               <td>
-                <a class="btn btn-opciones" href="/verComentarios.html">
+                <a class="btn btn-opciones" th:href="@{/incidencias/detalles}">
                     <ion-icon name="eye"></ion-icon>
                 </a>
             </td>
@@ -110,8 +102,6 @@
                     <ion-icon name="trash"></ion-icon>
                 </a>
             </td>
-           
-           
             </tr>
             </tbody>
           </table>
@@ -124,7 +114,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registro de incidencias</h5>
+        <h5 class="modal-title">Registro de incidencias</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -132,10 +122,9 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Descripcion</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <label for="message-text" class="col-form-label">Descripción</label>
+            <textarea class="form-control"></textarea>
           </div>
-         
           <div class="form-group">
             <label for="adjunto">Anexos (Imagenes o PDF)</label>
             <input type="file" id="adjunto" name="adjunto" accept=".pdf,.jpg,.png" multiple />
@@ -149,8 +138,6 @@
               <option value="3">Three</option>
             </select>
           </div>
-          
-
         </form>
       </div>
       <div class="modal-footer">

@@ -22,10 +22,9 @@
           <!-- <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
                <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categor�a
            </a>-->
-           <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-           data-toggle="modal" data-target="#exampleModal">
-     Regresar
-   </button>
+           <a type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" th:href="@{/incidencias/list}">
+               Regresar
+           </a>
           <table class="table">
             <thead class="text-center">
             <tr>
@@ -36,9 +35,6 @@
               <th scope="col">Fecha de registro</th>
               <th scope="col">Categoria</th>
               <th scope="col">Comite Vecinal</th>
-          
-             
-
             </tr>
             </thead>
             <tbody class="text-center">

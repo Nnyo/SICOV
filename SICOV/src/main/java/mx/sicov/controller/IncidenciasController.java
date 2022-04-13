@@ -16,4 +16,17 @@ public class IncidenciasController {
         return "incidencia/list";
     }
 
+    @GetMapping("/comentario")
+    public String verComentario(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        return "incidencia/verComentario";
+    }
+
+    @GetMapping("/detalles")
+    public String verDetalles(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        return "incidencia/VerDetalles";
+    }
+
+
 }
