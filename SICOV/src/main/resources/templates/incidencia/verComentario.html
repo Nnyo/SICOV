@@ -24,10 +24,13 @@
           <!-- <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
                <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categor�a
            </a>-->
-          <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-                  data-toggle="modal" data-target="#exampleModal">
-            Agregar comentario
-          </button>
+           <a th:href="@{/incidencias/list}" type="button" class="btn btn-lg btn-registro mb-3 float-left" style="background-color: #973333; color: white;">
+     Regresar
+   </a>
+   <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
+   data-toggle="modal" data-target="#exampleModal">
+Agregar comentario
+</button>
 
           <table class="table">
             <thead class="text-center">
@@ -37,9 +40,10 @@
               <th scope="col">Persona que registro</th>
               <th scope="col">Fecha de registro</th>
               <th scope="col">Anexos (imagnes o PDF)</th>
+             
             
           
-              <th colspan="3">Acciones</th>
+              
 
             </tr>
             </thead>
@@ -50,29 +54,7 @@
               <td>Michelle Gonzalez</td>
               <td>22-03-22</td>
               <td><image src="./../images/user.png" width="50" height="50"/></td>
-          
-         
-           
-              <td>
-                
-                <a class="btn btn-opciones">
-                  <ion-icon name="create"></ion-icon>
-                </a>
-              </td>
-              <td>
-                <a class="btn btn-opciones">
-                  
-                  <ion-icon name="eye" type="button" class="btn" data-toggle="modal" data-target="#detalles">
-            
-                  </ion-icon>
-                                  </a>
-              </td>
-              <td>
-                <a class="btn btn-opciones">
-                  <ion-icon name="trash"></ion-icon>
-                </a>
-              </td>
-           
+              
             </tr>
             </tbody>
           </table>
