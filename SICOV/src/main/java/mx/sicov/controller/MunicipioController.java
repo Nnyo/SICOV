@@ -31,6 +31,7 @@ public class MunicipioController {
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRADOR")
     public String saveMunicipio(Authentication authentication, Municipio municipio, Model model){
+
         Long id = municipio.getIdmunicipio();
         if(municipioServiceImpl.save(municipio)){
             model.addAttribute("alert","success");
