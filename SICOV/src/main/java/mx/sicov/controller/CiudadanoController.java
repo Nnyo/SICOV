@@ -1,6 +1,7 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ public class CiudadanoController {
     private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
+    @Secured("ROLE_ADMINISTRADOR")
     public String listarCiudadanos(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listCiudadanos", ciudadanoServiceImpl.listAll());
@@ -32,6 +34,7 @@ public class CiudadanoController {
     }
 
     @GetMapping(value = {"/create"})
+    @Secured("ROLE_ADMINISTRADOR")
     public String crearCiudadano(Authentication authentication,Ciudadano ciudadano, Model model) {
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
@@ -39,6 +42,7 @@ public class CiudadanoController {
     }
 
     @PostMapping(value = {"/save"})
+    @Secured("ROLE_ADMINISTRADOR")
     public String save(Authentication authentication,Ciudadano ciudadano, Model model) {
         model.addAttribute("role",authentication.getAuthorities().toString());
         ciudadanoServiceImpl.save(ciudadano);
@@ -46,6 +50,7 @@ public class CiudadanoController {
     }
 
     @GetMapping(value = {"/delete/{idciudadano}"})
+    @Secured("ROLE_ADMINISTRADOR")
 	public String deleteCiudadano(@PathVariable long idciudadano, RedirectAttributes redirectAttributes){
 		boolean respuesta = ciudadanoServiceImpl.delete(idciudadano);
 		if(respuesta){
@@ -57,6 +62,7 @@ public class CiudadanoController {
 	}
 
     @GetMapping(value = {"/update/{idciudadano}"})
+    @Secured("ROLE_ADMINISTRADOR")
 	public String updateCiudadano(@PathVariable long idciudadano,Authentication authentication,Model model, RedirectAttributes redirectAttributes){
 		Ciudadano ciudadano = ciudadanoServiceImpl.findById(idciudadano);
 		if (ciudadano != null) {
