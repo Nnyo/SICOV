@@ -1,6 +1,7 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ public class MunicipioController {
     private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
+    @Secured("ROLE_ADMINISTRADOR")
     public String listarMunicipios(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
@@ -27,6 +29,7 @@ public class MunicipioController {
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRADOR")
     public String saveMunicipio(Authentication authentication, Municipio municipio, Model model){
         Long id = municipio.getIdmunicipio();
         if(municipioServiceImpl.save(municipio)){
@@ -50,6 +53,7 @@ public class MunicipioController {
     }
 
     @GetMapping("/update/{idmunicipio}")
+    @Secured("ROLE_ADMINISTRADOR")
     public String update(@PathVariable long idmunicipio, Model model, Authentication authentication){
         Municipio municipio = municipioServiceImpl.findById(idmunicipio);
         if(municipio != null){
@@ -63,6 +67,7 @@ public class MunicipioController {
     }
 
     @GetMapping("/delete/{idmunicipio}")
+    @Secured("ROLE_ADMINISTRADOR")
     public String deleteMunicipio(@PathVariable Long idmunicipio, Authentication authentication, Model model){
         if(municipioServiceImpl.delete(idmunicipio)){
             model.addAttribute("message","Municipio eliminado");
