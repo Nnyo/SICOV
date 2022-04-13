@@ -66,9 +66,9 @@ public class MunicipioController {
         return "municipio/listMunicipios";
     }
 
-    @GetMapping("/delete/{idmunicipio}")
+    @PostMapping("/delete")
     @Secured("ROLE_ADMINISTRADOR")
-    public String deleteMunicipio(@PathVariable Long idmunicipio, Authentication authentication, Model model){
+    public String deleteMunicipio(Long idmunicipio, Authentication authentication, Model model){
         if(municipioServiceImpl.delete(idmunicipio)){
             model.addAttribute("message","Municipio eliminado");
             model.addAttribute("alert","success");
