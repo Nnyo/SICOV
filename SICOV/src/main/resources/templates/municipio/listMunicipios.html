@@ -38,8 +38,8 @@
                             <th th:text="${contador.count}"></th>
                             <td th:text="${municipio.nombre}"></td>
                             <td>
-                                <a data-toggle="modal"data-target="#actualizarMunicipio"
-                                   class="btn btn-opciones btnModal">
+                                <a  class="btn btn-opciones" th:onclick="actualizar([[(${municipio.idmunicipio})]],[[(${municipio.nombre})]])" data-toggle="modal"
+                                data-target="#actualizarMunicipio">
                                     <ion-icon name="create"></ion-icon>
                                 </a>
                                 <a class="btn btn-opciones" th:onclick="eliminar([[(${municipio.idmunicipio})]])" data-toggle="modal"
@@ -88,7 +88,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabelEliminar">Eliminar</h5>
+                <h5 class="modal-title" id="modalLabelEliminar">Eliminar Municipio</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -101,7 +101,7 @@
                         <h4>¿Estás seguro que deseas eliminar el registro?</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-opciones btnEliminar">
+                        <button type="submit" class="btn btn-opciones btnRegistrar">
                             Eliminar
                         </button>
                         <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
@@ -112,8 +112,34 @@
     </div>
 </div>
 
-
-
+<div class="modal fade" id="actualizarMunicipio" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabelActualizar">Actualizar Municipio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/municipio/save}" method="post">
+                    <input type="text" id="idmunicipioActualizar" name="idmunicipio" hidden>
+                    <div class="form-group col">
+                        <label >Nombre</label>
+						<input name="nombre" id="nombreActualizar" class="form-control form-control-lg" type="text" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-opciones btnRegistrar">
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -160,6 +186,10 @@
     }
     function eliminar(id){
         document.getElementById('idmunicipio').value = id;
+    }
+    function actualizar(id, nombre){
+        document.getElementById('idmunicipioActualizar').value = id;
+        document.getElementById('nombreActualizar').value = nombre;
     }
 </script>
 <script th:src="@{/js/deleteMunicipio.js}"></script>
