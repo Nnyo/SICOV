@@ -61,8 +61,8 @@ public class ColoniaController {
         return "colonia/listColonias";
     }
 
-    @GetMapping("/delete/{idcolonia}")
-    public String deleteColonia(@PathVariable Long idcolonia, Model model, Authentication authentication){
+    @PostMapping("/delete")
+    public String deleteColonia(Long idcolonia, Model model, Authentication authentication){
         try{
             coloniaServiceImpl.delete(idcolonia);
             model.addAttribute("alert","success");
