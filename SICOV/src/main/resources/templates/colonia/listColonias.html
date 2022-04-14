@@ -9,9 +9,11 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
-	
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}">
 </head>
     <body>
+    <input type="text" id="message" th:value="${message}" hidden>
+    <input type="text" id="alert" th:value="${alert}" hidden>
         <div class="container-fluid">    
         <div th:insert="~{fragments/header::header}"></div>
             <div class="row">
@@ -19,12 +21,10 @@
                 <div class="card mt-12">
                     <div class="card-body">
                     <h2 style="text-align: center;">Listado de Colonias</h2>
-                         
                             <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal"
                             data-target="#registroColonia">
                             <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Colonia
                         	</a>
-                            
                             <table class="table">
                                 <thead class="text-center">
                                 <tr>
@@ -63,7 +63,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Registro de Colonias</h5>
+                            <h5 class="modal-title" id="modalLabel">Registro de Colonia</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -81,9 +81,7 @@
                                 <div class="form-group col">
                                     <label for="municipio">Municipio</label>
                                     <select id="municipio" name="municipio" class="form-control form-control-lg">
-                                        <option selected>Selecciona un Municipio...</option>
-                                        <option th:each="municipio : ${listMunicipio}" th:value="${municipio.idmunicipio}" th:text="${municipio.nombre}">
-                                        </option>
+                                        <option selected th:value="${listMunicipio.idmunicipio}" th:text="${listMunicipio.nombre}"></option>
                                     </select>
                                 </div>
                                 <div class="modal-footer">
@@ -110,5 +108,38 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
         <script th:src="@{/js/tinymce.min.js}"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script th:src="@{/js/toast.min.js}" type="text/javascript"></script>
+        <script type="text/javascript">
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            const messageToastr = document.getElementById("message");
+            const alertToastr = document.getElementById("alert");
+            if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
+                switch (alertToastr.value) {
+                    case 'success':
+                        toastr.success(messageToastr.value, '', toastr.options);
+                        break;
+                    case 'error':
+                        toastr.error(messageToastr.value, '', toastr.options);
+                        break;
+                }
+            }
+        </script>
     </body>
 </html>

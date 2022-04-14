@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Comité</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
+  <link rel="stylesheet" th:href="@{/css/recursos.css}" />
+</head>
+<body>
+<div class="container-fluid">
+  <div th:insert="~{fragments/header::header}"></div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 style="text-align: center;">Listado de Comités</h2>
+          <h5>Municipio: <span th:text="${municipio}"/></h5>
+          <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" th:href="@{/comite/nuevo}">
+            <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Comité
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row ml-1">
+    <div class="card col-4 col-sm-6 col-lg-3 mt-2" style="background-color: #D3D3D3" th:each="comite : ${listComite}">
+      <div class="card-body">
+        <h5 class="card-title">Nombre: <span th:text="${comite.nombre}"/></h5>
+        <p class="card-text">Colonia: <span th:text="${comite.colonia.nombre}"/></p>
+        <a class="btn btnRegistrar mt-3" href="#">Detalles</a>
+        <a class="btn btnCancelar mt-3" href="#">Editar</a>
+        <a class="btn btnRegistrar mt-3" href="#">Eliminar</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

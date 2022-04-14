@@ -36,6 +36,11 @@
 					Comités
 				</a>
 			</li>
+			<li class="nav-item" th:if="${role == '[ROLE_ENLACE]'}">
+				<a class="nav-link text-light" th:href="@{/comite/solicitudes}">
+					Solicitudes
+				</a>
+			</li>
 			<li class="nav-item" th:if="${role == '[ROLE_PRESIDENTE]'}">
 				<a class="nav-link text-light" th:href="@{/incidencias/list}">
 					Incidencias

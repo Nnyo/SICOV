@@ -27,6 +27,10 @@ public class IncidenciasController {
         model.addAttribute("role",authentication.getAuthorities().toString());
         return "incidencia/VerDetalles";
     }
-
+    @GetMapping("/anexos")
+    public String verAnexos(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        return "incidencia/verAnexos";
+    }
 
 }
