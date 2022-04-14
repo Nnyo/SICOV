@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-<!DOCTYPE html>
-
 <head>
     <title>Listado de Servicios</title>
     <meta charset="UTF-8">
@@ -12,10 +10,10 @@
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
     <link rel="stylesheet" th:href="@{/css/toast.min.css}">
 </head>
-
 <body>
     <input type="text" id="message" th:value="${message}" hidden>
     <input type="text" id="alert" th:value="${alert}" hidden>
+    <input type="text" id="errors" th:value="${errors}" hidden>
     <div class="container-fluid">
         <div th:insert="~{fragments/header::header}"></div>
         <div class="row">
@@ -178,6 +176,7 @@
         }
         const messageToastr = document.getElementById("message");
         const alertToastr = document.getElementById("alert");
+        const  errorToastr = document.getElementById("errors");
         if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
             switch (alertToastr.value) {
                 case 'success':
@@ -186,6 +185,12 @@
                 case 'error':
                     toastr.error(messageToastr.value, '', toastr.options);
                     break;
+            }
+        }
+        if(errorToastr.value.length > 0){
+            let errors = errorToastr.value.split("--");
+            for(let i = 0; i !=  errors.length - 1; i++){
+                toastr.error(errors[i], '', toastr.options);
             }
         }
         function actualizarCategoria(id,nombre){

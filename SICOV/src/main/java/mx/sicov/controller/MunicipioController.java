@@ -13,8 +13,6 @@ import mx.sicov.entity.Municipio;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = {"/municipio"})

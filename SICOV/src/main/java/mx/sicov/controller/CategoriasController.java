@@ -5,13 +5,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import mx.sicov.entity.Categoria;
 import mx.sicov.service.categoria.CategoriaServiceImpl;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = {"/categoria"})
@@ -30,7 +31,17 @@ public class CategoriasController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRADOR")
-    public String saveCategoria(Authentication authentication, Categoria categoria, Model model){
+    public String saveCategoria(Authentication authentication, @Valid @ModelAttribute("categoria") Categoria categoria, BindingResult result, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        if(result.hasErrors()){
+            String errors = "";
+            for (ObjectError error: result.getAllErrors()){
+                errors = error.getDefaultMessage() + "--";
+            }
+            model.addAttribute("errors", errors);
+            model.addAttribute("listCategoria", categoriaServiceImpl.listAll());
+            return "categoria/listCategorias";
+        }
         Long id = categoria.getIdcategoria();
         if(categoriaServiceImpl.save(categoria)){
             model.addAttribute("alert","success");
@@ -47,7 +58,6 @@ public class CategoriasController {
                 model.addAttribute("message","Error al actualizar el Servicio público");
             }
         }
-        model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listCategoria", categoriaServiceImpl.listAll());
         return "categoria/listCategorias";
     }
