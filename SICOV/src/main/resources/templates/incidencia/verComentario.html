@@ -22,7 +22,7 @@
           <!-- <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
                <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categor�a
            </a>-->
-           <a th:href="@{/incidencias/list}" type="button" class="btn btn-lg btn-registro mb-3 float-left" style="background-color: #973333; color: white;">
+           <a th:href="@{/incidencias/list}" type="button" class="btn btn-lg btn-registro mb-3 float-left" style="color: white;">
      Regresar
             </a>
             <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
@@ -51,7 +51,8 @@
               <td>casos nuevos de una enfermedad</td>
               <td>Michelle Gonzalez</td>
               <td>22-03-22</td>
-              <td><image src="./../images/user.png" width="50" height="50"/></td>
+              <td><a type="button"  th:href="@{/incidencias/anexos}"><image src="./../images/user.png" width="50" height="50"/></a></td>
+
               
             </tr>
             </tbody>
