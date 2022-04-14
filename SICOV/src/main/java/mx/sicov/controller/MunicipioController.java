@@ -5,13 +5,16 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import mx.sicov.entity.Municipio;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = {"/municipio"})
@@ -30,8 +33,17 @@ public class MunicipioController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRADOR")
-    public String saveMunicipio(Authentication authentication, Municipio municipio, Model model){
-
+    public String saveMunicipio(Authentication authentication, @Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        if(result.hasErrors()){
+            String errors = "";
+            for (ObjectError error: result.getAllErrors()){
+                errors = error.getDefaultMessage() + "--";
+            }
+            model.addAttribute("errors", errors);
+            model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+            return "municipio/listMunicipios";
+        }
         Long id = municipio.getIdmunicipio();
         if(municipioServiceImpl.save(municipio)){
             model.addAttribute("alert","success");
@@ -48,7 +60,6 @@ public class MunicipioController {
                 model.addAttribute("message","Error al actualizar municipio");
             }
         }
-        model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
         return "municipio/listMunicipios";
     }

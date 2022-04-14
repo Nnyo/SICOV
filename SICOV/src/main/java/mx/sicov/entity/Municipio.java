@@ -17,7 +17,7 @@ public class Municipio {
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El nombre del municipio es obligatorio")
-    @Size(min = 2, max = 120, message = "El nombre del municipio no puede tener mas de 120 caracteres")
+    @Size(max = 120, message = "El nombre del municipio no puede tener más de 120 caracteres")
     private String nombre;
 
     public Municipio() {
