@@ -48,29 +48,9 @@
 											th:text="${tmpMunicipio.nombre}"></option>
       								</select>
    	 							</div>
-   	 							
-   	 							<div class="form-group col-md-4">
-    								<label>Rol</label>
-      								<select id="rol" class="form-control" >
-        								<option >Seleccione...</option>
-      								</select>
-   	 							</div>
-   	 							
-   	 							<div class="form-group col">
-									<label>Disponibilidad del Ciudadano</label>
-									<br>
-									<div class="form-control-lg form-check form-check-inline">
-										<input class="form-check-input" type="radio" >
-										<h6>Habilitar</h6>
-									</div>
-									<div class="form-control-lg form-check form-check-inline">
-										<input class="form-check-input" type="radio" >
-										<h6>Deshabilitar</h6>
-									</div>
-								</div>
-   	 							
   							</div>
   							<div class="form-row">
+								
 								<div class="form-group col-md-6">
     								<label for="correo">Correo electrónico</label>
       								<input th:field="*{correoElectronico}" id="correo" type="email" class="form-control" placeholder="Escribe el correo electronico...">

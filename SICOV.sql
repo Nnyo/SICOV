@@ -39,7 +39,7 @@ CREATE TABLE `authorities` (
 
 LOCK TABLES `authorities` WRITE;
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('administrador@gmail.com','ROLE_ADMINISTRADOR'),('dannyo.gonzalez2502@gmail.com','ROLE_ADMINISTRADOR'),('enlace@gmail.com','ROLE_ENLACE'),('presidente@gmail.com','ROLE_PRESIDENTE');
+INSERT INTO `authorities` VALUES ('administrador@gmail.com','ROLE_ADMINISTRADOR'),('dannyo.gonzalez2502@gmail.com','ROLE_ADMINISTRADOR'),('enlace@gmail.com','ROLE_ENLACE'),('enlace2@gmail.com','ROLE_ENLACE'),('presidente@gmail.com','ROLE_PRESIDENTE');
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -95,7 +95,7 @@ CREATE TABLE `categoria` (
   `idcategoria` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idcategoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,6 +104,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (2,'Agua');
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +131,7 @@ CREATE TABLE `ciudadano` (
   PRIMARY KEY (`idciudadano`),
   KEY `FKoms284ih1v8mu0hxgq9nwd4pk` (`municipio_idmunicipio`),
   CONSTRAINT `FKoms284ih1v8mu0hxgq9nwd4pk` FOREIGN KEY (`municipio_idmunicipio`) REFERENCES `municipio` (`idmunicipio`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +140,7 @@ CREATE TABLE `ciudadano` (
 
 LOCK TABLES `ciudadano` WRITE;
 /*!40000 ALTER TABLE `ciudadano` DISABLE KEYS */;
-INSERT INTO `ciudadano` VALUES (2,'enlace@gmail.com',1,'','Enlace','1200','7771076799','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W','Perez','Sanchez','ROLE_ENLACE',2),(3,'presidente@gmail.com',1,'','Presidente','1201','7771579210','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.','Perez','Sanchez','ROLE_PRESIDENTE',2),(4,'administrador@gmail.com',1,'','administrador','1204','7771646278','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa','Perez','Sanchez','ROLE_ADMINISTRADOR',6);
+INSERT INTO `ciudadano` VALUES (2,'enlace@gmail.com',1,'','Enlace','1200','7771076799','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W','Perez','Sanchez','ROLE_ENLACE',2),(3,'presidente@gmail.com',1,'','Presidente','1201','7771579210','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.','Perez','Sanchez','ROLE_PRESIDENTE',2),(4,'administrador@gmail.com',1,'','administrador','1204','7771646278','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa','Perez','Sanchez','ROLE_ADMINISTRADOR',6),(5,'enlace2@gmail.com',1,NULL,'Enlace 2','1202','7772648931','$2a$10$OhTbGJYUyVZP6WJVj7UMr.xIAhYbvDTMg6cYBYBa52FjyytjEVJ7O','Perez','Sanchez','ROLE_ENLACE',6);
 /*!40000 ALTER TABLE `ciudadano` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -212,7 +213,7 @@ CREATE TABLE `colonia` (
   PRIMARY KEY (`idcolonia`),
   KEY `FKgxuh6wkythoeds8x7sww8lx1s` (`municipio_idmunicipio`),
   CONSTRAINT `FKgxuh6wkythoeds8x7sww8lx1s` FOREIGN KEY (`municipio_idmunicipio`) REFERENCES `municipio` (`idmunicipio`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +222,7 @@ CREATE TABLE `colonia` (
 
 LOCK TABLES `colonia` WRITE;
 /*!40000 ALTER TABLE `colonia` DISABLE KEYS */;
-INSERT INTO `colonia` VALUES (1,'62765','Modesto Rangel','enlace@gmail.com',2),(2,'62765','Campo nuevo','enlace@gmail.com',2),(4,'62765','Tezoyuca','enlace@gmail.com',2);
+INSERT INTO `colonia` VALUES (1,'62765','Modesto Rangel','enlace@gmail.com',2),(2,'62765','Campo nuevo','enlace@gmail.com',2),(4,'62765','Tezoyuca','enlace@gmail.com',2),(6,'62493','Acapatzingo','enlace2@gmail.com',6),(7,'62433','Bosques de Chapultepec','enlace2@gmail.com',6),(8,'62210','Chamilpa','enlace2@gmail.com',6),(9,'62070','Chipitlán','enlace2@gmail.com',6),(10,'62350','Teopanzolco','enlace2@gmail.com',6),(13,'62765','Palo escrito','enlace@gmail.com',2);
 /*!40000 ALTER TABLE `colonia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -269,7 +270,7 @@ CREATE TABLE `comite` (
   PRIMARY KEY (`idcomite`),
   KEY `FK89jjfwq9io3ajkwur5lsg5ohm` (`colonia_idcolonia`),
   CONSTRAINT `FK89jjfwq9io3ajkwur5lsg5ohm` FOREIGN KEY (`colonia_idcolonia`) REFERENCES `colonia` (`idcolonia`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,6 +279,7 @@ CREATE TABLE `comite` (
 
 LOCK TABLES `comite` WRITE;
 /*!40000 ALTER TABLE `comite` DISABLE KEYS */;
+INSERT INTO `comite` VALUES (1,'Modesto Rangel 1',1),(2,'Campo nuevo 1',2),(3,'Tezoyuca 1',4),(4,'Acapatzingo 1',6),(5,'Bosques de Chapultepec 1',7),(6,'Chamilpa 1',8),(7,'Chipitlán',9),(8,'Teopanzolco',10);
 /*!40000 ALTER TABLE `comite` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,7 +382,7 @@ CREATE TABLE `municipio` (
   `idmunicipio` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(80) NOT NULL,
   PRIMARY KEY (`idmunicipio`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -389,7 +391,7 @@ CREATE TABLE `municipio` (
 
 LOCK TABLES `municipio` WRITE;
 /*!40000 ALTER TABLE `municipio` DISABLE KEYS */;
-INSERT INTO `municipio` VALUES (2,'Emiliano Zapata'),(6,'Cuernavaca'),(9,'Jiutepec'),(10,'Temixco');
+INSERT INTO `municipio` VALUES (2,'Emiliano Zapata'),(6,'Cuernavaca'),(9,'Jiutepec'),(14,'Xochitepec');
 /*!40000 ALTER TABLE `municipio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,7 +416,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('administrador@gmail.com','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa',1),('dannyo.gonzalez2502@gmail.com','$2a$10$97c5uJhR.L8.nm0HUTHwSOXSrHzgDQSP2sXSHiZX/3HNRMrTindfi',1),('enlace@gmail.com','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W',1),('presidente@gmail.com','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.',1);
+INSERT INTO `users` VALUES ('administrador@gmail.com','$2a$10$p7xaMj.hnttJdFnf5E1cXejDeqvK2QaJIvpGn6VGvMWFYa25TX2Aa',1),('dannyo.gonzalez2502@gmail.com','$2a$10$97c5uJhR.L8.nm0HUTHwSOXSrHzgDQSP2sXSHiZX/3HNRMrTindfi',1),('enlace@gmail.com','$2a$10$z0OcOjCC2vewJW5M1G/AVOR05MI0f5umVvn7x6/wRQvB0a7yYlK3W',1),('enlace2@gmail.com','$2a$10$OhTbGJYUyVZP6WJVj7UMr.xIAhYbvDTMg6cYBYBa52FjyytjEVJ7O',1),('presidente@gmail.com','$2a$10$gLoVrgoHCbVrD8jvYdrKWONBD7TNp9rtMYY2bCsI8rAAcR15vlKr.',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,4 +459,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-12 17:02:13
+-- Dump completed on 2022-04-13 19:55:42

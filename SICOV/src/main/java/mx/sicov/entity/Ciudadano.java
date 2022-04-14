@@ -67,9 +67,16 @@ public class Ciudadano {
     public Ciudadano() {
     }
 
-    public Ciudadano(Long idciudadano, String nombre, String primerApellido, String segundoApellido, Byte[] fotografia,
-            String numeroTelefonico, String correoElectronico, String numeroEmpleado, Integer estatus, String password,
-            Municipio municipio) {
+    public Ciudadano(Long idciudadano,
+            @NotBlank(message = "El nombre es requerido") @Size(min = 2, max = 120, message = "El nombre no puede tener mas de 120 caracteres") String nombre,
+            @NotBlank(message = "El primer apellido es requerido") @Size(min = 2, max = 120, message = "El primer apellido no puede tener mas de 120 caracteres") String primerApellido,
+            @NotBlank(message = "El segundo apellido es requerido") @Size(min = 2, max = 120, message = "El segundo apellido no puede tener mas de 120 caracteres") String segundoApellido,
+            Byte[] fotografia,
+            @NotNull(message = "El número telefónico es requerido") @Size(min = 10, max = 15, message = "El numero telefonico debe tener 10 digitos") String numeroTelefonico,
+            @Email(message = "El correo electrónico no es válido") String correoElectronico,
+            @Size(min = 4, max = 4, message = "El número del empleado no puede tener más de 4 caracteres") String numeroEmpleado,
+            Integer estatus, String password, String rol,
+            @NotNull(message = "El municipio es requerido") Municipio municipio) {
         this.idciudadano = idciudadano;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -80,8 +87,11 @@ public class Ciudadano {
         this.numeroEmpleado = numeroEmpleado;
         this.estatus = estatus;
         this.password = password;
+        this.rol = rol;
         this.municipio = municipio;
     }
+
+
 
     public Long getIdciudadano() {
         return idciudadano;
@@ -171,13 +181,22 @@ public class Ciudadano {
         this.municipio = municipio;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     @Override
     public String toString() {
         return "Ciudadano [correoElectronico=" + correoElectronico + ", estatus=" + estatus + ", fotografia="
                 + Arrays.toString(fotografia) + ", idciudadano=" + idciudadano + ", municipio=" + municipio
                 + ", nombre=" + nombre + ", numeroEmpleado=" + numeroEmpleado + ", numeroTelefonico=" + numeroTelefonico
-                + ", password=" + password + ", primerApellido=" + primerApellido + ", segundoApellido="
-                + segundoApellido + "]";
+                + ", password=" + password + ", primerApellido=" + primerApellido + ", rol=" + rol
+                + ", segundoApellido=" + segundoApellido + "]";
     }
+
 
 }

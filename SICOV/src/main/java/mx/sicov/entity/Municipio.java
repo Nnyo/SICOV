@@ -17,13 +17,15 @@ public class Municipio {
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El nombre del municipio es obligatorio")
-    @Size(min = 2, max = 120, message = "El nombre del municipio no puede tener mas de 120 caracteres")
+    @Size(max = 120, message = "El nombre del municipio no puede tener más de 120 caracteres")
+    @Size(min = 5, message = "El nombre del municipio no puede ser menor de 5 caracteres")
     private String nombre;
 
     public Municipio() {
     }
 
-    public Municipio(Long idmunicipio, String nombre) {
+    public Municipio(Long idmunicipio,
+            @NotBlank(message = "El nombre del municipio es obligatorio") @Size(max = 120, message = "El nombre del municipio no puede tener más de 120 caracteres") @Size(min = 5, message = "El nombre del municipio no puede ser menor de 5 caracteres") String nombre) {
         this.idmunicipio = idmunicipio;
         this.nombre = nombre;
     }
@@ -48,5 +50,7 @@ public class Municipio {
     public String toString() {
         return "Municipio [idmunicipio=" + idmunicipio + ", nombre=" + nombre + "]";
     }
+
+    
 
 }

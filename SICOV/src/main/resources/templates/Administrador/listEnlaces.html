@@ -36,7 +36,7 @@
                                     <td th:text="${contador.count}"></td>
                                     <td th:text="${ciudadano.nombre}"></td>
                                     <td th:text="${ciudadano.correoElectronico}"></td>
-                                    <td>Enlace</td>
+                                    <td th:text="${ciudadano.rol}"></td>
 									<td>
 										<a th:href="@{/ciudadano/update/{idciudadano} (idciudadano=${ciudadano.idciudadano})}" class="btn btn-opciones">
 											<ion-icon name="create"></ion-icon>
