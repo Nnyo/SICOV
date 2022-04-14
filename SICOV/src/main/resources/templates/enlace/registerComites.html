@@ -18,8 +18,9 @@
                 <div class="card mt-12">
                     <div class="card-body">
                         <h2 style="text-align: center;">Registro de Comités</h2>
-                        <h5 style="float: right;">Municipio: Temixco</h5>
-                        <form enctype="multipart/form-data" style="margin-top: 60px;">
+                        <h5>Municipio: <span th:text="${municipio}"/></h5>
+
+                        <form enctype="multipart/form-data" class="mt-2">
 							<div class="form-row">
 								<div class="form-group col-4">
 									<label>Nombre de la Colonias</label>
