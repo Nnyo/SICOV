@@ -66,9 +66,9 @@ public class CategoriasController {
         return "categoria/listCategorias";
     }
 
-    @GetMapping("/delete/{idcategoria}")
+    @PostMapping("/delete")
     @Secured("ROLE_ADMINISTRADOR")
-    public String deleteCategoria(@PathVariable Long idcategoria, Authentication authentication, Model model){
+    public String deleteCategoria(Long idcategoria, Authentication authentication, Model model){
         if(categoriaServiceImpl.delete(idcategoria)){
             model.addAttribute("message","Servicio Público eliminado");
             model.addAttribute("alert","success");

@@ -41,12 +41,12 @@
                                     <th th:text="${contador.count}"></th>
                                     <td th:text="${categoria.nombre}"></td>
                                     <td>
-                                        <a th:href="@{/categoria/update/{idcategoria} (idcategoria=${categoria.idcategoria})}"
-                                            class="btn btn-opciones">
+                                        <a class="btn btn-opciones" th:onclick="actualizarCategoria([[(${categoria.idcategoria})]],[[(${categoria.nombre})]])"
+                                        data-toggle="modal" data-target="#actualizarCategoria">
                                             <ion-icon name="create"></ion-icon>
                                         </a>
-                                        <a th:href="@{/categoria/delete/{idcategoria} (idcategoria=${categoria.idcategoria})}"
-                                            class="btn btn-opciones">
+                                        <a class="btn btn-opciones" th:onclick="eliminarCategoria([[${categoria.idcategoria}]])"
+                                        data-toggle="modal" data-target="#eliminarCategoria">
                                             <ion-icon name="trash"></ion-icon>
                                         </a>
                                     </td>
@@ -87,7 +87,63 @@
         </div>
     </div>
     
+    <div class="modal fade" id="actualizarCategoria" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabelActualizar">Actualizar Municipio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span arial-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/categoria/save}" method="POST">
+                    <input type="text" id="idCategoriaActualizar" name="idcategoria" hidden>
+                    <div class="form-group col">
+                        <label >Nombre</label>
+                        <input name="nombre" id="nombreCategoriaActualizar" class="form-control form-control-lg" type="text">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-opciones btnRegistrar">
+                            Actualizar
+                        </button>
+                        <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="eliminarCategoria" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title" id="modalLabelActualizar">Actualizar Categoria</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+           <div class="modal-body">
+               <form th:action="@{/categoria/delete}" method="POST">
+                   <input type="text" id="idCategoriaElimina" name="idcategoria" hidden>
+                   <div class="form-group col text-center">
+                       <image src="./../images/warning.png" width="40%" height="40%"/>
+                       <h4>¿Estás seguro que deseas eliminar el registro?</h4>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="submit" class="btn btn-opciones btnRegistrar">
+                           Eliminar
+                       </button>
+                       <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+</div>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -131,6 +187,13 @@
                     toastr.error(messageToastr.value, '', toastr.options);
                     break;
             }
+        }
+        function actualizarCategoria(id,nombre){
+            document.getElementById('idCategoriaActualizar').value = id;
+            document.getElementById('nombreCategoriaActualizar').value = nombre;
+        }
+        function eliminarCategoria(id){
+            document.getElementById('idCategoriaEliminar').value=id;
         }
     </script>
 </body>
