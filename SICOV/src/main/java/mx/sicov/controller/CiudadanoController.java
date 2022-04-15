@@ -95,7 +95,7 @@ public class CiudadanoController {
         return getString(model);
     }
 
-    @GetMapping(value = {"/delete/{idciudadano}"})
+    @PostMapping(value = {"/delete"})
     @Secured("ROLE_ADMINISTRADOR")
 	public String deleteCiudadano(@PathVariable long idciudadano, Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());

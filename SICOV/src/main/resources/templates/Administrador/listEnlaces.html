@@ -48,7 +48,8 @@
                             				<ion-icon name="eye"></ion-icon>&nbsp;
                         				</a>
                         				
-                        				<a th:href="@{/ciudadano/delete/{idciudadano} (idciudadano=${ciudadano.idciudadano})}" class="btn btn-opciones">
+                        				<a class="btn btn-opciones" th:onclick="eliminarCiudadano([[(${ciudadano.idciudadano})]])" 
+                                        data-toggle="modal" data-target="#eliminarCiudadano">
                                             <ion-icon name="trash"></ion-icon>
                                         </a>
                                         
@@ -62,6 +63,35 @@
         </div>
     </div>
 
+    <div class="modal fade" id="eliminarCiudadano" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabelEliminar">Eliminar Ciudadano</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/ciudadano/delete}" method="POST">
+                    
+                    <input type="text" id="idciudadano" name="idciudadano" hidden>
+                    <div class="form-group col text-center">
+                        <image src="./../images/warning.png" width="40%" height="40%" />
+                        <h4>¿Estás seguro que deseas eliminar el registro?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-opciones btnRegistrar">
+                            Eliminar
+                        </button>
+                        <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -106,6 +136,9 @@
                         toastr.error(messageToastr.value, '', toastr.options);
                         break;
                 }
+            }
+            function eliminarCiudadano(id){
+                document.getElementById('idciudadano').value=id;
             }
         </script>
     </body>

@@ -39,6 +39,11 @@ public class CiudadanoServiceImpl implements CiudadanoService {
     }
 
     @Override
+    public Ciudadano findCiudadanoByIdComiteVecinal(Long idcomite_vecinal){
+        return ciudadanoRepository.findCiudadanoByIdComiteVecinal(idcomite_vecinal);
+    }
+
+    @Override
     public boolean save(Ciudadano ciudadano){
         String password = config.passwordEncoder().encode(ciudadano.getPassword());
         ciudadano.setPassword(password);
