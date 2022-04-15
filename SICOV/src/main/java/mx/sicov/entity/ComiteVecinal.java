@@ -13,18 +13,17 @@ public class ComiteVecinal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idcomiteVecinal;
 
-    @Column(columnDefinition = "tinyint not null")
-    @NotNull
-    private Integer esPresidente;
-
     @ManyToOne
-    @JoinColumn(name = "ciudadano_idciudadano", nullable = false)
-    @NotNull(message = "El ciudadano es requerido")
+    @JoinColumn(name = "ciudadano_idciudadano", nullable = true)
     private Ciudadano ciudadano;
 
     @ManyToOne
     @JoinColumn(name = "comite_idcomite", nullable = false)
     @NotNull(message = "El comité es requerido")
     private Comite comite;
+
+    @ManyToOne
+    @JoinColumn(name = "participante_idparticipante", nullable = true)
+    private Participante participante;
 
 }

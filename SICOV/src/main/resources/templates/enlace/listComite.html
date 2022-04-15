@@ -33,91 +33,133 @@
       <div class="card-body">
         <h5 class="card-title">Nombre: <span th:text="${comite.nombre}"/></h5>
         <p class="card-text">Colonia: <span th:text="${comite.colonia.nombre}"/></p>
-        <a class="btn btnRegistrar mt-3" href="#">Detalles</a>
-        <a class="btn btnCancelar mt-3" th:href="@{/comite/editar/{idcomite} (idcomite=${comite.idcomite})}">Editar</a>
-        <a class="btn btnRegistrar mt-3" th:href="@{/comite/delete/{idcomite} (idcomite=${comite.idcomite})}">Eliminar</a>
+        <div class="text-center">
+          <a class="btn btnRegistrar mt-3" href="#">Detalles</a>
+          <a class="btn btnCancelar mt-3" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarColonia([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
+          <a class="btn btnRegistrar mt-3" th:href="@{/comite/delete/{idcomite} (idcomite=${comite.idcomite})}">Eliminar</a>
+          <a class="btn btnRegistrar mt-1" th:href="@{/comite/editar/{idcomite} (idcomite=${comite.idcomite})}">Gestionar participantes</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
-  <!-- Modal registrar comité -->
-  <div class="modal fade" id="registroComite" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Registro de Comité</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form th:action="@{/comite/save}" method="POST">
-            <div class="form-group col">
-              <label for="nombreComite">Nombre del comité</label>
-              <input name="nombre" id="nombreComite" class="form-control form-control-lg" type="text">
-            </div>
-            <div class="form-group col">
-              <label for="colonia">Colonia</label>
-              <select id="colonia" name="colonia" class="form-control form-control-lg">
-                <option selected>Selecciona una colonia...</option>
-                <option th:each="colonia : ${listColonia}" th:value="${colonia.idcolonia}" th:text="${colonia.nombre}"></option>
-              </select>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btnRegistrar">Registrar</button>
-              <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
-            </div>
-          </form>
-        </div>
+<!-- Modal registrar comité -->
+<div class="modal fade" id="registroComite" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Registro de Comité</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/comite/save}" method="post">
+          <div class="form-group col">
+            <label for="nombreComite">Nombre del comité</label>
+            <input name="nombre" id="nombreComite" class="form-control form-control-lg" type="text">
+          </div>
+          <div class="form-group col">
+            <label for="colonia">Colonia</label>
+            <select id="colonia" name="colonia" class="form-control form-control-lg">
+              <option selected>Selecciona una colonia...</option>
+              <option th:each="colonia : ${listColonia}" th:value="${colonia.idcolonia}" th:text="${colonia.nombre}"></option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btnRegistrar">Registrar</button>
+            <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
+</div>
+<!-- Actualizar comité -->
+<div class="modal fade" id="actualizarComite" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Actualizar Comité</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/comite/save}" method="post">
+          <input type="text" id="idcomite" name="idcomite" hidden>
+          <div class="form-group col">
+            <label for="nombreActualizar">Nombre del comité</label>
+            <input name="nombre" id="nombreActualizar" class="form-control form-control-lg" type="text">
+          </div>
+          <div class="form-group col">
+            <label for="coloniaActualizar">Colonia</label>
+            <select id="coloniaActualizar" name="colonia" class="form-control form-control-lg">
+              <option th:each="colonia : ${listColonia}" th:value="${colonia.idcolonia}" th:text="${colonia.nombre}"></option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btnRegistrar">Actualizar</button>
+            <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-          crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-          crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-          integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-          crossorigin="anonymous"></script>
-  <script th:src="@{/js/tinymce.min.js}"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script th:src="@{/js/toast.min.js}" type="text/javascript"></script>
-  <script type="text/javascript">
-    toastr.options = {
-      "closeButton": false,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-bottom-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
+</div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script th:src="@{/js/tinymce.min.js}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script th:src="@{/js/toast.min.js}" type="text/javascript"></script>
+<script type="text/javascript">
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+  const messageToastr = document.getElementById("message");
+  const alertToastr = document.getElementById("alert");
+  if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
+    switch (alertToastr.value) {
+      case 'success':
+        toastr.success(messageToastr.value, '', toastr.options);
+        break;
+      case 'error':
+        toastr.error(messageToastr.value, '', toastr.options);
+        break;
     }
-    const messageToastr = document.getElementById("message");
-    const alertToastr = document.getElementById("alert");
-    if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
-      switch (alertToastr.value) {
-        case 'success':
-          toastr.success(messageToastr.value, '', toastr.options);
-          break;
-        case 'error':
-          toastr.error(messageToastr.value, '', toastr.options);
-          break;
-      }
-    }
-  </script>
+  }
+  function actualizarColonia(idcomite, nombre, colonia){
+    document.getElementById('idcomite').value = idcomite;
+    document.getElementById('nombreActualizar').value = nombre;
+    document.getElementById('coloniaActualizar').value = colonia;
+  }
+</script>
 </body>
 </html>
