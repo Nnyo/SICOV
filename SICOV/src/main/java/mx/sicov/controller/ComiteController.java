@@ -1,10 +1,13 @@
 package mx.sicov.controller;
 
+import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comite;
+import mx.sicov.entity.Participante;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.colonia.ColoniaServiceImpl;
 import mx.sicov.service.comite.ComiteService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
+import mx.sicov.service.participante.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,12 +17,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.constraints.Null;
+import java.util.List;
+
 @Controller
 @RequestMapping(value = {"/comite"})
 public class ComiteController {
 
     @Autowired
     private CiudadanoServiceImpl ciudadanoService;
+
+    @Autowired
+    private ParticipanteService participanteService;
 
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
@@ -86,6 +95,37 @@ public class ComiteController {
 
     @GetMapping("/editar/{idcomite}")
     public String nuevoComite(@PathVariable Long idcomite, Model model, Authentication authentication){
+        List<Participante> listParticipante = null;
+        try{
+            listParticipante = participanteService.findParticipanteByIdComiteVecinal(idcomite);
+            Ciudadano ciudadano = ciudadanoService.findCiudadanoByIdComiteVecinal(idcomite);
+            try{
+                if(ciudadano.getRol().equals("ROLE_PRESIDENTE")){
+                    Participante participanteTemp = new Participante();
+                    participanteTemp.setMunicipio(ciudadano.getMunicipio());
+                    participanteTemp.setNombre(ciudadano.getNombre());
+                    participanteTemp.setPrimerApellido(ciudadano.getPrimerApellido());
+                    participanteTemp.setSegundoApellido(ciudadano.getSegundoApellido());
+                    participanteTemp.setNumeroTelefonico(ciudadano.getNumeroTelefonico());
+                    participanteTemp.setEsPresidente("PRESIDENTE");
+                    listParticipante.add(participanteTemp);
+                }
+            }catch (NullPointerException e){
+                model.addAttribute("alert","info");
+                model.addAttribute("message","Este comité aún no tiene Presidente");
+            }
+            if(listParticipante.size()<3){
+                model.addAttribute("alert","info");
+                model.addAttribute("message","Los comités deben de tener más de 3 integrantes");
+            }else if(listParticipante.size() > 6){
+                model.addAttribute("alert","error");
+                model.addAttribute("message","Los comités deben de tener máximo 6 integrantes");
+            }
+        }catch (NullPointerException e){
+            model.addAttribute("alert","info");
+            model.addAttribute("message","Este comité aún no tiene integrantes");
+        }
+        model.addAttribute("listParticipante", listParticipante);
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
         return "enlace/registerComites";
