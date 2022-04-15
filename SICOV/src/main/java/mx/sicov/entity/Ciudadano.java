@@ -2,8 +2,6 @@ package mx.sicov.entity;
 
 import lombok.Data;
 
-import java.util.Arrays;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,43 +18,46 @@ public class Ciudadano {
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El nombre es requerido")
-    @Size(min = 2, max = 120, message = "El nombre no puede tener mas de 120 caracteres")
+    @Size(max = 120, message = "El nombre no puede tener mas de 120 caracteres")
     private String nombre;
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El primer apellido es requerido")
-    @Size(min = 2, max = 120, message = "El primer apellido no puede tener mas de 120 caracteres")
+    @Size(max = 120, message = "El primer apellido no puede tener mas de 120 caracteres")
     private String primerApellido;
 
     @Column(length = 120)
-    @NotBlank(message = "El segundo apellido es requerido")
-    @Size(min = 2, max = 120, message = "El segundo apellido no puede tener mas de 120 caracteres")
     private String segundoApellido;
 
     @Lob
     @Column(nullable = true)
-    private Byte[] fotografia;
+    private byte[] fotografia;
 
     @Column(length = 10)
-    @NotNull(message = "El número telefónico es requerido")
-    @Size(min = 10, max = 15, message = "El numero telefonico debe tener 10 digitos")
+    @NotBlank(message = "El número telefónico es requerido")
+    @Size(max = 10, message = "El número telefónico debe tener 10 digitos")
     private String numeroTelefonico;
 
     @Column(length = 100, name = "username")
+    @NotBlank(message = "El correo electrónico es requerido")
     @Email(message = "El correo electrónico no es válido")
+    @Size(max = 100, message = "El correo electrónico no deber ser mayor a 100 caracteres")
     private String correoElectronico;
 
     @Column(length = 30)
-    @Size(min = 4, max = 4, message = "El número del empleado no puede tener más de 4 caracteres")
+    @Size(max = 6, message = "El número del empleado no puede tener más de 6 caracteres")
+    @Size(min = 4, message = "El número del empleado debe ser mayor a 4 caracteres")
     private String numeroEmpleado;
 
     @Column(columnDefinition = "tinyint not null", name = "enabled")
     private Integer estatus;
 
     @Column(name = "password", length = 250)
+    @NotBlank(message = "La contraseña es requerida")
     private String password;
 
     @Column(name = "rol", length = 50)
+    @NotBlank(message = "El rol es requerido")
     private String rol;
 
     @ManyToOne
@@ -66,137 +67,5 @@ public class Ciudadano {
 
     public Ciudadano() {
     }
-
-    public Ciudadano(Long idciudadano,
-            @NotBlank(message = "El nombre es requerido") @Size(min = 2, max = 120, message = "El nombre no puede tener mas de 120 caracteres") String nombre,
-            @NotBlank(message = "El primer apellido es requerido") @Size(min = 2, max = 120, message = "El primer apellido no puede tener mas de 120 caracteres") String primerApellido,
-            @NotBlank(message = "El segundo apellido es requerido") @Size(min = 2, max = 120, message = "El segundo apellido no puede tener mas de 120 caracteres") String segundoApellido,
-            Byte[] fotografia,
-            @NotNull(message = "El número telefónico es requerido") @Size(min = 10, max = 15, message = "El numero telefonico debe tener 10 digitos") String numeroTelefonico,
-            @Email(message = "El correo electrónico no es válido") String correoElectronico,
-            @Size(min = 4, max = 4, message = "El número del empleado no puede tener más de 4 caracteres") String numeroEmpleado,
-            Integer estatus, String password, String rol,
-            @NotNull(message = "El municipio es requerido") Municipio municipio) {
-        this.idciudadano = idciudadano;
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.fotografia = fotografia;
-        this.numeroTelefonico = numeroTelefonico;
-        this.correoElectronico = correoElectronico;
-        this.numeroEmpleado = numeroEmpleado;
-        this.estatus = estatus;
-        this.password = password;
-        this.rol = rol;
-        this.municipio = municipio;
-    }
-
-
-
-    public Long getIdciudadano() {
-        return idciudadano;
-    }
-
-    public void setIdciudadano(Long idciudadano) {
-        this.idciudadano = idciudadano;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
-
-    public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
-    }
-
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
-
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
-
-    public Byte[] getFotografia() {
-        return fotografia;
-    }
-
-    public void setFotografia(Byte[] fotografia) {
-        this.fotografia = fotografia;
-    }
-
-    public String getNumeroTelefonico() {
-        return numeroTelefonico;
-    }
-
-    public void setNumeroTelefonico(String numeroTelefonico) {
-        this.numeroTelefonico = numeroTelefonico;
-    }
-
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
-
-    public String getNumeroEmpleado() {
-        return numeroEmpleado;
-    }
-
-    public void setNumeroEmpleado(String numeroEmpleado) {
-        this.numeroEmpleado = numeroEmpleado;
-    }
-
-    public Integer getEstatus() {
-        return estatus;
-    }
-
-    public void setEstatus(Integer estatus) {
-        this.estatus = estatus;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Municipio getMunicipio() {
-        return municipio;
-    }
-
-    public void setMunicipio(Municipio municipio) {
-        this.municipio = municipio;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
-    @Override
-    public String toString() {
-        return "Ciudadano [correoElectronico=" + correoElectronico + ", estatus=" + estatus + ", fotografia="
-                + Arrays.toString(fotografia) + ", idciudadano=" + idciudadano + ", municipio=" + municipio
-                + ", nombre=" + nombre + ", numeroEmpleado=" + numeroEmpleado + ", numeroTelefonico=" + numeroTelefonico
-                + ", password=" + password + ", primerApellido=" + primerApellido + ", rol=" + rol
-                + ", segundoApellido=" + segundoApellido + "]";
-    }
-
 
 }

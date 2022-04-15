@@ -25,6 +25,11 @@ public class CiudadanoServiceImpl implements CiudadanoService {
     }
 
     @Override
+    public List<Ciudadano> findCiudadanoByRolContains(){
+        return ciudadanoRepository.findCiudadanoByRolContains("ROLE_ENLACE");
+    }
+
+    @Override
     public Ciudadano findById(Long idciudadano){
         Optional<Ciudadano> optional = ciudadanoRepository.findById(idciudadano);
         if(optional.isPresent()){

@@ -5,15 +5,18 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import mx.sicov.entity.Ciudadano;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import java.util.Base64;
 
 @Controller
 @RequestMapping(value = {"/ciudadano"})
@@ -29,41 +32,80 @@ public class CiudadanoController {
     @Secured("ROLE_ADMINISTRADOR")
     public String listarCiudadanos(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listCiudadanos", ciudadanoServiceImpl.listAll());
+        return getString(model);
+    }
+
+    private String getString(Model model){
+        model.addAttribute("listCiudadanos", ciudadanoServiceImpl.findCiudadanoByRolContains());
         return "Administrador/listEnlaces";
     }
 
     @GetMapping(value = {"/create"})
     @Secured("ROLE_ADMINISTRADOR")
-    public String crearCiudadano(Authentication authentication,Ciudadano ciudadano, Model model) {
+    public String crearCiudadano(Authentication authentication, Model model) {
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+        model.addAttribute("ciudadano", new Ciudadano());
         return "/administrador/createEnlace";
     }
 
     @PostMapping(value = {"/save"})
     @Secured("ROLE_ADMINISTRADOR")
-    public String save(Authentication authentication,Ciudadano ciudadano, Model model) {
+    public String saveCiudadano(Authentication authentication, @Valid @ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult result, Model model, @RequestParam("file") MultipartFile imagen) {
+        Long id = ciudadano.getIdciudadano();
         model.addAttribute("role",authentication.getAuthorities().toString());
-        ciudadanoServiceImpl.save(ciudadano);
-        return "redirect:/ciudadano/list";
+        try{
+            ciudadano.setFotografia(imagen.getBytes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(result.hasErrors()){
+            String errors = "";
+            for (ObjectError error: result.getAllErrors()){
+                errors = errors + error.getDefaultMessage() + "--";
+            }
+            model.addAttribute("errors", errors);
+            model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
+            model.addAttribute("ciudadano", ciudadano);
+            return id == null? "/administrador/createEnlace":"/administrador/editEnlace";
+        }
+        if(id != null)
+            ciudadano.setRol(ciudadano.getRol().split(",")[0]);
+        try{
+            if(ciudadanoServiceImpl.save(ciudadano)){
+                model.addAttribute("alert","success");
+                if(id == null){
+                    model.addAttribute("message","Ciudadano registrado");
+                }else{
+                    model.addAttribute("message","Ciudadano actualizado");
+                }
+            }else{
+                model.addAttribute("alert","error");
+                if(id == null){
+                    model.addAttribute("message","Error al registrar ciudadano");
+                }else{
+                    model.addAttribute("message","Error al actualizar ciudadano");
+                }
+            }
+            return getString(model);
+        }catch (ConstraintViolationException e){
+            model.addAttribute("alert","error");
+            model.addAttribute("message","El correo electrónico ya está registrado en otro usuario");
+        }
+        return getString(model);
     }
 
     @GetMapping(value = {"/delete/{idciudadano}"})
     @Secured("ROLE_ADMINISTRADOR")
-	public String deleteCiudadano(@PathVariable long idciudadano, RedirectAttributes redirectAttributes){
+	public String deleteCiudadano(@PathVariable long idciudadano, Model model, Authentication authentication){
+        model.addAttribute("role",authentication.getAuthorities().toString());
 		boolean respuesta = ciudadanoServiceImpl.delete(idciudadano);
-		if(respuesta){
-			redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
-		}else{
-			redirectAttributes.addFlashAttribute("msg_error", "Eliminacion fallida");
-		}
-		return "redirect:/ciudadano/list";
+        return getString(model);
 	}
 
     @GetMapping(value = {"/update/{idciudadano}"})
     @Secured("ROLE_ADMINISTRADOR")
-	public String updateCiudadano(@PathVariable long idciudadano,Authentication authentication,Model model, RedirectAttributes redirectAttributes){
+	public String updateCiudadano(@PathVariable long idciudadano,Authentication authentication,Model model){
 		Ciudadano ciudadano = ciudadanoServiceImpl.findById(idciudadano);
 		if (ciudadano != null) {
 			model.addAttribute("ciudadano", ciudadano);
@@ -71,21 +113,20 @@ public class CiudadanoController {
             model.addAttribute("role",authentication.getAuthorities().toString());
 			return "administrador/editEnlace";
 		}
-		redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
-		return "redirect:/ciudadano/list";
+        return getString(model);
 	}
     
     @GetMapping("/mostrar/{idciudadano}")
-	public String mostrarMascota(@PathVariable long idciudadano, Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+	public String mostrarCiudadano(@PathVariable long idciudadano, Model model, Authentication authentication) {
     	Ciudadano ciudadano = ciudadanoServiceImpl.mostrar(idciudadano);
 		if (!ciudadano.equals(null)) {
 			model.addAttribute("ciudadano", ciudadano);
             model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
             model.addAttribute("role",authentication.getAuthorities().toString());
+            model.addAttribute("imagen",Base64.getEncoder().encodeToString(ciudadano.getFotografia()));
 			return "administrador/detailEnlace";
-
 		}
-		redirectAttributes.addFlashAttribute("msg_error", "Ciudadano no encontrado");
-		return "redirect:/ciudadano/list";
+        return getString(model);
 	}
+
 }

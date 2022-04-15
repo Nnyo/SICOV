@@ -20,7 +20,7 @@ public class Comentario {
 
     @Lob
     @Column(nullable = false)
-    private Byte[] anexo;
+    private byte[] anexo;
 
     @ManyToOne
     @JoinColumn(name = "incidencia_idincidencia", nullable = false)

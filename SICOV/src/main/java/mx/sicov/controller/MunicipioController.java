@@ -1,7 +1,7 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +22,6 @@ public class MunicipioController {
     private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
-    @Secured("ROLE_ADMINISTRADOR")
     public String listarMunicipios(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
@@ -30,7 +29,6 @@ public class MunicipioController {
     }
 
     @PostMapping("/save")
-    @Secured("ROLE_ADMINISTRADOR")
     public String saveMunicipio(Authentication authentication, @Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         if(result.hasErrors()){
@@ -63,7 +61,6 @@ public class MunicipioController {
     }
 
     @GetMapping("/update/{idmunicipio}")
-    @Secured("ROLE_ADMINISTRADOR")
     public String update(@PathVariable long idmunicipio, Model model, Authentication authentication){
         Municipio municipio = municipioServiceImpl.findById(idmunicipio);
         if(municipio != null){
@@ -77,14 +74,18 @@ public class MunicipioController {
     }
 
     @PostMapping("/delete")
-    @Secured("ROLE_ADMINISTRADOR")
     public String deleteMunicipio(Long idmunicipio, Authentication authentication, Model model){
-        if(municipioServiceImpl.delete(idmunicipio)){
-            model.addAttribute("message","Municipio eliminado");
-            model.addAttribute("alert","success");
-        }else{
-            model.addAttribute("message","Error al eliminar municipio");
+        try{
+            if(municipioServiceImpl.delete(idmunicipio)){
+                model.addAttribute("message","Municipio eliminado");
+                model.addAttribute("alert","success");
+            }else{
+                model.addAttribute("message","Error al eliminar municipio");
+                model.addAttribute("alert","error");
+            }
+        }catch (DataIntegrityViolationException e){
             model.addAttribute("alert","error");
+            model.addAttribute("message","El municipio ya tiene asignado un Ciudadano");
         }
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());

@@ -7,6 +7,7 @@ import mx.sicov.entity.Ciudadano;
 public interface CiudadanoService {
 
     List<Ciudadano> listAll();
+    List<Ciudadano> findCiudadanoByRolContains();
     Ciudadano findById(Long idciudadano);
     boolean save(Ciudadano ciudadano);
     boolean update(Ciudadano ciudadano);

@@ -15,7 +15,7 @@ public class Evidencia {
 
     @Lob
     @Column(nullable = false)
-    private Byte[] evidencia;
+    private byte[] evidencia;
 
     @ManyToOne
     @JoinColumn(name = "incidencia_idincidencia", nullable = false)

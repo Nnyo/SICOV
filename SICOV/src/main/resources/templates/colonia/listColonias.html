@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-<!DOCTYPE html>
 <head>
 	<title>Listado de Colonias</title>
 	<meta charset="UTF-8">
@@ -113,7 +112,7 @@
                     <input type="text" id="idColonia" name="idcolonia" hidden>
                     <div class="form-group col">
                         <label>Nombre de la Colonia</label>
-                        <input name="nombre" id="nombreColonia" class="form-control form-control-lg" type="text">
+                        <input name="nombre" id="nombreColoniaActualizar" class="form-control form-control-lg" type="text">
                         <label class="mt-3">Código Postal</label>
                         <input name="codigoPostal" id="codigoPostalColonia" class="form-control form-control-lg" type="text">
                         <label class="mt-3">Nombre del Municipio</label>
@@ -138,7 +137,7 @@
    <div class="modal-dialog" role="document">
        <div class="modal-content">
            <div class="modal-header">
-               <h5 class="modal-title" id="modalLabelEliminar">Eliminar Categoria</h5>
+               <h5 class="modal-title" id="modalLabelEliminar">Eliminar Colonia</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                    <span aria-hidden="true">&times;</span>
                </button>
@@ -208,9 +207,9 @@
             }
             function actualizarColonia(id, nombre, codigoPostal, municipio){
                 document.getElementById('idColonia').value = id;
-                document.getElemenById('nombreColonia').value = nombre;
-                document.getElementById('codigoPostalColonia').value=codigoPostal;
-                document.getElementById('municipio').value=municipio;
+                document.getElementById('nombreColoniaActualizar').value = nombre;
+                document.getElementById('codigoPostalColonia').value = codigoPostal;
+                document.getElementById('municipio').value = municipio;
             }
             function eliminarColonia(id){
                 document.getElementById('idColoniaEliminar').value=id;
