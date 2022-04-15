@@ -17,17 +17,16 @@ public class Colonia {
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El nombre es requerido")
-    @Size(min = 2, max = 120, message = "El nombre no puede tener mas de 80 caracteres")
+    @Size(max = 80, message = "El nombre no puede tener más de 80 caracteres")
     private String nombre;
 
     @Column(nullable = false, length = 10)
-    @NotNull(message = "El codigo postal es requerido")
-    @Size(min = 5, max = 5, message = "El codigo postal debe tener 5 digitos")
+    @NotBlank(message = "El código postal es requerido")
+    @Size(min = 5, max = 5, message = "El código postal debe tener 5 digitos")
     private String codigoPostal;
 
     @ManyToOne
     @JoinColumn(name = "municipio_idmunicipio", nullable = false)
-    @NotNull(message = "El municipio es requerido")
     private Municipio municipio;
 
     @Column(length = 100, name = "ciudadano")

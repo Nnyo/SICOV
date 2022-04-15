@@ -6,14 +6,15 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import mx.sicov.entity.Colonia;
 import mx.sicov.service.colonia.ColoniaServiceImpl;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = {"/colonia"})
@@ -30,14 +31,19 @@ public class ColoniaController {
 
     @GetMapping(value = {"", "/list"})
     public String listarColonia(Model model, Authentication authentication){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listColonia", coloniaServiceImpl.findColoniasByCiudadano(authentication.getName()));
-        model.addAttribute("listMunicipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())));
-        return "colonia/listColonias";
+        return getString(model, authentication);
     }
 
     @PostMapping("/save")
-    public String saveColonia(Colonia colonia, Model model, Authentication authentication){
+    public String saveColonia(@Valid @ModelAttribute("colonia") Colonia colonia, BindingResult result, Model model, Authentication authentication){
+        if(result.hasErrors()){
+            String errors = "";
+            for (ObjectError error: result.getAllErrors()){
+                errors = error.getDefaultMessage() + "--";
+            }
+            model.addAttribute("errors", errors);
+            return getString(model, authentication);
+        }
         colonia.setCiudadano(authentication.getName());
         Long id = colonia.getIdcolonia();
         if(coloniaServiceImpl.save(colonia)){
@@ -55,6 +61,10 @@ public class ColoniaController {
                 model.addAttribute("message","Error al actualizar colonia");
             }
         }
+        return getString(model, authentication);
+    }
+
+    private String getString(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listColonia", coloniaServiceImpl.findColoniasByCiudadano(authentication.getName()));
         model.addAttribute("listMunicipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())));
@@ -71,10 +81,7 @@ public class ColoniaController {
             model.addAttribute("alert","error");
             model.addAttribute("message","La colonia ya pertenece a un comité");
         }
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listColonia", coloniaServiceImpl.findColoniasByCiudadano(authentication.getName()));
-        model.addAttribute("listMunicipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())));
-        return "colonia/listColonias";
+        return getString(model, authentication);
     }
 
 }

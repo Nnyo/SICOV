@@ -18,12 +18,12 @@ public class Ciudadano {
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El nombre es requerido")
-    @Size(max = 120, message = "El nombre no puede tener mas de 120 caracteres")
+    @Size(max = 120, message = "El nombre no puede tener más de 120 caracteres")
     private String nombre;
 
     @Column(nullable = false, length = 120)
     @NotBlank(message = "El primer apellido es requerido")
-    @Size(max = 120, message = "El primer apellido no puede tener mas de 120 caracteres")
+    @Size(max = 120, message = "El primer apellido no puede tener más de 120 caracteres")
     private String primerApellido;
 
     @Column(length = 120)
