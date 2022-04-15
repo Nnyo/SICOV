@@ -21,24 +21,26 @@ public class MunicipioController {
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
 
-    @GetMapping(value = {"", "/list"})
-    public String listarMunicipios(Authentication authentication, Model model){
+    private String getListMunicipio(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
         return "municipio/listMunicipios";
     }
 
+    @GetMapping(value = {"", "/list"})
+    public String listarMunicipios(Authentication authentication, Model model){
+        return getListMunicipio(model, authentication);
+    }
+
     @PostMapping("/save")
     public String saveMunicipio(Authentication authentication, @Valid @ModelAttribute("municipio") Municipio municipio, BindingResult result, Model model){
-        model.addAttribute("role",authentication.getAuthorities().toString());
         if(result.hasErrors()){
             String errors = "";
             for (ObjectError error: result.getAllErrors()){
                 errors = error.getDefaultMessage() + "--";
             }
             model.addAttribute("errors", errors);
-            model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
-            return "municipio/listMunicipios";
+            return getListMunicipio(model, authentication);
         }
         Long id = municipio.getIdmunicipio();
         if(municipioServiceImpl.save(municipio)){
@@ -56,8 +58,7 @@ public class MunicipioController {
                 model.addAttribute("message","Error al actualizar municipio");
             }
         }
-        model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
-        return "municipio/listMunicipios";
+        return getListMunicipio(model, authentication);
     }
 
     @GetMapping("/update/{idmunicipio}")
@@ -68,9 +69,7 @@ public class MunicipioController {
             model.addAttribute("municipio", municipio);
             return "municipio/createMunicipio";
         }
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
-        return "municipio/listMunicipios";
+        return getListMunicipio(model, authentication);
     }
 
     @PostMapping("/delete")
@@ -87,10 +86,7 @@ public class MunicipioController {
             model.addAttribute("alert","error");
             model.addAttribute("message","El municipio ya tiene asignado un Ciudadano");
         }
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
-        return "municipio/listMunicipios";
+        return getListMunicipio(model, authentication);
     }
 
-    
 }

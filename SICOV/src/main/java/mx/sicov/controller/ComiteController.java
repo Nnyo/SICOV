@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -44,7 +44,15 @@ public class ComiteController {
     }
 
     @PostMapping("/save")
-    public String saveComite(Comite comite, Model model, Authentication authentication){
+    public String saveComite(@Valid @ModelAttribute("comite") Comite comite, BindingResult result, Model model, Authentication authentication){
+        if(result.hasErrors()){
+            String errors = "";
+            for (ObjectError error: result.getAllErrors()){
+                errors = error.getDefaultMessage() + "--";
+            }
+            model.addAttribute("errors", errors);
+            return getString(model, authentication);
+        }
         Long id = comite.getIdcomite();
         if(comiteService.save(comite)){
             model.addAttribute("alert","success");
@@ -112,6 +120,7 @@ public class ComiteController {
             }catch (NullPointerException e){
                 model.addAttribute("alert","info");
                 model.addAttribute("message","Este comité aún no tiene Presidente");
+                return registerComites(model, authentication);
             }
             if(listParticipante.size()<3){
                 model.addAttribute("alert","info");
@@ -123,12 +132,16 @@ public class ComiteController {
         }catch (NullPointerException e){
             model.addAttribute("alert","info");
             model.addAttribute("message","Este comité aún no tiene integrantes");
+            return registerComites(model, authentication);
         }
         model.addAttribute("listParticipante", listParticipante);
+        return registerComites(model, authentication);
+    }
+
+    private String registerComites(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
         return "enlace/registerComites";
     }
-
 
 }
