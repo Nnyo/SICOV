@@ -63,14 +63,18 @@ public class CiudadanoServiceImpl implements CiudadanoService {
     }
 
     @Override
+    public Ciudadano findObjCiudadanoByCorreoElectronico(String username){
+        return ciudadanoRepository.findCiudadanoByCorreoElectronico(username);
+    }
+
+    @Override
     public boolean update(Ciudadano ciudadano){
-        Optional<Ciudadano> optCiudadano = ciudadanoRepository.findById(ciudadano.getIdciudadano());
-        if(!optCiudadano.isPresent()){
+        try{
+            Ciudadano update = ciudadanoRepository.saveAndFlush(ciudadano);
+            return true;
+        }catch (Exception e){
             return false;
         }
-        Ciudadano update = optCiudadano.get();
-        update = ciudadanoRepository.saveAndFlush(update);
-        return update != null ? true : false;
     }
 
     @Override
