@@ -36,7 +36,7 @@
         <p class="card-text">Colonia: <span th:text="${comite.colonia.nombre}"/></p>
         <div class="text-center">
           <a class="btn btnRegistrar mt-3" href="#">Detalles</a>
-          <a class="btn btnCancelar mt-3" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarColonia([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
+          <a class="btn btnCancelar mt-3" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarComite([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
           <a class="btn btnRegistrar mt-3" data-toggle="modal" data-target="#eliminarComite" th:onclick="eliminarComite([[(${comite.idcomite})]])">Eliminar</a>
           <a class="btn btnRegistrar mt-1" th:href="@{/comite/editar/{idcomite} (idcomite=${comite.idcomite})}">Gestionar participantes</a>
         </div>
@@ -189,12 +189,12 @@
       toastr.error(errors[i], '', toastr.options);
     }
   }
-  function actualizarColonia(idcomite, nombre, colonia){
+  function actualizarComite(idcomite, nombre, colonia){
     document.getElementById('idcomite').value = idcomite;
     document.getElementById('nombreActualizar').value = nombre;
     document.getElementById('coloniaActualizar').value = colonia;
   }
-  function eliminarColonia(id){
+  function eliminarComite(id){
     document.getElementById('idComiteEliminar').value = id;
   }
 </script>
