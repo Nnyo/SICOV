@@ -80,8 +80,8 @@ public class ComiteController {
         return "enlace/listComite";
     }
 
-    @GetMapping("/delete/{idcomite}")
-    public String deleteComite(@PathVariable Long idcomite, Model model, Authentication authentication){
+    @PostMapping("/delete")
+    public String deleteComite(Long idcomite, Model model, Authentication authentication){
         try{
             comiteService.delete(idcomite);
             model.addAttribute("alert","success");

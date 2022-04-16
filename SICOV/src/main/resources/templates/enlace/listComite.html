@@ -37,7 +37,7 @@
         <div class="text-center">
           <a class="btn btnRegistrar mt-3" href="#">Detalles</a>
           <a class="btn btnCancelar mt-3" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarColonia([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
-          <a class="btn btnRegistrar mt-3" th:href="@{/comite/delete/{idcomite} (idcomite=${comite.idcomite})}">Eliminar</a>
+          <a class="btn btnRegistrar mt-3" data-toggle="modal" data-target="#eliminarComite" th:onclick="eliminarComite([[(${comite.idcomite})]])">Eliminar</a>
           <a class="btn btnRegistrar mt-1" th:href="@{/comite/editar/{idcomite} (idcomite=${comite.idcomite})}">Gestionar participantes</a>
         </div>
       </div>
@@ -58,7 +58,7 @@
       <div class="modal-body">
         <form th:action="@{/comite/save}" method="post">
           <div class="form-group col">
-            <label for="nombreComite">Nombre del comité</label>
+            <label for="nombreComite">Nombre del Comité</label>
             <input name="nombre" id="nombreComite" class="form-control form-control-lg" type="text">
           </div>
           <div class="form-group col">
@@ -92,7 +92,7 @@
         <form th:action="@{/comite/save}" method="post">
           <input type="text" id="idcomite" name="idcomite" hidden>
           <div class="form-group col">
-            <label for="nombreActualizar">Nombre del comité</label>
+            <label for="nombreActualizar">Nombre del Comité</label>
             <input name="nombre" id="nombreActualizar" class="form-control form-control-lg" type="text">
           </div>
           <div class="form-group col">
@@ -110,6 +110,34 @@
     </div>
   </div>
 </div>
+</div>
+<div class="modal fade" id="eliminarComite" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabelEliminar">Eliminar Colonia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/comite/delete}" method="POST">
+                    <input type="text" id="idComiteEliminar" name="idcomite" hidden>
+                    <div class="form-group col text-center">
+                        <image src="./../images/warning.png" width="40%" height="40%"/>
+                        <h4>¿Estás seguro que deseas eliminar el registro?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-opciones btnRegistrar">
+                            Eliminar
+                        </button>
+                        <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -165,6 +193,9 @@
     document.getElementById('idcomite').value = idcomite;
     document.getElementById('nombreActualizar').value = nombre;
     document.getElementById('coloniaActualizar').value = colonia;
+  }
+  function eliminarColonia(id){
+    document.getElementById('idComiteEliminar').value = id;
   }
 </script>
 </body>
