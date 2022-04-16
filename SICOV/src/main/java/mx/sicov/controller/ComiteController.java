@@ -2,11 +2,12 @@ package mx.sicov.controller;
 
 import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comite;
-import mx.sicov.entity.Municipio;
+import mx.sicov.entity.ComiteVecinal;
 import mx.sicov.entity.Participante;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.colonia.ColoniaServiceImpl;
 import mx.sicov.service.comite.ComiteService;
+import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 import mx.sicov.service.participante.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -40,6 +40,9 @@ public class ComiteController {
 
     @Autowired
     private ColoniaServiceImpl coloniaService;
+
+    @Autowired
+    private ComiteVecinalService comiteVecinalService;
 
     @GetMapping(value = {"", "/list"})
     public String listarComite(Model model, Authentication authentication){
@@ -108,11 +111,12 @@ public class ComiteController {
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("idcomite",idcomite);
         model.addAttribute("ciudadano", new Ciudadano());
+        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName());
+        model.addAttribute("municipio",ciudadano.getMunicipio());
         return "enlace/createPresidente";
     }
 
-    @GetMapping("/editar/{idcomite}")
-    public String nuevoComite(@PathVariable Long idcomite, Model model, Authentication authentication){
+    private String getStringToNuevoComite(Long idcomite, Model model, Authentication authentication){
         List<Participante> listParticipante = null;
         try{
             listParticipante = participanteService.findParticipanteByIdComiteVecinal(idcomite);
@@ -151,6 +155,11 @@ public class ComiteController {
         return registerComites(model, authentication);
     }
 
+    @GetMapping("/editar/{idcomite}")
+    public String nuevoComite(@PathVariable Long idcomite, Model model, Authentication authentication){
+        return getStringToNuevoComite(idcomite,model,authentication);
+    }
+
     private String registerComites(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
@@ -159,8 +168,10 @@ public class ComiteController {
 
     @PostMapping(value = {"/savePresidente"})
     public String savePresidente(Long idcomite, Authentication authentication, @Valid @ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult result, Model model, @RequestParam("file") MultipartFile imagen) {
+        model.addAttribute("idcomite", idcomite);
         Long id = ciudadano.getIdciudadano();
         model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("municipio",ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()).getMunicipio());
         try{
             ciudadano.setFotografia(imagen.getBytes());
         }catch (Exception e){
@@ -180,26 +191,29 @@ public class ComiteController {
             ciudadano.setRol(ciudadano.getRol().split(",")[0]);
         try{
             if(ciudadanoService.save(ciudadano)){
-                model.addAttribute("alert","success");
-                if(id == null){
-                    model.addAttribute("message","Presidente registrado");
+                if(id != null){
+                    model.addAttribute("message2","Presidente actualizado");
                 }else{
-                    model.addAttribute("message","Presidente actualizado");
+                    model.addAttribute("message2","Presidente registrado");
+                    ComiteVecinal comiteVecinal = new ComiteVecinal();
+                    comiteVecinal.setCiudadano(ciudadano);
+                    comiteVecinal.setComite(comiteService.findById(idcomite));
+                    comiteVecinalService.save(comiteVecinal);
                 }
             }else{
-                model.addAttribute("alert","error");
-                if(id == null){
-                    model.addAttribute("message","Error al registrar presidente");
-                }else{
-                    model.addAttribute("message","Error al actualizar presidente");
-                }
+                return returnException(ciudadano, model);
             }
-            return "redirect:/comite/editar/"+idcomite;
-        }catch (ConstraintViolationException e){
-            model.addAttribute("alert","error");
-            model.addAttribute("message","El correo electrónico ya está registrado en otro usuario");
+            return getStringToNuevoComite(idcomite,model,authentication);
+        }catch (Exception e){
+            return returnException(ciudadano, model);
         }
-        return "redirect:/comite/editar/"+idcomite;
+    }
+
+    private String returnException(Ciudadano ciudadano, Model model){
+        model.addAttribute("alert","error");
+        model.addAttribute("message","El correo electrónico ya está registrado en otro usuario");
+        model.addAttribute("ciudadano",ciudadano);
+        return "/enlace/createPresidente";
     }
 
 }

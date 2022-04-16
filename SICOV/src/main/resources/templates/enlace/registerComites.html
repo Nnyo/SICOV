@@ -14,6 +14,7 @@
 <body>
 <input type="text" id="message" th:value="${message}" hidden>
 <input type="text" id="alert" th:value="${alert}" hidden>
+<input type="text" id="message2" th:value="${message2}" hidden>
 <div class="container-fluid">
     <div th:insert="~{fragments/header::header}"></div>
     <div class="row">
@@ -101,6 +102,7 @@
     }
     const messageToastr = document.getElementById("message");
     const alertToastr = document.getElementById("alert");
+    const messageToastr2 = document.getElementById("message2");
     if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
         switch (alertToastr.value) {
             case 'success':
@@ -113,6 +115,9 @@
                 toastr.info(messageToastr.value, '', toastr.options);
                 break;
         }
+    }
+    if (messageToastr2.value.length > 0) {
+        toastr.success(messageToastr2.value, '', toastr.options);
     }
 </script>
 </body>
