@@ -20,7 +20,7 @@ public class EmailController {
 	}
 	@EventListener(ApplicationReadyEvent.class)
 	public void sendMail() {
-		emailService.sendSimpleMail("20193tn138@utez.edu.mx",
+		emailService.sendSimpleMail("sicov001@gmail.com",
 				"Este es el título",
 				"Este es el cuerpo del mensaje");
 	}
