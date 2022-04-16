@@ -99,7 +99,7 @@ public class CiudadanoController {
     @Secured("ROLE_ADMINISTRADOR")
 	public String deleteCiudadano(@PathVariable long idciudadano, Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
-		boolean respuesta = ciudadanoServiceImpl.delete(idciudadano);
+		ciudadanoServiceImpl.delete(idciudadano);
         return getString(model);
 	}
 

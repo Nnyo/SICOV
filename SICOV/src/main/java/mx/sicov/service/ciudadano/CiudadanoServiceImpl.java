@@ -70,7 +70,7 @@ public class CiudadanoServiceImpl implements CiudadanoService {
     @Override
     public boolean update(Ciudadano ciudadano){
         try{
-            Ciudadano update = ciudadanoRepository.saveAndFlush(ciudadano);
+            ciudadanoRepository.saveAndFlush(ciudadano);
             return true;
         }catch (Exception e){
             return false;

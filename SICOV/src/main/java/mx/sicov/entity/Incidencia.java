@@ -3,6 +3,8 @@ package mx.sicov.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,7 +34,8 @@ public class Incidencia {
 
     @Column
     @NotNull(message = "El costo es requerida")
-    @Size(min = 1, max = 10, message = "El costo no puede tener mas de 10 caracteres")
+    @DecimalMax("10000.0")
+    @DecimalMin("0.0") 
     private Double costo;
 
     @Column(columnDefinition = "tinyint not null")
@@ -48,5 +51,12 @@ public class Incidencia {
     @JoinColumn(name = "comiteVecinal_idcomiteVecinal", nullable = false)
     @NotNull(message = "El comité vecinal es requerido")
     private ComiteVecinal comiteVecinal;
+
+    public Incidencia() {
+    }
+
+    
+
+    
 
 }
