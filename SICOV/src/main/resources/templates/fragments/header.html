@@ -22,12 +22,12 @@
 				</a>
 			</li>
 			<li class="nav-item" th:if="${role == '[ROLE_ADMINISTRADOR]'}">
-				<a class="nav-link text-light" th:href="@{/categoria/list}">
+				<a class="nav-link text-light" th:href="@{/categoria}">
 					Servicios públicos
 				</a>
 			</li>
 			<li class="nav-item" th:if="${role == '[ROLE_ADMINISTRADOR]'}">
-				<a class="nav-link text-light" th:href="@{/ciudadano/list}">
+				<a class="nav-link text-light" th:href="@{/ciudadano}">
 					Ciudadanos
 				</a>
 			</li>
@@ -42,7 +42,7 @@
 				</a>
 			</li>
 			<li class="nav-item" th:if="${role == '[ROLE_PRESIDENTE]'}">
-				<a class="nav-link text-light" th:href="@{/incidencias/list}">
+				<a class="nav-link text-light" th:href="@{/incidencias}">
 					Incidencias
 				</a>
 			</li>

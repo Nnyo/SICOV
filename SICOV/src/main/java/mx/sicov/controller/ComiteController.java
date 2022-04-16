@@ -2,6 +2,7 @@ package mx.sicov.controller;
 
 import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comite;
+import mx.sicov.entity.Municipio;
 import mx.sicov.entity.Participante;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.colonia.ColoniaServiceImpl;
@@ -15,7 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -100,6 +103,14 @@ public class ComiteController {
         return "enlace/requestsComites";
     }
 
+    @GetMapping("/nuevoPresidente/{idcomite}")
+    public String nuevoPresidente(@PathVariable Long idcomite, Model model, Authentication authentication){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("idcomite",idcomite);
+        model.addAttribute("ciudadano", new Ciudadano());
+        return "enlace/createPresidente";
+    }
+
     @GetMapping("/editar/{idcomite}")
     public String nuevoComite(@PathVariable Long idcomite, Model model, Authentication authentication){
         List<Participante> listParticipante = null;
@@ -116,6 +127,7 @@ public class ComiteController {
                     participanteTemp.setNumeroTelefonico(ciudadano.getNumeroTelefonico());
                     participanteTemp.setEsPresidente("PRESIDENTE");
                     listParticipante.add(participanteTemp);
+                    model.addAttribute("nuevoPresidente",true);
                 }
             }catch (NullPointerException e){
                 model.addAttribute("alert","info");
@@ -134,6 +146,7 @@ public class ComiteController {
             model.addAttribute("message","Este comité aún no tiene integrantes");
             return registerComites(model, authentication);
         }
+        model.addAttribute("idcomite", idcomite);
         model.addAttribute("listParticipante", listParticipante);
         return registerComites(model, authentication);
     }
@@ -142,6 +155,51 @@ public class ComiteController {
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
         return "enlace/registerComites";
+    }
+
+    @PostMapping(value = {"/savePresidente"})
+    public String savePresidente(Long idcomite, Authentication authentication, @Valid @ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult result, Model model, @RequestParam("file") MultipartFile imagen) {
+        Long id = ciudadano.getIdciudadano();
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        try{
+            ciudadano.setFotografia(imagen.getBytes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(result.hasErrors()){
+            String errors = "";
+            for (ObjectError error: result.getAllErrors()){
+                errors = errors + error.getDefaultMessage() + "--";
+            }
+            ciudadano.setIdciudadano(id);
+            model.addAttribute("errors", errors);
+            model.addAttribute("ciudadano", ciudadano);
+            return "/enlace/createPresidente";
+        }
+        if(id != null)
+            ciudadano.setRol(ciudadano.getRol().split(",")[0]);
+        try{
+            if(ciudadanoService.save(ciudadano)){
+                model.addAttribute("alert","success");
+                if(id == null){
+                    model.addAttribute("message","Presidente registrado");
+                }else{
+                    model.addAttribute("message","Presidente actualizado");
+                }
+            }else{
+                model.addAttribute("alert","error");
+                if(id == null){
+                    model.addAttribute("message","Error al registrar presidente");
+                }else{
+                    model.addAttribute("message","Error al actualizar presidente");
+                }
+            }
+            return "redirect:/comite/editar/"+idcomite;
+        }catch (ConstraintViolationException e){
+            model.addAttribute("alert","error");
+            model.addAttribute("message","El correo electrónico ya está registrado en otro usuario");
+        }
+        return "redirect:/comite/editar/"+idcomite;
     }
 
 }

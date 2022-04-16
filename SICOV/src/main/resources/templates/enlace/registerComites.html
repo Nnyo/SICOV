@@ -21,7 +21,8 @@
             <div class="card mt-12">
                 <div class="card-body">
                     <h2 style="text-align: center;">Lista de Participantes</h2>
-                    <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+                    <a class="btn btn-lg btn-registro mb-3 float-right" th:href="@{/comite}" style="color: white;">Regresar</a>
+                    <a class="btn btn-lg btn-registro mb-3 float-right" th:href="@{/comite/nuevoPresidente/{idcomite} (idcomite=${idcomite})}" th:if="${nuevoPresidente != true}" style="color: white;">
                         <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Presidente
                     </a>
                     <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
