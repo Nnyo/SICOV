@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Comités</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
+    <link rel="stylesheet" th:href="@{/css/recursos.css}" />
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}">
+</head>
+
+<body>
+<input type="text" id="message" th:value="${message}" hidden>
+<input type="text" id="alert" th:value="${alert}" hidden>
+<input type="text" id="message2" th:value="${message2}" hidden>
+<div class="container-fluid">
+    <div th:insert="~{fragments/header::header}"></div>
+    <div class="row">
+        <div class="col">
+            <div class="card mt-12">
+                <div class="card-body">
+                    <h2 style="text-align: center;">Lista de Participantes</h2>
+                    <a class="btn btn-lg btn-registro mb-3 float-right" th:href="@{/comite}" style="color: white;">Regresar</a>
+                    <a class="btn btn-lg btn-registro mb-3 float-right" th:href="@{/comite/nuevoPresidente/{idcomite} (idcomite=${idcomite})}" th:if="${nuevoPresidente != true}" style="color: white;">
+                        <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Presidente
+                    </a>
+                    <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+                        <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Participante
+                    </a>
+                    <table class="table">
+                        <thead class="text-center">
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Primer apellido</th>
+                            <th scope="col">Segundo apellido</th>
+                            <th scope="col">Municipio</th>
+                            <th scope="col">Núm. telefóno</th>
+                            <th scope="col">Presidente</th>
+                            <th colspan="2">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        <tr th:each="participante, contador : ${listParticipante}">
+                            <th th:text="${contador.count}"></th>
+                            <td th:text="${participante.nombre}"></td>
+                            <td th:text="${participante.primerApellido}"></td>
+                            <td th:text="${participante.segundoApellido}"></td>
+                            <td th:text="${participante.municipio.nombre}"></td>
+                            <td th:text="${participante.numeroTelefonico}"></td>
+                            <td th:text="${participante.esPresidente}"></td>
+                            <td>
+                                <a  class="btn btn-opciones">
+                                    <ion-icon name="create"></ion-icon>
+                                </a>
+                                <a class="btn btn-opciones">
+                                    <ion-icon name="trash"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<!--Toast-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script th:src="@{/js/toast.min.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    const messageToastr = document.getElementById("message");
+    const alertToastr = document.getElementById("alert");
+    const messageToastr2 = document.getElementById("message2");
+    if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
+        switch (alertToastr.value) {
+            case 'success':
+                toastr.success(messageToastr.value, '', toastr.options);
+                break;
+            case 'error':
+                toastr.error(messageToastr.value, '', toastr.options);
+                break;
+            case 'info':
+                toastr.info(messageToastr.value, '', toastr.options);
+                break;
+        }
+    }
+    if (messageToastr2.value.length > 0) {
+        toastr.success(messageToastr2.value, '', toastr.options);
+    }
+</script>
+</body>
+</html>
