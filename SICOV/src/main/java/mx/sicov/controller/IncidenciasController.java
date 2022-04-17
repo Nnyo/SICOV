@@ -30,15 +30,38 @@ public class IncidenciasController {
 
     @Autowired
     private IncidenciaServiceImpl incidenciaServiceImpl;
+    
+    @Autowired
+    private IncidenciaService incidenciaService;
 
     @Autowired
     private CategoriaServiceImpl categoriaServiceImpl;
+    
+    @Autowired
+    private CategoriaService categoriaService;
+    
+    @Autowired
+    private CiudadanoServiceImpl ciudadanoService;
 
-    private String getListIncidencia(Model model, Authentication authentication){
+    @Autowired
+    private CiudadanoServiceImpl ciudadanoServiceImpl;
+
+    @Autowired
+    private MunicipioServiceImpl municipioServiceImpl;
+
+    @Autowired
+    private ComiteVecinalService comiteVecinalService;
+
+
+    private String getListIncidencia(Model model, Authentication authentication) {
+        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
         model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listIncidencia", incidenciaServiceImpl.listAll());
-        model.addAttribute("listCategoria", categoriaServiceImpl.listAll());
-        return "incidencia/list";
+        model.addAttribute("listComiteVecinal",comiteVecinalService.findById(municipioServiceImpl
+        		.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getIdmunicipio()));
+        model.addAttribute("listIncidencias",incidenciaServiceImpl.findIncidenciaByMunicipio(municipioServiceImpl
+        		.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre()));
+        model.addAttribute("listCiudadano", ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()));
+        return "enlace/listComite";
     }
 
     @GetMapping(value = {"", "/list"})
