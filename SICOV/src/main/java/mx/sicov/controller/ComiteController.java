@@ -1,6 +1,5 @@
 package mx.sicov.controller;
 
-import com.sun.net.httpserver.HttpServer;
 import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comite;
 import mx.sicov.entity.ComiteVecinal;
@@ -12,17 +11,16 @@ import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 import mx.sicov.service.participante.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -179,6 +177,19 @@ public class ComiteController {
             }
         }catch (Exception e){
             model = errorToDeletePresidente(model);
+        }
+        return getStringToNewComite(idcomite, model, authentication);
+    }
+
+    @GetMapping(value = {"/updatePresidente/{idpresidente}/{idcomite}"})
+    public String updateCiudadano(@PathVariable Long idpresidente, @PathVariable Long idcomite, Authentication authentication,Model model){
+        Ciudadano ciudadano = ciudadanoService.findById(idpresidente);
+        if (ciudadano != null) {
+            model.addAttribute("ciudadano", ciudadano);
+            model.addAttribute("idcomite", idcomite);
+            model.addAttribute("municipio", ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()).getMunicipio());
+            model.addAttribute("role",authentication.getAuthorities().toString());
+            return "enlace/createPresidente";
         }
         return getStringToNewComite(idcomite, model, authentication);
     }

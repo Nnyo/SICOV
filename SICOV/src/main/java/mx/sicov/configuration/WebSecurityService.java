@@ -30,6 +30,8 @@ public class WebSecurityService extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
             .antMatchers("/css/**", "/login", "/js/**", "/images/**").permitAll()
             .antMatchers("/colonia/**").hasRole("ENLACE")
+            .antMatchers("/comite/**").hasRole("ENLACE")
+            .antMatchers("/participante/**").hasRole("ENLACE")
             .antMatchers("/municipio/**").hasRole("ADMINISTRADOR")
             .antMatchers("/servicios_publicos/**").hasRole("ADMINISTRADOR")
             .antMatchers("/ciudadano/**").hasRole("ADMINISTRADOR")

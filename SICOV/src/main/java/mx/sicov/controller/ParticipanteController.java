@@ -17,6 +17,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.Part;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -101,6 +102,17 @@ public class ParticipanteController {
         return prepareCreateParticipante(model, authentication);
     }
 
+    @GetMapping(value = {"/updateParticipante/{idparticipante}/{idcomite}"})
+    public String updateParticipante(@PathVariable Long idparticipante, @PathVariable Long idcomite, Authentication authentication,Model model){
+        Participante participante = participanteService.findById(idparticipante);
+        if (participante != null) {
+            model.addAttribute("participante", participante);
+            model.addAttribute("idcomite", idcomite);
+            return prepareCreateParticipante(model, authentication);
+        }
+        return getStringToNewComite(idcomite, model, authentication);
+    }
+
     private String prepareCreateParticipante(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("municipio",ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()).getMunicipio());
@@ -157,7 +169,7 @@ public class ParticipanteController {
                 model.addAttribute("alert","error");
                 model.addAttribute("message","Los comités deben de tener máximo 6 integrantes");
             }
-        }catch (NullPointerException e){
+        }catch (Exception e){
             model.addAttribute("alert","info");
             model.addAttribute("message","Este comité aún no tiene integrantes");
             return registerComites(model, authentication);

@@ -6,6 +6,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -22,9 +23,19 @@ public class Handler {
         return "Error500";
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    public String numberFormatException(){
+        return "Error500";
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public String accessDeniedException(){
         return "Error403";
+    }
+
+    @ExceptionHandler(HttpClientErrorException.BadRequest.class)
+    public String badRequest(){
+        return "Error404";
     }
 
 }

@@ -51,16 +51,16 @@
                             <td th:text="${participante.numeroTelefonico}"></td>
                             <td th:text="${participante.esPresidente}"></td>
                             <td>
-                                <a class="btn btn-opciones" th:if="${participante.esPresidente == 'PRESIDENTE'}" >
+                                <a class="btn btn-opciones" th:if="${participante.esPresidente == 'PRESIDENTE'}" th:href="@{/comite/updatePresidente/{idpresidente}/{idcomite} (idpresidente=${participante.idparticipante},idcomite=${idcomite})}">
                                     <ion-icon name="create"></ion-icon>
                                 </a>
-                                <a class="btn btn-opciones" th:if="${participante.esPresidente != 'PRESIDENTE'}" >
+                                <a class="btn btn-opciones" th:if="${participante.esPresidente != 'PRESIDENTE'}" th:href="@{/participante/updateParticipante/{idparticipante}/{idcomite} (idparticipante=${participante.idparticipante},idcomite=${idcomite})}">
                                     <ion-icon name="create"></ion-icon>
                                 </a>
-                                <a class="btn btn-opciones" th:if="${participante.esPresidente == 'PRESIDENTE'}" data-toggle="modal" data-target="#eliminarPresidente" th:onclick="eliminarPresidente([[(${participante.idparticipante})]])">
+                                <a class="btn btn-opciones" style="color: white;background-color: firebrick" th:if="${participante.esPresidente == 'PRESIDENTE'}" data-toggle="modal" data-target="#eliminarPresidente" th:onclick="eliminarPresidente([[(${participante.idparticipante})]])">
                                     <ion-icon name="trash"></ion-icon>
                                 </a>
-                                <a class="btn btn-opciones" th:if="${participante.esPresidente != 'PRESIDENTE'}" data-toggle="modal" data-target="#eliminarParticipante" th:onclick="eliminarParticipante([[(${participante.idparticipante})]])">
+                                <a class="btn btn-opciones" style="color: white;background-color: firebrick" th:if="${participante.esPresidente != 'PRESIDENTE'}" data-toggle="modal" data-target="#eliminarParticipante" th:onclick="eliminarParticipante([[(${participante.idparticipante})]])">
                                     <ion-icon name="trash"></ion-icon>
                                 </a>
                             </td>

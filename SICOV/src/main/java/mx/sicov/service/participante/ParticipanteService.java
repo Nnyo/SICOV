@@ -6,7 +6,9 @@ import mx.sicov.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Part;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParticipanteService {
@@ -26,6 +28,14 @@ public class ParticipanteService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Participante findById(Long idparticipante){
+        Optional<Participante> optional = participanteRepository.findById(idparticipante);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        return null;
     }
 
     public void delete(long participante) {
