@@ -10,7 +10,6 @@
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
     <link rel="stylesheet" th:href="@{/css/toast.min.css}">
 </head>
-
 <body>
 <input type="text" id="message" th:value="${message}" hidden>
 <input type="text" id="alert" th:value="${alert}" hidden>
@@ -26,7 +25,7 @@
                     <a class="btn btn-lg btn-registro mb-3 float-right" th:href="@{/comite/nuevoPresidente/{idcomite} (idcomite=${idcomite})}" th:if="${nuevoPresidente != true}" style="color: white;">
                         <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Presidente
                     </a>
-                    <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+                    <a class="btn btn-lg btn-registro mb-3 float-right" th:href="@{/participante/nuevoParticipante/{idcomite} (idcomite=${idcomite})}" style="color: white;">
                         <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Participante
                     </a>
                     <table class="table">

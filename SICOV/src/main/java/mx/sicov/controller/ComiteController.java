@@ -30,9 +30,6 @@ public class ComiteController {
     private CiudadanoServiceImpl ciudadanoService;
 
     @Autowired
-    private ParticipanteService participanteService;
-
-    @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
 
     @Autowired
@@ -43,6 +40,9 @@ public class ComiteController {
 
     @Autowired
     private ComiteVecinalService comiteVecinalService;
+
+    @Autowired
+    private ParticipanteService participanteService;
 
     @GetMapping(value = {"", "/list"})
     public String listarComite(Model model, Authentication authentication){
@@ -78,14 +78,6 @@ public class ComiteController {
         return getString(model, authentication);
     }
 
-    private String getString(Model model, Authentication authentication) {
-        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listComite",comiteService.findComiteByIdMunicipio(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getIdmunicipio()));
-        model.addAttribute("listColonia", coloniaService.findColoniasByCiudadano(authentication.getName()));
-        return "enlace/listComite";
-    }
-
     @PostMapping("/delete")
     public String deleteComite(Long idcomite, Model model, Authentication authentication){
         try{
@@ -116,54 +108,9 @@ public class ComiteController {
         return "enlace/createPresidente";
     }
 
-    private String getStringToNuevoComite(Long idcomite, Model model, Authentication authentication){
-        List<Participante> listParticipante = null;
-        try{
-            listParticipante = participanteService.findParticipanteByIdComiteVecinal(idcomite);
-            Ciudadano ciudadano = ciudadanoService.findCiudadanoByIdComiteVecinal(idcomite);
-            try{
-                if(ciudadano.getRol().equals("ROLE_PRESIDENTE")){
-                    Participante participanteTemp = new Participante();
-                    participanteTemp.setMunicipio(ciudadano.getMunicipio());
-                    participanteTemp.setNombre(ciudadano.getNombre());
-                    participanteTemp.setPrimerApellido(ciudadano.getPrimerApellido());
-                    participanteTemp.setSegundoApellido(ciudadano.getSegundoApellido());
-                    participanteTemp.setNumeroTelefonico(ciudadano.getNumeroTelefonico());
-                    participanteTemp.setEsPresidente("PRESIDENTE");
-                    listParticipante.add(participanteTemp);
-                    model.addAttribute("nuevoPresidente",true);
-                }
-            }catch (NullPointerException e){
-                model.addAttribute("alert","info");
-                model.addAttribute("message","Este comité aún no tiene Presidente");
-                return registerComites(model, authentication);
-            }
-            if(listParticipante.size()<3){
-                model.addAttribute("alert","info");
-                model.addAttribute("message","Los comités deben de tener más de 3 integrantes");
-            }else if(listParticipante.size() > 6){
-                model.addAttribute("alert","error");
-                model.addAttribute("message","Los comités deben de tener máximo 6 integrantes");
-            }
-        }catch (NullPointerException e){
-            model.addAttribute("alert","info");
-            model.addAttribute("message","Este comité aún no tiene integrantes");
-            return registerComites(model, authentication);
-        }
-        model.addAttribute("idcomite", idcomite);
-        model.addAttribute("listParticipante", listParticipante);
-        return registerComites(model, authentication);
-    }
-
     @GetMapping("/editar/{idcomite}")
     public String nuevoComite(@PathVariable Long idcomite, Model model, Authentication authentication){
-        return getStringToNuevoComite(idcomite,model,authentication);
-    }
-
-    private String registerComites(Model model, Authentication authentication){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
-        return "enlace/registerComites";
+        return getStringToNewComite(idcomite,model,authentication);
     }
 
     @PostMapping(value = {"/savePresidente"})
@@ -203,7 +150,7 @@ public class ComiteController {
             }else{
                 return returnException(ciudadano, model);
             }
-            return getStringToNuevoComite(idcomite,model,authentication);
+            return getStringToNewComite(idcomite,model,authentication);
         }catch (Exception e){
             return returnException(ciudadano, model);
         }
@@ -214,6 +161,59 @@ public class ComiteController {
         model.addAttribute("message","El correo electrónico ya está registrado en otro usuario");
         model.addAttribute("ciudadano",ciudadano);
         return "/enlace/createPresidente";
+    }
+
+    public String getString(Model model, Authentication authentication) {
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
+        model.addAttribute("listComite",comiteService.findComiteByIdMunicipio(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getIdmunicipio()));
+        model.addAttribute("listColonia", coloniaService.findColoniasByCiudadano(authentication.getName()));
+        return "enlace/listComite";
+    }
+
+    private String registerComites(Model model, Authentication authentication){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
+        return "enlace/registerComites";
+    }
+
+    public String getStringToNewComite(Long idcomite, Model model, Authentication authentication){
+        List<Participante> listParticipante = null;
+        try{
+            listParticipante = participanteService.findParticipanteByIdComiteVecinal(idcomite);
+            Ciudadano ciudadano = ciudadanoService.findCiudadanoByIdComiteVecinal(idcomite);
+            try{
+                if(ciudadano.getRol().equals("ROLE_PRESIDENTE")){
+                    Participante participanteTemp = new Participante();
+                    participanteTemp.setMunicipio(ciudadano.getMunicipio());
+                    participanteTemp.setNombre(ciudadano.getNombre());
+                    participanteTemp.setPrimerApellido(ciudadano.getPrimerApellido());
+                    participanteTemp.setSegundoApellido(ciudadano.getSegundoApellido());
+                    participanteTemp.setNumeroTelefonico(ciudadano.getNumeroTelefonico());
+                    participanteTemp.setEsPresidente("PRESIDENTE");
+                    listParticipante.add(participanteTemp);
+                    model.addAttribute("nuevoPresidente",true);
+                }
+            }catch (NullPointerException e){
+                model.addAttribute("alert","info");
+                model.addAttribute("message","Este comité aún no tiene Presidente");
+                return registerComites(model, authentication);
+            }
+            if(listParticipante.size()<3){
+                model.addAttribute("alert","info");
+                model.addAttribute("message","Los comités deben de tener más de 3 integrantes");
+            }else if(listParticipante.size() > 6){
+                model.addAttribute("alert","error");
+                model.addAttribute("message","Los comités deben de tener máximo 6 integrantes");
+            }
+        }catch (NullPointerException e){
+            model.addAttribute("alert","info");
+            model.addAttribute("message","Este comité aún no tiene integrantes");
+            return registerComites(model, authentication);
+        }
+        model.addAttribute("idcomite", idcomite);
+        model.addAttribute("listParticipante", listParticipante);
+        return registerComites(model, authentication);
     }
 
 }

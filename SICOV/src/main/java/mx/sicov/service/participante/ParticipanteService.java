@@ -1,5 +1,6 @@
 package mx.sicov.service.participante;
 
+import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Participante;
 import mx.sicov.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,14 @@ public class ParticipanteService {
         return participanteRepository.findParticipanteByIdComiteVecinal(idcomite_vecinal);
     }
 
+    public boolean save(Participante participante){
+        try {
+            participanteRepository.saveAndFlush(participante);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

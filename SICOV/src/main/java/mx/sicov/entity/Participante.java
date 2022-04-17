@@ -21,8 +21,7 @@ public class Participante {
     private String numeroTelefonico;
 
     @Lob
-    @Column(nullable = false)
-    @NotBlank(message = "La fotografía es requerida")
+    @Column
     private byte[] fotografia;
 
     @Column(nullable = false, length = 120)
