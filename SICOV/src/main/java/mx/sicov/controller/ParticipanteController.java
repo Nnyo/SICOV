@@ -4,7 +4,6 @@ import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.ComiteVecinal;
 import mx.sicov.entity.Participante;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
-import mx.sicov.service.colonia.ColoniaServiceImpl;
 import mx.sicov.service.comite.ComiteService;
 import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
@@ -39,9 +38,6 @@ public class ParticipanteController {
 
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
-
-    @Autowired
-    private ColoniaServiceImpl coloniaService;
 
     private String fotografiaBlanck(Model model, Authentication authentication){
         model.addAttribute("alert","error");
@@ -107,8 +103,7 @@ public class ParticipanteController {
 
     private String prepareCreateParticipante(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
-        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName());
-        model.addAttribute("municipio",ciudadano.getMunicipio());
+        model.addAttribute("municipio",ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()).getMunicipio());
         return "enlace/createParticipante";
     }
 
@@ -118,10 +113,24 @@ public class ParticipanteController {
         return "enlace/registerComites";
     }
 
+    @PostMapping(value = {"/delete"})
+    public String deletePresidente(Long idparticipante, Long idcomite, Model model, Authentication authentication){
+        try{
+            participanteService.delete(idparticipante);
+            model.addAttribute("alert","success");
+            model.addAttribute("message","El registro ha sido eliminado");
+        }catch (Exception e){
+            model.addAttribute("alert","error");
+            model.addAttribute("message","El registro no se pudo eliminar");
+        }
+        return getStringToNewComite(idcomite, model, authentication);
+    }
+
     public String getStringToNewComite(Long idcomite, Model model, Authentication authentication){
         List<Participante> listParticipante = null;
         try{
             listParticipante = participanteService.findParticipanteByIdComiteVecinal(idcomite);
+            model.addAttribute("listParticipante", listParticipante);
             Ciudadano ciudadano = ciudadanoService.findCiudadanoByIdComiteVecinal(idcomite);
             try{
                 if(ciudadano.getRol().equals("ROLE_PRESIDENTE")){
@@ -134,6 +143,7 @@ public class ParticipanteController {
                     participanteTemp.setEsPresidente("PRESIDENTE");
                     listParticipante.add(participanteTemp);
                     model.addAttribute("nuevoPresidente",true);
+                    model.addAttribute("listParticipante", listParticipante);
                 }
             }catch (NullPointerException e){
                 model.addAttribute("alert","info");

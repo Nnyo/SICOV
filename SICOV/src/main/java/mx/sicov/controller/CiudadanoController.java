@@ -1,7 +1,6 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +28,6 @@ public class CiudadanoController {
     private MunicipioServiceImpl municipioServiceImpl;
 
     @GetMapping(value = {"", "/list"})
-    @Secured("ROLE_ADMINISTRADOR")
     public String listarCiudadanos(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         return getString(model);
@@ -41,7 +39,6 @@ public class CiudadanoController {
     }
 
     @GetMapping(value = {"/create"})
-    @Secured("ROLE_ADMINISTRADOR")
     public String crearCiudadano(Authentication authentication, Model model) {
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());
@@ -50,7 +47,6 @@ public class CiudadanoController {
     }
 
     @PostMapping(value = {"/save"})
-    @Secured("ROLE_ADMINISTRADOR")
     public String saveCiudadano(Authentication authentication, @Valid @ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult result, Model model, @RequestParam("file") MultipartFile imagen) {
         Long id = ciudadano.getIdciudadano();
         model.addAttribute("role",authentication.getAuthorities().toString());
@@ -96,7 +92,6 @@ public class CiudadanoController {
     }
 
     @PostMapping(value = {"/delete"})
-    @Secured("ROLE_ADMINISTRADOR")
 	public String deleteCiudadano(@PathVariable long idciudadano, Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
 		ciudadanoServiceImpl.delete(idciudadano);
@@ -104,7 +99,6 @@ public class CiudadanoController {
 	}
 
     @GetMapping(value = {"/update/{idciudadano}"})
-    @Secured("ROLE_ADMINISTRADOR")
 	public String updateCiudadano(@PathVariable long idciudadano,Authentication authentication,Model model){
 		Ciudadano ciudadano = ciudadanoServiceImpl.findById(idciudadano);
 		if (ciudadano != null) {

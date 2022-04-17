@@ -1,5 +1,6 @@
 package mx.sicov.controller;
 
+import com.sun.net.httpserver.HttpServer;
 import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comite;
 import mx.sicov.entity.ComiteVecinal;
@@ -11,12 +12,14 @@ import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 import mx.sicov.service.participante.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -86,7 +89,7 @@ public class ComiteController {
             model.addAttribute("message","Comite eliminado");
         }catch (Exception e){
             model.addAttribute("alert","error");
-            model.addAttribute("message","Error al eliminar el comité");
+            model.addAttribute("message","Primero debes de eliminar a los miembros de este comité");
         }
         return getString(model, authentication);
     }
@@ -117,21 +120,25 @@ public class ComiteController {
     public String savePresidente(Long idcomite, Authentication authentication, @Valid @ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult result, Model model, @RequestParam("file") MultipartFile imagen) {
         model.addAttribute("idcomite", idcomite);
         Long id = ciudadano.getIdciudadano();
+        ciudadano.setIdciudadano(id);
+        model.addAttribute("ciudadano", ciudadano);
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("municipio",ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()).getMunicipio());
         try{
-            ciudadano.setFotografia(imagen.getBytes());
+            if(imagen.isEmpty()){
+                return fotografiaBlanck(model, authentication);
+            }else{
+                ciudadano.setFotografia(imagen.getBytes());
+            }
         }catch (Exception e){
-            e.printStackTrace();
+            return fotografiaBlanck(model, authentication);
         }
         if(result.hasErrors()){
             String errors = "";
             for (ObjectError error: result.getAllErrors()){
                 errors = errors + error.getDefaultMessage() + "--";
             }
-            ciudadano.setIdciudadano(id);
             model.addAttribute("errors", errors);
-            model.addAttribute("ciudadano", ciudadano);
             return "/enlace/createPresidente";
         }
         if(id != null)
@@ -154,6 +161,32 @@ public class ComiteController {
         }catch (Exception e){
             return returnException(ciudadano, model);
         }
+    }
+
+    @PostMapping(value = {"/deletePresidente"})
+    public String deletePresidente(Long idpresidente, Long idcomite, Model model, Authentication authentication){
+        try{
+            Ciudadano ciudadano = ciudadanoService.findById(idpresidente);
+            if(ciudadano.getRol().equals("ROLE_PRESIDENTE")){
+                if(ciudadanoService.delete(idpresidente)){
+                    model.addAttribute("alert","success");
+                    model.addAttribute("message","El Presidente ha sido eliminado");
+                }else{
+                    model = errorToDeletePresidente(model);
+                }
+            }else{
+                return "Error403";
+            }
+        }catch (Exception e){
+            model = errorToDeletePresidente(model);
+        }
+        return getStringToNewComite(idcomite, model, authentication);
+    }
+
+    private Model errorToDeletePresidente(Model model){
+        model.addAttribute("alert","error");
+        model.addAttribute("message","No se ha podido eliminar al Presidente");
+        return model;
     }
 
     private String returnException(Ciudadano ciudadano, Model model){
@@ -181,6 +214,7 @@ public class ComiteController {
         List<Participante> listParticipante = null;
         try{
             listParticipante = participanteService.findParticipanteByIdComiteVecinal(idcomite);
+            model.addAttribute("listParticipante", listParticipante);
             Ciudadano ciudadano = ciudadanoService.findCiudadanoByIdComiteVecinal(idcomite);
             try{
                 if(ciudadano.getRol().equals("ROLE_PRESIDENTE")){
@@ -190,9 +224,11 @@ public class ComiteController {
                     participanteTemp.setPrimerApellido(ciudadano.getPrimerApellido());
                     participanteTemp.setSegundoApellido(ciudadano.getSegundoApellido());
                     participanteTemp.setNumeroTelefonico(ciudadano.getNumeroTelefonico());
+                    participanteTemp.setIdparticipante(ciudadano.getIdciudadano());
                     participanteTemp.setEsPresidente("PRESIDENTE");
                     listParticipante.add(participanteTemp);
                     model.addAttribute("nuevoPresidente",true);
+                    model.addAttribute("listParticipante", listParticipante);
                 }
             }catch (NullPointerException e){
                 model.addAttribute("alert","info");
@@ -212,8 +248,13 @@ public class ComiteController {
             return registerComites(model, authentication);
         }
         model.addAttribute("idcomite", idcomite);
-        model.addAttribute("listParticipante", listParticipante);
         return registerComites(model, authentication);
+    }
+
+    private String fotografiaBlanck(Model model, Authentication authentication){
+        model.addAttribute("alert","error");
+        model.addAttribute("message","La fotografía es requerida");
+        return "enlace/createPresidente";
     }
 
 }

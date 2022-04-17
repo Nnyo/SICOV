@@ -28,4 +28,8 @@ public class ParticipanteService {
         }
     }
 
+    public void delete(long participante) {
+        participanteRepository.deleteById(participante);
+    }
+
 }

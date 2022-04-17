@@ -82,7 +82,7 @@ public class CiudadanoServiceImpl implements CiudadanoService {
 		boolean exist = ciudadanoRepository.existsById(idciudadano);
 		if(exist){
 			ciudadanoRepository.deleteById(idciudadano);
-			return ciudadanoRepository.existsById(idciudadano);
+			return true;
 		}
 		return false;
 	}

@@ -35,10 +35,9 @@
         <h5 class="card-title">Nombre: <span th:text="${comite.nombre}"/></h5>
         <p class="card-text">Colonia: <span th:text="${comite.colonia.nombre}"/></p>
         <div class="text-center">
-          <a class="btn btnRegistrar mt-3" href="#">Detalles</a>
-          <a class="btn btnCancelar mt-3" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarComite([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
-          <a class="btn btnRegistrar mt-3" style="color: white;" data-toggle="modal" data-target="#eliminarComite" th:onclick="eliminarComite([[(${comite.idcomite})]])">Eliminar</a>
-          <a class="btn btnRegistrar mt-1" th:href="@{/comite/editar/{idcomite} (idcomite=${comite.idcomite})}">Gestionar participantes</a>
+          <a class="btn btnRegistrar mt-3" style="color: white;" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarComite([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
+          <a class="btn btnRegistrar mt-3" style="color: white;background-color: firebrick" data-toggle="modal" data-target="#eliminarComite" th:onclick="eliminarComite([[(${comite.idcomite})]])">Eliminar</a>
+          <a class="btn btnRegistrar mt-3" th:href="@{/comite/editar/{idcomite} (idcomite=${comite.idcomite})}">Miembros</a>
         </div>
       </div>
     </div>
@@ -116,20 +115,20 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabelEliminar">Eliminar Colonia</h5>
+                <h5 class="modal-title" id="modalLabelEliminar">Eliminar Comité</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/comite/delete}" method="POST">
+                <form th:action="@{/comite/delete}" method="post">
                     <input type="text" id="idComiteEliminar" name="idcomite" hidden>
                     <div class="form-group col text-center">
                         <image src="./../images/warning.png" width="40%" height="40%"/>
                         <h4>¿Estás seguro que deseas eliminar el registro?</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-opciones btnRegistrar">
+                        <button type="submit" style="color: white;background-color: firebrick" class="btn btn-opciones btnRegistrar">
                             Eliminar
                         </button>
                         <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>

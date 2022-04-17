@@ -47,7 +47,7 @@
                                    data-toggle="modal" data-target="#actualizarColonia">
                                     <ion-icon name="create"></ion-icon>
                                 </a>
-                                <a class="btn btn-opciones" th:onclick="eliminarColonia([[${colonia.idcolonia}]])"
+                                <a class="btn btn-opciones" style="color: white;background-color: firebrick" th:onclick="eliminarColonia([[${colonia.idcolonia}]])"
                                    data-toggle="modal" data-target="#eliminarColonia">
                                     <ion-icon name="trash"></ion-icon>
                                 </a>
@@ -72,7 +72,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/colonia/save}" method="POST">
+                <form th:action="@{/colonia/save}" method="post">
                     <div class="form-group col">
                         <label for="nombreColonia">Nombre de la Colonia</label>
                         <input name="nombre" id="nombreColonia" type="text" placeholder="Escribe la Colonia" class="form-control form-control-lg"/>
