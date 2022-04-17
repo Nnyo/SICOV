@@ -18,21 +18,38 @@
                     <div class="card-body">
                         <h2 style="text-align: center;">Listado de Solicitudes</h2>
                         <h5>Municipio: <span th:text="${municipio}"/></h5>
+                        <table class="table mt-4">
+                            <thead class="text-center">
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Estatus</th>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Fecha de registro</th>
+                                <th colspan="3">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-center">
+                            <tr th:each="solicitud,contador : ${listSolicitudes}">
+                                <td th:text="${contador.count}"></td>
+                                <td th:text="${solicitud.categoria.nombre}"></td>
+                                <td class="justify-content-center" th:text="${solicitud.descripcion}"></td>
+                                <td th:switch="${solicitud.estado}">
+                                    <span th:case="0">Pendiente</span>
+                                    <span th:case="1">Canalizada</span>
+                                    <span th:case="2">Atendida</span>
+                                    <span th:case="3">Cancelada</span>
+                                </td>
+                                <td th:text="${solicitud.ciudadano.nombre} + ' ' + ${solicitud.ciudadano.primerApellido} + ' ' + ${solicitud.ciudadano.segundoApellido}"></td>
+                                <td th:text="${solicitud.fechaRegistro}"></td>
+                                <td ></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row ml-1">
-            <div class="card col-4 col-sm-6 col-lg-3 mt-2" style="background-color: #D3D3D3">
-					<div class="card-body">
-					  <h5 class="card-title">Título Solicitud</h5>
-					  <p class="card-text">Descripción:</p>
-					  <p class="card-text">Estatus:</p>
-					  <p class="card-text">Monto</p>
-                      <a class="btn btnRegistrar mt-3" href="#">Ver Detalles</a>
-                      <a class="btn btnCancelar mt-3" href="#">Editar</a>
-				   </div>
-			   </div>
         </div>
     </div>
 </body>

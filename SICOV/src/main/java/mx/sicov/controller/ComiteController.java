@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -90,13 +89,6 @@ public class ComiteController {
             model.addAttribute("message","Primero debes de eliminar a los miembros de este comité");
         }
         return getString(model, authentication);
-    }
-
-    @GetMapping("/solicitudes")
-    public String listarSolicitudes(Model model, Authentication authentication){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
-        return "enlace/requestsComites";
     }
 
     @GetMapping("/nuevoPresidente/{idcomite}")

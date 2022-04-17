@@ -28,18 +28,13 @@ public class Incidencia {
     private Integer estado;
 
     @Column
-    @Temporal(TemporalType.TIMESTAMP)
-    @NotNull(message = "La fecha es requerida")
+    @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
 
     @Column
-    @NotNull(message = "El costo es requerida")
-    @DecimalMax("10000.0")
-    @DecimalMin("0.0") 
     private Double costo;
 
     @Column(columnDefinition = "tinyint not null")
-    @NotNull
     private Integer estaPagado;
 
     @ManyToOne
@@ -48,9 +43,12 @@ public class Incidencia {
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "comiteVecinal_idcomiteVecinal", nullable = false)
-    @NotNull(message = "El comité vecinal es requerido")
-    private ComiteVecinal comiteVecinal;
+    @JoinColumn(name = "comite_idcomite")
+    private Comite comite;
+
+    @ManyToOne
+    @JoinColumn(name = "ciudadano_idciudadano")
+    private Ciudadano ciudadano;
 
     public Incidencia() {
     }

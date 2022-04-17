@@ -1,12 +1,10 @@
 package mx.sicov.service.participante;
 
-import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Participante;
 import mx.sicov.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Part;
 import java.util.List;
 import java.util.Optional;
 

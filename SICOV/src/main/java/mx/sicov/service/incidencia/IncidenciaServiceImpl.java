@@ -16,9 +16,15 @@ public class IncidenciaServiceImpl implements IncidenciaService{
     private IncidenciaRepository incidenciaRepository;
 
     @Override
-    public List<Incidencia> findIncidenciaByMunicipio(String municipio){
+    public List<Incidencia> findIncidenciaByMunicipio(Long municipio){
         return incidenciaRepository.findIncidenciaByMunicipio(municipio);
     }
+
+    @Override
+    public List<Incidencia> listAll() {
+        return null;
+    }
+
     @Override
     public Incidencia findById(Long idincidencia){
         Optional<Incidencia> optional = incidenciaRepository.findById(idincidencia);

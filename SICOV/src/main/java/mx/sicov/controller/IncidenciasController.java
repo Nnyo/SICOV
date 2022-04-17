@@ -8,6 +8,9 @@ import java.util.Date;
 
 import javax.validation.Valid;
 
+import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
+import mx.sicov.service.comitevecinal.ComiteVecinalService;
+import mx.sicov.service.municipio.MunicipioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -22,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import mx.sicov.service.incidencia.IncidenciaServiceImpl;
 import mx.sicov.entity.Incidencia;
-import mx.sicov.service.categoria.CategoriaServiceImpl;
 
 @Controller
 @RequestMapping(value = {"/incidencias"})
@@ -32,19 +34,7 @@ public class IncidenciasController {
     private IncidenciaServiceImpl incidenciaServiceImpl;
     
     @Autowired
-    private IncidenciaService incidenciaService;
-
-    @Autowired
-    private CategoriaServiceImpl categoriaServiceImpl;
-    
-    @Autowired
-    private CategoriaService categoriaService;
-    
-    @Autowired
     private CiudadanoServiceImpl ciudadanoService;
-
-    @Autowired
-    private CiudadanoServiceImpl ciudadanoServiceImpl;
 
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
@@ -52,14 +42,20 @@ public class IncidenciasController {
     @Autowired
     private ComiteVecinalService comiteVecinalService;
 
+    @GetMapping("/solicitudes")
+    public String listarSolicitudes(Model model, Authentication authentication) {
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        Long idmunicipio = ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName());
+        model.addAttribute("municipio", municipioServiceImpl.findById(idmunicipio).getNombre());
+        model.addAttribute("listSolicitudes",incidenciaServiceImpl.findIncidenciaByMunicipio(idmunicipio));
+        return "enlace/requestsComites";
+    }
 
     private String getListIncidencia(Model model, Authentication authentication) {
         model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
         model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listComiteVecinal",comiteVecinalService.findById(municipioServiceImpl
-        		.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getIdmunicipio()));
-        model.addAttribute("listIncidencias",incidenciaServiceImpl.findIncidenciaByMunicipio(municipioServiceImpl
-        		.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre()));
+        model.addAttribute("listComiteVecinal",comiteVecinalService.findById(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getIdmunicipio()));
+        //model.addAttribute("listIncidencias",incidenciaServiceImpl.findIncidenciaByMunicipio(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre(),1L));
         model.addAttribute("listCiudadano", ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()));
         return "enlace/listComite";
     }
@@ -80,22 +76,17 @@ public class IncidenciasController {
             return getListIncidencia(model, authentication);
         }
         Long id = incidencia.getIdincidencia();
-
         SimpleDateFormat d = new SimpleDateFormat("dd-MM-yyyy");
-
         if(incidenciaServiceImpl.save(incidencia)){
             model.addAttribute("alert","success");
             if(id == null){
-
                 LocalDateTime ldt = LocalDateTime.now();
 			    DateTimeFormatter formmat1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			    Date date = d.parse(formmat1.format(ldt));
 			    incidencia.setFechaRegistro(date);
-
                 incidencia.setCosto(0.0);
                 incidencia.setEstado(2);
                 incidencia.setEstaPagado(0);
-
                 model.addAttribute("message","Incidencia registrada");
             }else{
                 model.addAttribute("message","Incidencia actualizado");
@@ -120,12 +111,6 @@ public class IncidenciasController {
             return "incidencia/list";
         }
         return getListIncidencia(model, authentication);
-    }
-
-    @GetMapping("/comentario")
-    public String verComentario(Authentication authentication, Model model){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        return "incidencia/verComentario";
     }
 
     @GetMapping("/detalles")

@@ -7,6 +7,7 @@ import mx.sicov.entity.Incidencia;
 public interface IncidenciaService {
 
     List<Incidencia> listAll();
+    List<Incidencia> findIncidenciaByMunicipio(Long municipio);
     Incidencia findById(Long idincidencia);
     boolean save(Incidencia incidencia);
     boolean update(Incidencia incidencia);

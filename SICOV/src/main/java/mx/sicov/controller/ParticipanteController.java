@@ -17,7 +17,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.Part;
 import javax.validation.Valid;
 import java.util.List;
 
