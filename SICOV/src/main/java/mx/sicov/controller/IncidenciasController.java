@@ -44,12 +44,42 @@ public class IncidenciasController {
 
     @GetMapping("/solicitudes")
     public String listarSolicitudes(Model model, Authentication authentication) {
+        return listar(model, authentication);
+    }
+
+    private String listar(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         Long idmunicipio = ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName());
         model.addAttribute("municipio", municipioServiceImpl.findById(idmunicipio).getNombre());
         model.addAttribute("listSolicitudes",incidenciaServiceImpl.findIncidenciaByMunicipio(idmunicipio));
         return "enlace/requestsComites";
     }
+
+    @PostMapping("/updateSolicitud")
+    public String updateIncidencia(Long idincidencia, Double costo, Integer estadoActualizar, Model model, Authentication authentication){
+        try{
+            Incidencia incidencia = incidenciaServiceImpl.findById(idincidencia);
+            incidencia.setCosto(costo);
+            incidencia.setEstado(estadoActualizar);
+            if(incidenciaServiceImpl.update(incidencia)){
+                model.addAttribute("alert","success");
+                model.addAttribute("message","Solicitud actualizada");
+            }else{
+                model = updateError(model);
+            }
+        }catch (Exception e){
+            model = updateError(model);
+        }
+        return listar(model, authentication);
+    }
+
+    private Model updateError(Model model){
+        model.addAttribute("alert","error");
+        model.addAttribute("message","La solicitud no se ha podido actualizar");
+        return model;
+    }
+
+    //CORREGIR A PARTIR DE AQUÍ -> REESTRUCTURAR A LO ACORDADO
 
     private String getListIncidencia(Model model, Authentication authentication) {
         model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());

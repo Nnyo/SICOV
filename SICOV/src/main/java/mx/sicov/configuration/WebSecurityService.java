@@ -35,6 +35,7 @@ public class WebSecurityService extends WebSecurityConfigurerAdapter{
             .antMatchers("/municipio/**").hasRole("ADMINISTRADOR")
             .antMatchers("/servicios_publicos/**").hasRole("ADMINISTRADOR")
             .antMatchers("/ciudadano/**").hasRole("ADMINISTRADOR")
+            .antMatchers("/categoria/**").hasRole("ADMINISTRADOR")
             .anyRequest().authenticated()
             .and().formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/home")

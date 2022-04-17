@@ -53,8 +53,8 @@ public class IncidenciaServiceImpl implements IncidenciaService{
             return false;
         }
         Incidencia update = optIncidencia.get();
-        update = incidenciaRepository.saveAndFlush(update);
-        return update != null ? true : false;
+        incidenciaRepository.saveAndFlush(update);
+        return true;
     }
 
     @Override

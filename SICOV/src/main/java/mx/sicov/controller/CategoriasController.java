@@ -1,7 +1,6 @@
 package mx.sicov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +21,6 @@ public class CategoriasController {
     private CategoriaServiceImpl categoriaServiceImpl;
 
     @GetMapping(value = {"", "/list"})
-    @Secured("ROLE_ADMINISTRADOR")
     public String listarServicios(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listCategoria", categoriaServiceImpl.listAll());
@@ -30,7 +28,6 @@ public class CategoriasController {
     }
 
     @PostMapping("/save")
-    @Secured("ROLE_ADMINISTRADOR")
     public String saveCategoria(Authentication authentication, @Valid @ModelAttribute("categoria") Categoria categoria, BindingResult result, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
         if(result.hasErrors()){
@@ -63,7 +60,6 @@ public class CategoriasController {
     }
 
     @GetMapping("/update/{idcategoria}")
-    @Secured("ROLE_ADMINISTRADOR")
     public String update(@PathVariable long idcategoria, Model model, Authentication authentication){
         Categoria categoria = categoriaServiceImpl.findById(idcategoria);
         if(categoria != null){
@@ -77,7 +73,6 @@ public class CategoriasController {
     }
 
     @PostMapping("/delete")
-    @Secured("ROLE_ADMINISTRADOR")
     public String deleteCategoria(Long idcategoria, Authentication authentication, Model model){
         if(categoriaServiceImpl.delete(idcategoria)){
             model.addAttribute("message","Servicio Público eliminado");

@@ -96,7 +96,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
+                    <form method="post" th:action="@{/incidencias/updateSolicitud}">
                         <input type="text" id="idincidencia" name="idincidencia" hidden>
                         <div class="form-group col">
                             <label for="costo" class="col-form-label">Costo</label>
@@ -104,18 +104,18 @@
                         </div>
                         <div class="form-group col">
                             <label for="estadoActualizar" class="col-form-label">Estatus</label>
-                            <select class="form-control form-control-lg" id="estadoActualizar" aria-label="Default select example">
+                            <select class="form-control form-control-lg" id="estadoActualizar" name="estadoActualizar" aria-label="Default select example">
                                 <option value="0">Pendiente</option>
                                 <option value="1">Canalizada</option>
                                 <option value="2">Atendida</option>
                                 <option value="3">Cancelada</option>
                             </select>
                         </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btnRegistrar">Actualizar</button>
+                            <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btnRegistrar">Actualizar</button>
-                    <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
