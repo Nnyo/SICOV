@@ -8,7 +8,6 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
     <link rel="stylesheet" th:href="@{/css/recursos.css}" />
-
 </head>
 <body>
   <div class="container-fluid">    
@@ -16,44 +15,36 @@
       <div class="row">
       <div class="col">
           <div class="card mt-12">
-             
         <div class="card-body">
           <h2 style="text-align: center;">Comentarios</h2>
-          <!-- <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
-               <ion-icon name="pencil"></ion-icon>&nbsp;Nueva Categor�a
-           </a>-->
-           <a th:href="@{/incidencias/list}" type="button" class="btn btn-lg btn-registro mb-3 float-left" style="color: white;">
-     Regresar
-            </a>
-            <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
+          <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
             data-toggle="modal" data-target="#exampleModal">
           Agregar comentario
           </button>
-
+          <a th:href="@{/incidencias/solicitudes}" type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+            Regresar
+          </a>
           <table class="table">
             <thead class="text-center">
             <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Comentario</th>
+              <th scope="col">No.</th>
+              <th scope="col" style="width: 400px">Comentario</th>
               <th scope="col">Persona que registro</th>
               <th scope="col">Fecha de registro</th>
-              <th scope="col">Anexos (imagnes o PDF)</th>
-             
-            
-          
-              
-
+              <th scope="col">Anexo</th>
             </tr>
             </thead>
             <tbody class="text-center">
-            <tr>
-              <td scope="row">1</td>
-              <td>casos nuevos de una enfermedad</td>
-              <td>Michelle Gonzalez</td>
-              <td>22-03-22</td>
-              <td><a type="button"  th:href="@{/incidencias/anexos}"><image src="./../images/user.png" width="50" height="50"/></a></td>
-
-              
+            <tr th:each="comentario,contador : ${listComentario}">
+              <td th:text="${contador.count}"></td>
+              <td th:text="${comentario.comentario}"></td>
+              <td th:text="${comentario.ciudadano.nombre} + ' ' + ${comentario.ciudadano.primerApellido} + ' ' + ${comentario.ciudadano.segundoApellido}"></td>
+              <td th:text="${comentario.fechaRegistro}"></td>
+              <td>
+                <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#anexo" >
+                  <ion-icon name="newspaper-outline"></ion-icon>
+                </a>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -77,22 +68,19 @@
             <label for="message-text" class="col-form-label">Comentario</label>
             <textarea class="form-control"></textarea>
           </div>
-         
           <div class="form-group">
             <label for="adjunto">Anexos (Imagenes o PDF)</label>
             <input type="file" id="adjunto" name="adjunto" accept=".pdf,.jpg,.png" multiple />
           </div>
-
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-registro" style="background-color: #74839B;">Guardar</button>
-        <button type="button" class="btn btn-secondary" style="background-color: #973333" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btnRegistrar">Guardar</button>
+        <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
 </div>
-
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

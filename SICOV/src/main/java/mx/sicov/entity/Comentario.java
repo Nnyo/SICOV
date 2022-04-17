@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @Entity
@@ -18,8 +19,12 @@ public class Comentario {
     @NotBlank(message = "El comentario es requerido")
     private String comentario;
 
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date fechaRegistro;
+
     @Lob
-    @Column(nullable = false)
+    @Column()
     private byte[] anexo;
 
     @ManyToOne

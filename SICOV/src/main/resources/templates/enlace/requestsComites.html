@@ -26,13 +26,12 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Categoría</th>
-                                <th scope="col">Descripción</th>
+                                <th scope="col" style="width: 350px">Descripción</th>
                                 <th scope="col">Estatus</th>
                                 <th scope="col">Solicitante</th>
                                 <th scope="col">Comité</th>
-                                <th scope="col">Fecha de registro</th>
-                                <th scope="col">Anexo</th>
-                                <th scope="col">Editar</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col" colspan="3">Acciones</th>
                             </tr>
                             </thead>
                             <tbody class="text-center">
@@ -53,8 +52,9 @@
                                     <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#anexo" >
                                         <ion-icon name="newspaper-outline"></ion-icon>
                                     </a>
-                                </td>
-                                <td>
+                                    <a class="btn btn-opciones" type="button" th:href="@{/comentarios/ver/{idincidencia} (idincidencia=${solicitud.idincidencia})}">
+                                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                                    </a>
                                     <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#actualizar" th:onclick="actualizarIncidencia([[(${solicitud.idincidencia})]],[[(${solicitud.costo})]],[[(${solicitud.estado})]])">
                                         <ion-icon name="create"></ion-icon>
                                     </a>
