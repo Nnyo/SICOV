@@ -1,10 +1,10 @@
 package mx.sicov.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -21,6 +21,7 @@ public class Comentario {
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date fechaRegistro;
 
     @Lob
@@ -28,13 +29,11 @@ public class Comentario {
     private byte[] anexo;
 
     @ManyToOne
-    @JoinColumn(name = "incidencia_idincidencia", nullable = false)
-    @NotNull(message = "La incidencia es requerida")
+    @JoinColumn(name = "incidencia_idincidencia")
     private Incidencia incidencia;
 
     @ManyToOne
-    @JoinColumn(name = "ciudadano_idciudadano", nullable = false)
-    @NotNull(message = "El ciudadano es requerido")
+    @JoinColumn(name = "ciudadano_idciudadano")
     private Ciudadano ciudadano;
 
 }

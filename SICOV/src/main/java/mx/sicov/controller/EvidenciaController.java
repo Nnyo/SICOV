@@ -3,7 +3,6 @@ package mx.sicov.controller;
 import mx.sicov.entity.Evidencia;
 import mx.sicov.entity.Incidencia;
 import mx.sicov.service.evidencia.EvidenciaService;
-import mx.sicov.service.incidencia.IncidenciaService;
 import mx.sicov.service.incidencia.IncidenciaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

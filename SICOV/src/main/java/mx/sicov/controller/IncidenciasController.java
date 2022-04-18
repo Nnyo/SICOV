@@ -79,6 +79,12 @@ public class IncidenciasController {
         return model;
     }
 
+    @GetMapping("/anexos")
+    public String verAnexos(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        return "incidencia/verAnexos";
+    }
+
     //CORREGIR A PARTIR DE AQUÍ -> REESTRUCTURAR A LO ACORDADO
 
     private String getListIncidencia(Model model, Authentication authentication) {
@@ -88,11 +94,6 @@ public class IncidenciasController {
         //model.addAttribute("listIncidencias",incidenciaServiceImpl.findIncidenciaByMunicipio(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre(),1L));
         model.addAttribute("listCiudadano", ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()));
         return "enlace/listComite";
-    }
-
-    @GetMapping(value = { "/list"})
-    public String listarIncidencias(Authentication authentication, Model model){
-        return getListIncidencia(model, authentication);
     }
 
     @PostMapping("/save")
@@ -143,15 +144,5 @@ public class IncidenciasController {
         return getListIncidencia(model, authentication);
     }
 
-    @GetMapping("/detalles")
-    public String verDetalles(Authentication authentication, Model model){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        return "incidencia/VerDetalles";
-    }
-    @GetMapping("/anexos")
-    public String verAnexos(Authentication authentication, Model model){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        return "incidencia/verAnexos";
-    }
 
 }

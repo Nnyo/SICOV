@@ -44,4 +44,9 @@ public class Handler {
         return "Error404";
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public String illegalStateException(){
+        return "Error500";
+    }
+
 }
