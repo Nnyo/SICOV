@@ -45,7 +45,7 @@
               <td th:text="${comentario.ciudadano.nombre} + ' ' + ${comentario.ciudadano.primerApellido} + ' ' + ${comentario.ciudadano.segundoApellido}"></td>
               <td th:text="${comentario.fechaRegistro}"></td>
               <td>
-                <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#anexo" >
+                <a class="btn btn-opciones" type="button" th:href="@{/comentarios/anexo/{idcomentario}/{idincidencia} (idcomentario=${comentario.idcomentario}, idincidencia=${idincidencia})}">
                   <ion-icon name="newspaper-outline"></ion-icon>
                 </a>
               </td>

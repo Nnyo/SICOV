@@ -1,6 +1,5 @@
 package mx.sicov.controller;
 
-import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comentario;
 import mx.sicov.entity.Incidencia;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
@@ -10,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -75,6 +72,41 @@ public class ComentarioController {
             model.addAttribute("message","El comentario no se ha podido registrar");
         }
         return getStringComentarioEnlace(idincidencia, model, authentication);
+    }
+
+    @GetMapping("/verAnexo/{idcomentario}/{idincidencia}")
+    public String verAnexo(@PathVariable Long idcomentario, @PathVariable Long idincidencia, Model model, Authentication authentication){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        model.addAttribute("idcomentario",idcomentario);
+        model.addAttribute("idincidencia",idincidencia);
+        Comentario comentario = comentarioService.findById(idcomentario);
+        String base64 = Base64.getEncoder().encodeToString(comentario.getAnexo());
+        if(!base64.substring(0,5).equals("JVBER")){
+            base64 = "data:image/jpeg;base64," + base64;
+        }else{
+            base64 = "data:application/pdf;base64," + base64;
+        }
+        model.addAttribute("anexo", base64);
+        return "comentario/verAnexo";
+    }
+
+    @GetMapping("/anexo/{idcomentario}/{idincidencia}")
+    public String redAnexo(@PathVariable Long idcomentario, @PathVariable Long idincidencia, Model model, Authentication authentication){
+        Comentario comentario = comentarioService.findById(idcomentario);
+        try{
+            if(comentario.getAnexo().toString().length() != 0){
+                return "redirect:/comentarios/verAnexo/"+idcomentario+"/"+idincidencia;
+            }
+        }catch (NullPointerException e){
+            model = comentarioSinAnexo(model);
+        }
+        return getStringComentarioEnlace(idincidencia, model, authentication);
+    }
+
+    private Model comentarioSinAnexo(Model model){
+        model.addAttribute("alert","info");
+        model.addAttribute("message","Este comentario no tiene ningún anexo");
+        return model;
     }
 
 

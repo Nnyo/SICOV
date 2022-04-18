@@ -27,14 +27,14 @@ public class EvidenciaController {
     IncidenciaServiceImpl incidenciaService;
 
     @GetMapping("/ver/{idincidencia}")
-    public String update(@PathVariable long idincidencia, Model model, Authentication authentication){
+    public String verAnexo(@PathVariable long idincidencia, Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         Incidencia incidencia = incidenciaService.findById(idincidencia);
         List<Evidencia> evidencia = evidenciaService.findEvidenciaByIncidencia(incidencia);
         List<String> listEvidencia = new ArrayList<String>();
         for (int i = 0; i != evidencia.size(); i++){
             String base64 = Base64.getEncoder().encodeToString(evidencia.get(i).getEvidencia());
-            if(base64.charAt(0) == '/'){
+            if(!base64.substring(0,5).equals("JVBER")){
                 base64 = "data:image/jpeg;base64," + base64;
             }else{
                 base64 = "data:application/pdf;base64," + base64;
