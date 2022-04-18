@@ -21,6 +21,11 @@ public class MunicipioController {
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     private String getListMunicipio(Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listMunicipio", municipioServiceImpl.listAll());

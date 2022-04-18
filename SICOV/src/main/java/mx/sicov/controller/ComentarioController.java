@@ -28,6 +28,11 @@ public class ComentarioController {
     @Autowired
     IncidenciaServiceImpl incidenciaService;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping("/ver/{idincidencia}")
     public String findComentarybyIdIncidencia(@PathVariable Long idincidencia, Model model, Authentication authentication){
         return getStringComentarioEnlace(idincidencia, model, authentication);

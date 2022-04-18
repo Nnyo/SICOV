@@ -44,6 +44,11 @@ public class ComiteController {
     @Autowired
     private ParticipanteService participanteService;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping(value = {"", "/list"})
     public String listarComite(Model model, Authentication authentication){
         return getString(model, authentication);

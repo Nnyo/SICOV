@@ -29,6 +29,11 @@ public class ColoniaController {
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping(value = {"", "/list"})
     public String listarColonia(Model model, Authentication authentication){
         return getString(model, authentication);

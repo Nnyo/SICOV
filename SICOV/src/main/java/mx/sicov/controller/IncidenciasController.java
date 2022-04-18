@@ -42,6 +42,11 @@ public class IncidenciasController {
     @Autowired
     private ComiteVecinalService comiteVecinalService;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping("/solicitudes")
     public String listarSolicitudes(Model model, Authentication authentication) {
         return listar(model, authentication);

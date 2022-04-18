@@ -20,6 +20,11 @@ public class CategoriasController {
     @Autowired
     private CategoriaServiceImpl categoriaServiceImpl;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping(value = {"", "/list"})
     public String listarServicios(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());

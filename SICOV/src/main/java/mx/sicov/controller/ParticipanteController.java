@@ -39,6 +39,11 @@ public class ParticipanteController {
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     private String fotografiaBlanck(Model model, Authentication authentication){
         model.addAttribute("alert","error");
         model.addAttribute("message","La fotografía es requerida");

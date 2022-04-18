@@ -21,6 +21,11 @@ public class UpdatePasswordController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping("/update")
     public String modificarPassword(Authentication authentication, Model model){
         return getString(model, authentication);

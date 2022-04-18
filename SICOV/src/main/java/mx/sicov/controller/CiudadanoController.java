@@ -27,6 +27,11 @@ public class CiudadanoController {
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping(value = {"", "/list"})
     public String listarCiudadanos(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());

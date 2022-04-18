@@ -26,6 +26,11 @@ public class EvidenciaController {
     @Autowired
     IncidenciaServiceImpl incidenciaService;
 
+    @GetMapping("/*")
+    public String handle() {
+        return "Error404";
+    }
+
     @GetMapping("/ver/{idincidencia}")
     public String verAnexo(@PathVariable long idincidencia, Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());
