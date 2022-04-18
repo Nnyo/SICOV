@@ -17,7 +17,7 @@
 				<div class="card mt-3">
 					<div class="card-body">
 						<h2 class="mb-3">Nuevo Municipio</h2>
-						<form th:action="@{/municipio/save}" method="POST" th:object="${municipio}">
+						<form th:action="@{/municipio/save}" method="post" th:object="${municipio}">
 							<input th:field="*{idmunicipio}" type="hidden">
 							<div class="form-row">
 								<div class="form-group col">

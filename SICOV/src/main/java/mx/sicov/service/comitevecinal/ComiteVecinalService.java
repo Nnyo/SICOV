@@ -1,10 +1,12 @@
 package mx.sicov.service.comitevecinal;
 
+import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.ComiteVecinal;
 import mx.sicov.repository.ComiteVecinalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +35,10 @@ public class ComiteVecinalService {
             return optional.get();
         }
         return null;
+    }
+
+    public List<ComiteVecinal> findComiteVecinalByCiudadano(Ciudadano ciudadano){
+        return comiteVecinalRepository.findComiteVecinalByCiudadano(ciudadano);
     }
 
 }

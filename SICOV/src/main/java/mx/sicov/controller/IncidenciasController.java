@@ -1,15 +1,12 @@
 package mx.sicov.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import javax.validation.Valid;
 
-import mx.sicov.entity.Ciudadano;
+import mx.sicov.entity.*;
+import mx.sicov.service.categoria.CategoriaServiceImpl;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
+import mx.sicov.service.comite.ComiteService;
 import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +18,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import mx.sicov.service.incidencia.IncidenciaServiceImpl;
-import mx.sicov.entity.Incidencia;
 
 @Controller
 @RequestMapping(value = {"/incidencias"})
@@ -43,6 +38,12 @@ public class IncidenciasController {
 
     @Autowired
     private ComiteVecinalService comiteVecinalService;
+
+    @Autowired
+    private CategoriaServiceImpl categoriaService;
+
+    @Autowired
+    private ComiteService comiteService;
 
     @GetMapping("/*")
     public String handle() {
@@ -92,70 +93,79 @@ public class IncidenciasController {
 
     @GetMapping("/list")
     public String listIncidenciasByPresidente(Authentication authentication, Model model){
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName());
-        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadano.getMunicipio().getIdmunicipio()).getNombre());
-        model.addAttribute("listSolicitudes",incidenciaServiceImpl.findIncidenciaByIdCiudadano(ciudadano.getIdciudadano()));
-        return "incidencia/list";
+        return listarPresidente(authentication, model);
     }
 
-    //CORREGIR A PARTIR DE AQUÍ -> REESTRUCTURAR A LO ACORDADO
-
-    private String getListIncidencia(Model model, Authentication authentication) {
-        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre());
-        model.addAttribute("role",authentication.getAuthorities().toString());
-        model.addAttribute("listComiteVecinal",comiteVecinalService.findById(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getIdmunicipio()));
-        //model.addAttribute("listIncidencias",incidenciaServiceImpl.findIncidenciaByMunicipio(municipioServiceImpl.findById(ciudadanoService.findCiudadanoByCorreoElectronico(authentication.getName())).getNombre(),1L));
-        model.addAttribute("listCiudadano", ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()));
-        return "enlace/listComite";
-    }
-
+    @Secured("ROLE_PRESIDENTE")
     @PostMapping("/save")
-    public String saveIncidencia(Authentication authentication, @Valid @ModelAttribute("incidencia") Incidencia incidencia, BindingResult result, Model model) throws ParseException{
+    public String saveIncidencia(@Valid @ModelAttribute("incidencia") Incidencia incidencia, BindingResult result, Long idcomite, Model model, Authentication authentication){
+        Comite comite = comiteService.findById(idcomite);
+        incidencia.setEstado(0);
+        incidencia.setEstaPagado(0);
+        incidencia.setCosto(0D);
+        incidencia.setCiudadano(ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName()));
+        incidencia.setComite(comite);
         if(result.hasErrors()){
             String errors = "";
             for (ObjectError error: result.getAllErrors()){
-                errors = error.getDefaultMessage() + "--";
+                errors = errors + error.getDefaultMessage() + "--";
             }
             model.addAttribute("errors", errors);
-            return getListIncidencia(model, authentication);
+            return listarPresidente(authentication, model);
         }
-        Long id = incidencia.getIdincidencia();
-        SimpleDateFormat d = new SimpleDateFormat("dd-MM-yyyy");
-        if(incidenciaServiceImpl.save(incidencia)){
-            model.addAttribute("alert","success");
-            if(id == null){
-                LocalDateTime ldt = LocalDateTime.now();
-			    DateTimeFormatter formmat1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-			    Date date = d.parse(formmat1.format(ldt));
-			    incidencia.setFechaRegistro(date);
-                incidencia.setCosto(0.0);
-                incidencia.setEstado(2);
-                incidencia.setEstaPagado(0);
+        try{
+            if(incidenciaServiceImpl.save(incidencia)){
+                model.addAttribute("alert","success");
                 model.addAttribute("message","Incidencia registrada");
             }else{
-                model.addAttribute("message","Incidencia actualizado");
+                model = getErrorPresidenteSave(model);
             }
-        }else{
-            model.addAttribute("alert","error");
-            if(id == null){
-                model.addAttribute("message","Error al registrar la incidencia");
-            }else{
-                model.addAttribute("message","Error al actualizar la incidencia");
-            }
+        }catch (Exception e){
+            model = getErrorPresidenteSave(model);
         }
-        return getListIncidencia(model, authentication);
+        return listarPresidente(authentication, model);
     }
 
-    @GetMapping("/update/{idincidencia}")
-    public String update(@PathVariable long idincidencia, Model model, Authentication authentication){
-        Incidencia incidencia = incidenciaServiceImpl.findById(idincidencia);
-        if(incidencia != null){
-            model.addAttribute("role",authentication.getAuthorities().toString());
-            model.addAttribute("incidencia", incidencia);
-            return "incidencia/list";
+    @Secured("ROLE_PRESIDENTE")
+    @PostMapping("/updateIncidencia")
+    public String updateIncidencia(Long idincidencia, String descripcion, Long categoria, Model model, Authentication authentication){
+        try{
+            Incidencia incidencia = incidenciaServiceImpl.findById(idincidencia);
+            incidencia.setDescripcion(descripcion);
+            incidencia.setCategoria(categoriaService.findById(categoria));
+            if(incidenciaServiceImpl.update(incidencia)){
+                model.addAttribute("alert","success");
+                model.addAttribute("message","Incidencia actualizada");
+            }else{
+                model = getErrorPresidente(model);
+            }
+        }catch (Exception e){
+            model = getErrorPresidente(model);
         }
-        return getListIncidencia(model, authentication);
+        return listarPresidente(authentication, model);
+    }
+
+    private Model getErrorPresidente(Model model){
+        model.addAttribute("alert","error");
+        model.addAttribute("message","La incidencia no se ha podido actualizar");
+        return model;
+    }
+
+    private Model getErrorPresidenteSave(Model model){
+        model.addAttribute("alert","error");
+        model.addAttribute("message","La incidencia no se ha podido registrar");
+        return model;
+    }
+
+    private String listarPresidente(Authentication authentication, Model model){
+        model.addAttribute("role",authentication.getAuthorities().toString());
+        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName());
+        model.addAttribute("municipio", ciudadano.getMunicipio());
+        model.addAttribute("listSolicitudes",incidenciaServiceImpl.findIncidenciaByMunicipio(ciudadano.getMunicipio().getIdmunicipio()));
+        model.addAttribute("idcomite", comiteVecinalService.findComiteVecinalByCiudadano(ciudadano).get(0).getComite().getIdcomite());
+        model.addAttribute("listCategorias",categoriaService.listAll());
+        model.addAttribute("incidencia", new Incidencia());
+        return "incidencia/list";
     }
 
 

@@ -68,7 +68,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/categoria/save}" method="POST">
+                    <form th:action="@{/categoria/save}" method="post">
                         <div class="form-group col">
                             <label for="nombreCategoria">Nombre del Servicio Público</label>
                             <input name="nombre" id="nombreCategoria" type="text" placeholder="Escribe el Servicio"
@@ -96,7 +96,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/categoria/save}" method="POST">
+                <form th:action="@{/categoria/save}" method="post">
                     <input type="text" id="idCategoriaActualizar" name="idcategoria" hidden>
                     <div class="form-group col">
                         <label >Nombre</label>

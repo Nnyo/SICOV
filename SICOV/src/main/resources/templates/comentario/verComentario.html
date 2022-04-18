@@ -25,7 +25,10 @@
             data-toggle="modal" data-target="#exampleModal">
           Agregar comentario
           </button>
-          <a th:href="@{/incidencias/solicitudes}" type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+          <a th:href="@{/incidencias/solicitudes}" th:if="${role == '[ROLE_ENLACE]'}" type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
+            Regresar
+          </a>
+          <a th:href="@{/incidencias/list}" th:if="${role == '[ROLE_PRESIDENTE]'}" type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
             Regresar
           </a>
           <table class="table">
@@ -61,7 +64,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registro de Comentarios</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registro de Comentario</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -78,7 +81,7 @@
             <input type="file" id="file" class="form-control-file" name="file" accept=".pdf,.jpg,.png" />
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btnRegistrar">Guardar</button>
+            <button type="submit" class="btn btnRegistrar">Comentar</button>
             <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
           </div>
         </form>

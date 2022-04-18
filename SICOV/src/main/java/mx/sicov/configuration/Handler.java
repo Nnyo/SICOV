@@ -49,4 +49,9 @@ public class Handler {
         return "Error500";
     }
 
+    @ExceptionHandler(StringIndexOutOfBoundsException.class)
+    public String stringIndexOutOfBoundsException(){
+        return "Error500";
+    }
+
 }

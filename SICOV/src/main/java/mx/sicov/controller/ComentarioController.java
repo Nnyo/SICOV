@@ -58,7 +58,9 @@ public class ComentarioController {
         Comentario comentarioObj = new Comentario();
         comentarioObj.setComentario(comentario);
         try{
-            comentarioObj.setAnexo(file.getBytes());
+            if(!file.isEmpty()){
+                comentarioObj.setAnexo(file.getBytes());
+            }
         }catch (Exception e){
             model.addAttribute("alert","error");
             model.addAttribute("message","Error al procesar anexo, el comentario no se ha registrado");
@@ -104,7 +106,7 @@ public class ComentarioController {
             if(comentario.getAnexo().toString().length() != 0){
                 return "redirect:/comentarios/verAnexo/"+idcomentario+"/"+idincidencia;
             }
-        }catch (NullPointerException e){
+        }catch (Exception e){
             model = comentarioSinAnexo(model);
         }
         return getStringComentarioEnlace(idincidencia, model, authentication);

@@ -42,7 +42,6 @@ public class IncidenciaServiceImpl implements IncidenciaService{
     @Override
     public boolean save(Incidencia incidencia){
         try {
-            
             incidenciaRepository.saveAndFlush(incidencia);
             return true;
         } catch (Exception e) {
