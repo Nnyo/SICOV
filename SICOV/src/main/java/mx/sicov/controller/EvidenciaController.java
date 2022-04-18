@@ -5,6 +5,7 @@ import mx.sicov.entity.Incidencia;
 import mx.sicov.service.evidencia.EvidenciaService;
 import mx.sicov.service.incidencia.IncidenciaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,7 @@ public class EvidenciaController {
         return "Error404";
     }
 
+    @Secured("ROLE_ENLACE")
     @GetMapping("/ver/{idincidencia}")
     public String verAnexo(@PathVariable long idincidencia, Model model, Authentication authentication){
         model.addAttribute("role",authentication.getAuthorities().toString());

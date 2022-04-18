@@ -6,6 +6,7 @@ import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.comentario.ComentarioService;
 import mx.sicov.service.incidencia.IncidenciaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Base64;
 import java.util.List;
 
+@Secured(value = {"ROLE_ENLACE","ROLE_PRESIDENTE"})
 @Controller
 @RequestMapping(value = {"/comentarios"})
 public class ComentarioController {

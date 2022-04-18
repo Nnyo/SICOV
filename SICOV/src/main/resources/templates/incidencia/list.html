@@ -1,253 +1,110 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-  <title>Listado de Incidencias</title>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incidencias</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
   <link rel="stylesheet" th:href="@{/css/menuHeader.css}" />
   <link rel="stylesheet" th:href="@{/css/recursos.css}" />
   <link rel="stylesheet" th:href="@{/css/toast.min.css}">
 </head>
-
 <body>
-  <input type="text" id="message" th:value="${message}" hidden>
-  <input type="text" id="alert" th:value="${alert}" hidden>
-  <input type="text" id="errors" th:value="${errors}" hidden>
-  <div class="container-fluid">
-    <div th:insert="~{fragments/header::header}"></div>
-    <div class="row">
-      <div class="col">
-        <div class="card mt-12">
-          <div class="card-body">
-            <h2 style="text-align: center;">Estado de incidencias</h2>
-            <button type="button" class="btn btn-lg btn-registro mb-3 float-right" style="color: white;"
-              data-toggle="modal" data-target="#exampleModal">
-              Nueva incidencia
-            </button>
-            <table class="table">
-              <thead class="text-center">
-                <tr>
-                  <th scope="col">No.</th>
-                  <th scope="col">Descripción</th>
-                  <th scope="col">Fecha de Registro</th>
-                  <th scope="col">Costo</th>
-                  <th scope="col">Servicio Público</th>
-                  <th scope="col">Estado</th>
-                  <th scope="col">Comentarios</th>
-                  <th colspan="3">Acciones</th>
-                </tr>
-              </thead>
-              <tbody class="text-center">
-                <tr th:each="incidencia, contador : ${listIncidencia}">
-                  <td th:text="${contador.count}"></td>
-                  <td th:text="${incidencia.descripcion}"></td>
-                  <td th:text="${#dates.format(incidencia.fechaRegistro, 'dd-MM-yyyy HH:mm')}"></td>
-                  <td>
-                    <div th:switch="${incidencia.costo}">
-                      <div th:case="0">
-                        <span>Pendiente</span>
-                      </div>
-                      <div th:case="*">
-                        <span th:text="${incidencia.costo}"></span>
-                      </div>
-                    </div>
-                  </td>
-                  <td th:text="${incidencia.categoria.nombre}"></td>
-                  <td>
-                    <div th:switch="${incidencia.estado}">
-                      <div th:case="0">
-                        <p lass="text-muted">
-                          <span class="badge badge-pill badge-success">Atendida</span>
-                        </p>
-                      </div>
-                      <div th:case="1">
-                        <p lass="text-muted">
-                          <span class="badge badge-pill badge-danger">Cancelada</span>
-                        </p>
-                      </div>
-                      <div th:case="2">
-                        <p lass="text-muted">
-                          <span class="badge badge-pill badge-warning">Canalizada</span>
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <a th:href="@{/incidencias/comentario}" type="button"
-                      class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">
-                      Ver Comentario
-                    </a>
-                    </button>
-                  </td>
-                  <td>
-                    <a type="button" class="btn btn-opciones" th:href="@{/incidencias/detalles}">
-                      <ion-icon name="eye"></ion-icon>
-                    </a>
-                    <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#actualizar">
-                      <ion-icon name="create"></ion-icon>
-                    </a>
-                    <a class="btn btn-opciones">
-                      <ion-icon name="trash"></ion-icon>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<input type="text" id="message" th:value="${message}" hidden>
+<input type="text" id="alert" th:value="${alert}" hidden>
+<div class="container-fluid">
+  <div th:insert="~{fragments/header::header}"></div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 style="text-align: center;">Listado de Incidentes</h2>
+          <h5>Municipio: <span th:text="${municipio}"/></h5>
+          <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;">Nuevo incidente</a>
+          <table class="table mt-4">
+            <thead class="text-center">
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">Categoría</th>
+              <th scope="col" style="width: 350px">Descripción</th>
+              <th scope="col">Estatus</th>
+              <th scope="col">Solicitante</th>
+              <th scope="col">Comité</th>
+              <th scope="col">Fecha</th>
+              <th scope="col" colspan="3">Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="solicitud,contador : ${listSolicitudes}">
+              <td th:text="${contador.count}"></td>
+              <td th:text="${solicitud.categoria.nombre}"></td>
+              <td class="justify-content-center" th:text="${solicitud.descripcion}"></td>
+              <td th:switch="${solicitud.estado}">
+                <span th:case="0">Pendiente</span>
+                <span th:case="1">Canalizada</span>
+                <span th:case="2">Atendida</span>
+                <span th:case="3">Cancelada</span>
+              </td>
+              <td th:text="${solicitud.ciudadano.nombre} + ' ' + ${solicitud.ciudadano.primerApellido} + ' ' + ${solicitud.ciudadano.segundoApellido}"></td>
+              <td th:text="${solicitud.comite.nombre}"></td>
+              <td th:text="${solicitud.fechaRegistro}"></td>
+              <td>
+                <a class="btn btn-opciones" type="button" th:href="@{/anexo/ver/{idincidencia} (idincidencia=${solicitud.idincidencia})}">
+                  <ion-icon name="newspaper-outline"></ion-icon>
+                </a>
+                <a class="btn btn-opciones" type="button" th:href="@{/comentarios/ver/{idincidencia} (idincidencia=${solicitud.idincidencia})}">
+                  <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                </a>
+                <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#actualizar" th:onclick="actualizarIncidencia([[(${solicitud.idincidencia})]],[[(${solicitud.costo})]],[[(${solicitud.estado})]])">
+                  <ion-icon name="create"></ion-icon>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Actualizar -->
+<div class="modal fade" id="actualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Actualizar Solicitud</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" th:action="@{/incidencias/updateSolicitud}">
+          <input type="text" id="idincidencia" name="idincidencia" hidden>
+          <div class="form-group col">
+            <label for="costo" class="col-form-label">Costo</label>
+            <input name="costo" class="form-control form-control-lg" id="costo" type="number">
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Registro de incidencias</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form th:action="@{/incidencias/save}" method="post">
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Descripción</label>
-              <input name="descripcion" id="descripcionIncidencia" type="text" placeholder="Escribe la descripción"
-                class="form-control form-control-lg" />
-            </div>
-            <!-- <div class="form-group col">
-              <label for="categoria">Servicio público</label>
-              <select id="categoria" name="categoria" class="form-control form-control-lg">
-                  <option selected th:value="${listCategoria.idcategoria}" th:text="${listCategoria.nombre}"></option>
-              </select>
-            </div> -->
-            <div class="modal-footer">
-              <button type="submit" class="btn btnRegistrar">Registrar</button>
-              <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+          <div class="form-group col">
+            <label for="estadoActualizar" class="col-form-label">Estatus</label>
+            <select class="form-control form-control-lg" id="estadoActualizar" name="estadoActualizar" aria-label="Default select example">
+              <option value="0">Pendiente</option>
+              <option value="1">Canalizada</option>
+              <option value="2">Atendida</option>
+              <option value="3">Cancelada</option>
+            </select>
           </div>
-          </form>
-        </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btnRegistrar">Actualizar</button>
+            <button type="button" class="btn btnCancelar" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <!--Actualizar modal-->
-  <div class="modal fade" id="actualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Actualizar incidencias</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Descripción</label>
-              <textarea class="form-control"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="adjunto">Anexos (Imagenes o PDF)</label>
-              <input type="file" id="adjunto" name="adjunto" accept=".pdf,.jpg,.png" multiple />
-            </div>
-            <div class="dropdown">
-              <label for="message-text" class="col-form-label">Servicios Publicos</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Seleccione...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-registro" style="background-color: #74839B;">Guardar</button>
-          <button type="button" class="btn btn-secondary" style="background-color: #973333"
-            data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel2">Registrar Comentarios</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Comentario</label>
-              <textarea class="form-control" id="message-text"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="file">Anexos (Imagenes o PDF)</label>
-              <input type="file" id="file" name="adjunto" accept=".pdf,.jpg,.png" multiple />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"
-            style="background-color: #973333">Cancelar</button>
-          <button type="button" class="btn btn-primary" style="background-color: #74839B">Registrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal  ver deatlles-->
-  <div class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Detalles de todo
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"
-            style="background-color: #973333">Cerrar</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal  ver comnetario-->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Comentario registrado</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Comentario de prueba que escribo en este gran modal
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"
-            style="background-color: #973333">Cerrar</button>
-
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -261,44 +118,40 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script th:src="@{/js/toast.min.js}" type="text/javascript"></script>
 <script type="text/javascript">
-    toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+  const messageToastr = document.getElementById("message");
+  const alertToastr = document.getElementById("alert");
+  if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
+    switch (alertToastr.value) {
+      case 'success':
+        toastr.success(messageToastr.value, '', toastr.options);
+        break;
+      case 'error':
+        toastr.error(messageToastr.value, '', toastr.options);
+        break;
     }
-    const messageToastr = document.getElementById("message");
-    const alertToastr = document.getElementById("alert");
-    const  errorToastr = document.getElementById("errors");
-    if (messageToastr.value.length > 0 && alertToastr.value.length > 0) {
-        switch (alertToastr.value) {
-            case 'success':
-                toastr.success(messageToastr.value, '', toastr.options);
-                break;
-            case 'error':
-                toastr.error(messageToastr.value, '', toastr.options);
-                break;
-        }
-    }
-    if(errorToastr.value.length > 0){
-        let errors = errorToastr.value.split("--");
-        for(let i = 0; i !=  errors.length - 1; i++){
-            toastr.error(errors[i], '', toastr.options);
-        }
-    }
+  }
+  function actualizarIncidencia(idincidencia, costo, estado){
+    document.getElementById('idincidencia').value = idincidencia;
+    document.getElementById('costo').value = costo;
+    document.getElementById('estadoActualizar').value = estado;
+  }
 </script>
 </body>
-
-
 </html>

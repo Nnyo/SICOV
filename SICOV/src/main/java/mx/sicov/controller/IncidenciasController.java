@@ -8,10 +8,12 @@ import java.util.Date;
 
 import javax.validation.Valid;
 
+import mx.sicov.entity.Ciudadano;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +49,7 @@ public class IncidenciasController {
         return "Error404";
     }
 
+    @Secured("ROLE_ENLACE")
     @GetMapping("/solicitudes")
     public String listarSolicitudes(Model model, Authentication authentication) {
         return listar(model, authentication);
@@ -60,6 +63,7 @@ public class IncidenciasController {
         return "enlace/requestsComites";
     }
 
+    @Secured("ROLE_ENLACE")
     @PostMapping("/updateSolicitud")
     public String updateIncidencia(Long idincidencia, Double costo, Integer estadoActualizar, Model model, Authentication authentication){
         try{
@@ -84,10 +88,15 @@ public class IncidenciasController {
         return model;
     }
 
-    @GetMapping("/anexos")
-    public String verAnexos(Authentication authentication, Model model){
+    //APARTIR DE AQUÍ ES EL ROL DEL PRESIDENTE
+
+    @GetMapping("/list")
+    public String listIncidenciasByPresidente(Authentication authentication, Model model){
         model.addAttribute("role",authentication.getAuthorities().toString());
-        return "incidencia/verAnexos";
+        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName());
+        model.addAttribute("municipio", municipioServiceImpl.findById(ciudadano.getMunicipio().getIdmunicipio()).getNombre());
+        model.addAttribute("listSolicitudes",incidenciaServiceImpl.findIncidenciaByIdCiudadano(ciudadano.getIdciudadano()));
+        return "incidencia/list";
     }
 
     //CORREGIR A PARTIR DE AQUÍ -> REESTRUCTURAR A LO ACORDADO

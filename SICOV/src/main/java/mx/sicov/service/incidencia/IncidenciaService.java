@@ -8,6 +8,7 @@ public interface IncidenciaService {
 
     List<Incidencia> listAll();
     List<Incidencia> findIncidenciaByMunicipio(Long municipio);
+    List<Incidencia> findIncidenciaByIdCiudadano(Long idciudadano);
     Incidencia findById(Long idincidencia);
     boolean save(Incidencia incidencia);
     boolean update(Incidencia incidencia);
