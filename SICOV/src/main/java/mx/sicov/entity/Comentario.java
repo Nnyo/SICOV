@@ -20,7 +20,7 @@ public class Comentario {
     private String comentario;
 
     @Column
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
 
     @Lob

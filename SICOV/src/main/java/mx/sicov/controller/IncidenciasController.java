@@ -90,7 +90,7 @@ public class IncidenciasController {
         return "enlace/listComite";
     }
 
-    @GetMapping(value = {"", "/list"})
+    @GetMapping(value = { "/list"})
     public String listarIncidencias(Authentication authentication, Model model){
         return getListIncidencia(model, authentication);
     }

@@ -26,7 +26,7 @@ public class ComentarioService {
     }
 
     public List<Comentario> findComentarioByIncidencia(Incidencia incidencia){
-        return comentarioRepository.findComentarioByIncidencia(incidencia);
+        return comentarioRepository.findComentarioByIncidenciaOrderByFechaRegistroDesc(incidencia);
     }
 
     public void delete(long idcomentario) {
