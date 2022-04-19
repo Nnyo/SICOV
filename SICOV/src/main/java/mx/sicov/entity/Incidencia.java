@@ -51,8 +51,4 @@ public class Incidencia {
     public Incidencia() {
     }
 
-    
-
-    
-
 }

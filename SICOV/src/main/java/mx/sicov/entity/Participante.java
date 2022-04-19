@@ -45,5 +45,7 @@ public class Participante {
     @NotNull(message = "El municipio es requerido")
     private Municipio municipio;
 
+    public Participante() {
+    }
 
 }

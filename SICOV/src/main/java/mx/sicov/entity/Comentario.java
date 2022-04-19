@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
 import java.util.Date;
 
 @Data
@@ -35,5 +36,8 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "ciudadano_idciudadano")
     private Ciudadano ciudadano;
+
+    public Comentario() {
+    }
 
 }

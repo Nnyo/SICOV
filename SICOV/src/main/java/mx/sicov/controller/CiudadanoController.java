@@ -96,12 +96,19 @@ public class CiudadanoController {
         return getString(model);
     }
 
-    @PostMapping(value = {"/delete"})
-	public String deleteCiudadano(@PathVariable long idciudadano, Model model, Authentication authentication){
+    @PostMapping("/delete")
+    public String deleteCiudadano(Long idciudadano, Authentication authentication, Model model){
+        if(ciudadanoServiceImpl.delete(idciudadano)){
+            model.addAttribute("message","Ciudadano eliminado");
+            model.addAttribute("alert","success");
+        }else{
+            model.addAttribute("message","Error al eliminar el Ciudadano");
+            model.addAttribute("alert","error");
+        }
         model.addAttribute("role",authentication.getAuthorities().toString());
-		ciudadanoServiceImpl.delete(idciudadano);
-        return getString(model);
-	}
+        model.addAttribute("listCiudadanos", ciudadanoServiceImpl.findCiudadanoByRolContains());
+        return "Administrador/listEnlaces";
+    }
 
     @GetMapping(value = {"/update/{idciudadano}"})
 	public String updateCiudadano(@PathVariable long idciudadano,Authentication authentication,Model model){

@@ -21,7 +21,7 @@
       <div class="card">
         <div class="card-body">
           <h2 style="text-align: center;">Listado de Comités</h2>
-          <h5>Municipio: <span th:text="${municipio}"/></h5>
+          <h5>Municipio: <span th:text="${municipio}"></h5>
           <a class="btn btn-lg btn-registro mb-3 float-right" style="color: white;" data-toggle="modal" data-target="#registroComite">
             <ion-icon name="pencil"></ion-icon>&nbsp;Nuevo Comité
           </a>
@@ -32,8 +32,8 @@
   <div class="row ml-1">
     <div class="card col-4 col-sm-6 col-lg-3 mt-2" style="background-color: #D3D3D3" th:each="comite : ${listComite}">
       <div class="card-body">
-        <h5 class="card-title">Nombre: <span th:text="${comite.nombre}"/></h5>
-        <p class="card-text">Colonia: <span th:text="${comite.colonia.nombre}"/></p>
+        <h5 class="card-title">Nombre: <span th:text="${comite.nombre}"></h5>
+        <p class="card-text">Colonia: <span th:text="${comite.colonia.nombre}"></p>
         <div class="text-center">
           <a class="btn btnRegistrar mt-3" style="color: white;" data-toggle="modal" data-target="#actualizarComite" th:onclick="actualizarComite([[(${comite.idcomite})]],[[(${comite.nombre})]],[[(${comite.colonia.idcolonia})]])">Editar</a>
           <a class="btn btnRegistrar mt-3" style="color: white;background-color: firebrick" data-toggle="modal" data-target="#eliminarComite" th:onclick="eliminarComite([[(${comite.idcomite})]])">Eliminar</a>
@@ -58,11 +58,15 @@
         <form th:action="@{/comite/save}" method="post">
           <div class="form-group col">
             <label for="nombreComite">Nombre del Comité</label>
-            <input name="nombre" id="nombreComite" class="form-control form-control-lg" type="text">
+            <input name="nombre" id="nombreComite" class="form-control form-control-lg" type="text" placeholder="Escribe el nombre del comité..."
+              pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+              title="El nombre del municipio no puede contener números y/o caracteres especiales" 
+              maxlength="80"/>
           </div>
           <div class="form-group col">
             <label for="colonia">Colonia</label>
             <select id="colonia" name="colonia" class="form-control form-control-lg">
+              <option selected disabled>Seleccione...</option>
               <option th:each="colonia : ${listColonia}" th:value="${colonia.idcolonia}" th:text="${colonia.nombre}"></option>
             </select>
           </div>

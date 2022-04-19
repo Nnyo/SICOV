@@ -72,7 +72,11 @@
                         <div class="form-group col">
                             <label for="nombreCategoria">Nombre del Servicio Público</label>
                             <input name="nombre" id="nombreCategoria" type="text" placeholder="Escribe el Servicio"
-                                class="form-control form-control-lg" />
+                                class="form-control form-control-lg" 
+                                pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+                                title="El servicio público no puede contener números y/o caracteres especiales" 
+                                maxlength="25"
+                            />
 
                         </div>
                         <div class="modal-footer">

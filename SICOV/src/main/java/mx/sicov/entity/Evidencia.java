@@ -22,4 +22,7 @@ public class Evidencia {
     @NotNull(message = "La incidencia es requerida")
     private Incidencia incidencia;
 
+    public Evidencia() {
+    }
+
 }

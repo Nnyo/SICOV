@@ -1,7 +1,6 @@
 package mx.sicov.controller;
 
 import mx.sicov.entity.Ciudadano;
-import mx.sicov.entity.Comentario;
 import mx.sicov.entity.Evidencia;
 import mx.sicov.entity.Incidencia;
 import mx.sicov.service.categoria.CategoriaServiceImpl;
@@ -9,7 +8,6 @@ import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.comitevecinal.ComiteVecinalService;
 import mx.sicov.service.evidencia.EvidenciaService;
 import mx.sicov.service.incidencia.IncidenciaServiceImpl;
-import mx.sicov.service.municipio.MunicipioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;

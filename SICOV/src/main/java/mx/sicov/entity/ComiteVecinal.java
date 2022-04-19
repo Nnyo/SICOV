@@ -26,4 +26,7 @@ public class ComiteVecinal {
     @JoinColumn(name = "participante_idparticipante", nullable = true)
     private Participante participante;
 
+    public ComiteVecinal() {
+    }
+
 }
