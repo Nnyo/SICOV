@@ -40,7 +40,7 @@ public class CiudadanoController {
 
     private String getString(Model model){
         model.addAttribute("listCiudadanos", ciudadanoServiceImpl.findCiudadanoByRolContains());
-        return "Administrador/listEnlaces";
+        return "administrador/listEnlaces";
     }
 
     @GetMapping(value = {"/create"})
@@ -107,7 +107,7 @@ public class CiudadanoController {
         }
         model.addAttribute("role",authentication.getAuthorities().toString());
         model.addAttribute("listCiudadanos", ciudadanoServiceImpl.findCiudadanoByRolContains());
-        return "Administrador/listEnlaces";
+        return "administrador/listEnlaces";
     }
 
     @GetMapping(value = {"/update/{idciudadano}"})
