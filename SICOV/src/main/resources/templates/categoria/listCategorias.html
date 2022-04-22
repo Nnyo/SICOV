@@ -73,8 +73,8 @@
                             <label for="nombreCategoria">Nombre del Servicio Público</label>
                             <input name="nombre" id="nombreCategoria" type="text" placeholder="Escribe el Servicio"
                                 class="form-control form-control-lg" 
-                                pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
-                                title="El servicio público no puede contener números y/o caracteres especiales" 
+                                pattern="[a-zA-ZñÑáéíóú\s]{2,50}"
+                                title="El nombre del servicio publico no puede contener números y/o caracteres especiales" 
                                 maxlength="25"
                             />
 
@@ -104,7 +104,11 @@
                     <input type="text" id="idCategoriaActualizar" name="idcategoria" hidden>
                     <div class="form-group col">
                         <label >Nombre</label>
-                        <input name="nombre" id="nombreCategoriaActualizar" class="form-control form-control-lg" type="text">
+                        <input name="nombre" id="nombreCategoriaActualizar" class="form-control form-control-lg" type="text"
+                            pattern="[a-zA-ZñÑáéíóú\s]{2,50}"
+                            title="El nombre del servicio publico no puede contener números y/o caracteres especiales" 
+                            maxlength="25"
+                        >
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-opciones btnRegistrar">

@@ -70,7 +70,7 @@
                         <label for="nombreMunicipio">Nombre del Municipio</label>
                         <input name="nombre" id="nombreMunicipio" type="text" placeholder="Escribe el municipio"
                                class="form-control form-control-lg" 
-                               pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+                               pattern="[a-zA-ZñÑáéíóú\s]{2,50}"
                                title="El nombre del municipio no puede contener números y/o caracteres especiales" 
                                maxlength="25"/>
                     </div>
@@ -129,9 +129,9 @@
                     <div class="form-group col">
                         <label >Nombre</label>
 						<input name="nombre" id="nombreActualizar" class="form-control form-control-lg" type="text" 
-                        pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
-                               title="El nombre del municipio no puede contener números y/o caracteres especiales" 
-                               maxlength="25">
+                            pattern="[a-zA-ZñÑáéíóú\s]{2,50}"
+                            title="El nombre del municipio no puede contener números y/o caracteres especiales" 
+                            maxlength="25"/>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-opciones btnRegistrar">

@@ -74,7 +74,11 @@
           <input type="text" name="idincidencia" th:value="${idincidencia}" hidden>
           <div class="form-group">
             <label class="col-form-label">Comentario</label>
-            <textarea type="text" class="form-control" name="comentario" placeholder="Escribe el comentario"></textarea>
+            <input type="text" class="form-control" name="comentario" placeholder="Escribe el comentario" 
+              pattern="[a-zA-ZñÑáéíóú\s]{2,200}"
+              title="El comentario no puede contener números y/o caracteres especiales" 
+              maxlength="25"
+            />
           </div>
           <div class="form-group">
             <label for="file">Anexos (Imagenes o PDF)</label>

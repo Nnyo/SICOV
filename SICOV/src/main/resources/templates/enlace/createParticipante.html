@@ -34,11 +34,18 @@
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="nombre">Nombre</label>
-                <input name="nombre" id="nombre" th:field="*{nombre}" type="text" class="form-control" placeholder="Escribe el nombre...">
+                <input name="nombre" id="nombre" th:field="*{nombre}" type="text" class="form-control" placeholder="Escribe el nombre..."
+                  pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+                  title="El nombre no puede contener números y/o caracteres especiales" 
+                  maxlength="100" required
+                />
               </div>
               <div class="form-group col-md-4">
                 <label for="primerApellido">Primer Apellido</label>
-                <input name="primerApellido" id="primerApellido" th:field="*{primerApellido}" type="text" class="form-control" placeholder="Escribe el primer apellido...">
+                <input name="primerApellido" id="primerApellido" th:field="*{primerApellido}" type="text" class="form-control" placeholder="Escribe el primer apellido..."
+                  pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+                  title="El primer Apellido no puede contener números y/o caracteres especiales" 
+                  maxlength="100" required>
               </div>
               <div class="form-group col-md-4">
                 <label for="segundoApellido">Segundo Apellido</label>
@@ -48,7 +55,11 @@
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="numeroTelefonico">Teléfono</label>
-                <input max="10" name="numeroTelefonico" id="numeroTelefonico" th:field="*{numeroTelefonico}" type="text" class="form-control" placeholder="Escribe el teléfono...">
+                <input name="numeroTelefonico" id="numeroTelefonico" th:field="*{numeroTelefonico}" type="text" class="form-control" placeholder="Escribe el teléfono..."
+                  pattern="^([0-9]{10})$"
+									title="El teléfono debe contener 10 dígitos" 
+							   	maxlength="10"
+                >
               </div>
               <div class="form-group col-md-6">
                 <label for="file">Fotografía</label>
