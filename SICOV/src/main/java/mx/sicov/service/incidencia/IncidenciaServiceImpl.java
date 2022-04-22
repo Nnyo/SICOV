@@ -52,12 +52,7 @@ public class IncidenciaServiceImpl implements IncidenciaService{
 
     @Override
     public boolean update(Incidencia incidencia){
-        Optional<Incidencia> optIncidencia = incidenciaRepository.findById(incidencia.getIdincidencia());
-        if(!optIncidencia.isPresent()){
-            return false;
-        }
-        Incidencia update = optIncidencia.get();
-        incidenciaRepository.saveAndFlush(update);
+        incidenciaRepository.saveAndFlush(incidencia);
         return true;
     }
 

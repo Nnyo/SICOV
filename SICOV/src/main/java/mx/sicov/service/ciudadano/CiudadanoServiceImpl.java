@@ -45,8 +45,10 @@ public class CiudadanoServiceImpl implements CiudadanoService {
 
     @Override
     public boolean save(Ciudadano ciudadano){
-        String password = config.passwordEncoder().encode(ciudadano.getPassword());
-        ciudadano.setPassword(password);
+        if(!ciudadano.getPassword().substring(0,6).equals("$2a$10$")){
+            String password = config.passwordEncoder().encode(ciudadano.getPassword());
+            ciudadano.setPassword(password);
+        }
         ciudadano.setEstatus(1);
         try {
             ciudadanoRepository.saveAndFlush(ciudadano);

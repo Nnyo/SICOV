@@ -1,5 +1,6 @@
 package mx.sicov.controller;
 
+import mx.sicov.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class CiudadanoController {
     
     @Autowired
     private CiudadanoServiceImpl ciudadanoServiceImpl;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
@@ -53,6 +57,7 @@ public class CiudadanoController {
 
     @PostMapping(value = {"/save"})
     public String saveCiudadano(Authentication authentication, @Valid @ModelAttribute("ciudadano") Ciudadano ciudadano, BindingResult result, Model model, @RequestParam("file") MultipartFile imagen) {
+        String password = ciudadano.getPassword();
         Long id = ciudadano.getIdciudadano();
         model.addAttribute("role",authentication.getAuthorities().toString());
         try{
@@ -76,6 +81,7 @@ public class CiudadanoController {
             if(ciudadanoServiceImpl.save(ciudadano)){
                 model.addAttribute("alert","success");
                 if(id == null){
+                    emailService.sendSimpleMail(ciudadano.getCorreoElectronico(),"Bienvenid@","Has sido registrado exitosamente al sistema SICOV. Tu usuario es: " + ciudadano.getCorreoElectronico() + " y tu contraseña es : " + password);
                     model.addAttribute("message","Ciudadano registrado");
                 }else{
                     model.addAttribute("message","Ciudadano actualizado");
@@ -98,7 +104,9 @@ public class CiudadanoController {
 
     @PostMapping("/delete")
     public String deleteCiudadano(Long idciudadano, Authentication authentication, Model model){
+        Ciudadano ciudadano = ciudadanoServiceImpl.findById(idciudadano);
         if(ciudadanoServiceImpl.delete(idciudadano)){
+            emailService.sendSimpleMail(ciudadano.getCorreoElectronico(),"Usuario eliminado","Tu usuario ha sido elimimando por el Administrador. Ya no podrás acceder al sistema");
             model.addAttribute("message","Ciudadano eliminado");
             model.addAttribute("alert","success");
         }else{

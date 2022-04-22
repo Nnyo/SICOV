@@ -2,6 +2,7 @@ package mx.sicov.controller;
 
 import mx.sicov.entity.Ciudadano;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
+import mx.sicov.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,9 @@ public class UpdatePasswordController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    EmailService emailService;
+
     @GetMapping("/*")
     public String handle() {
         return "Error404";
@@ -29,6 +33,23 @@ public class UpdatePasswordController {
     @GetMapping("/update")
     public String modificarPassword(Authentication authentication, Model model){
         return getString(model, authentication);
+    }
+
+    @PostMapping("/recuperar")
+    public String recuperarCuenta(String correo, Model model){
+        Ciudadano ciudadano = ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(correo);
+        if(ciudadano != null){
+            String pswd = "";
+            for (int i = 0; i < 10; i++) {
+                pswd+=((int)(Math.random() * 9));
+            }
+            ciudadano.setPassword(pswd);
+            ciudadanoService.save(ciudadano);
+            emailService.sendSimpleMail(correo,"Recuperación de contraseña","Tu contraseña nueva es: " + pswd);
+            model.addAttribute("alert","success");
+            model.addAttribute("message","Contraseña actualizada. Revisa tu correo");
+        }
+        return "login";
     }
 
     @PostMapping("/save")

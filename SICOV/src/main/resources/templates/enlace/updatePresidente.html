@@ -64,11 +64,11 @@
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="correoElectronico">Correo electrónico</label>
-                <input name="correoElectronico" id="correoElectronico" th:field="*{correoElectronico}" type="email" class="form-control" placeholder="Escribe el correo electrónico...">
+                <input name="correoElectronico" id="correoElectronico" readonly th:field="*{correoElectronico}" type="email" class="form-control" placeholder="Escribe el correo electrónico...">
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-4" hidden>
                 <label for="password">Contraseña</label>
-                <input name="password" id="password" type="password" th:field="*{password}" class="form-control">
+                <input name="password" id="password" type="text" th:field="*{password}" class="form-control">
               </div>
               <div class="form-group col-md-6">
                 <label for="file">Fotografía</label>
@@ -76,7 +76,7 @@
               </div>
             </div>
             <div style="text-align: center;">
-              <button type="submit" class="btn btn-lg btnRegistrar">Registrar</button>
+              <button type="submit" class="btn btn-lg btnRegistrar">Actualizar</button>
               <a type="button" class="btn btn-lg btnCancelar" th:href="@{/comite/editar/{idcomite} (idcomite=${idcomite})}">Cancelar</a>
             </div>
           </form>

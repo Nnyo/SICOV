@@ -22,9 +22,9 @@ public class Colonia {
     @Pattern(regexp = "[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+", message = "El nombre de la colonia no puede contener números y/o caracteres especiales")
     private String nombre;
 
-    @Column(nullable = false, length = 10, unique = true)
+    @Column(nullable = false, length = 10)
     @NotBlank(message = "El código postal es requerido")
-    @Size(min = 5, max = 5, message = "El código postal debe tener 5 digitos")
+    @Size(min = 5, max = 5, message = "El código postal debe tener 5 dígitos")
     @Pattern(regexp = "[0-9]+", message = "El código postal debe contener solo números")
     private String codigoPostal;
 

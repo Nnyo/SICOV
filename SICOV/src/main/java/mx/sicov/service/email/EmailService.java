@@ -18,7 +18,5 @@ public class EmailService {
             message.setSubject(encabezado);
             message.setText(mensaje);
             mailSender.send(message);
-            
-            System.out.println("Mail sent successfully...");
         }
 }

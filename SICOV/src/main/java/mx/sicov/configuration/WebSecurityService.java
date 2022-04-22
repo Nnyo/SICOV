@@ -28,7 +28,7 @@ public class WebSecurityService extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/css/**", "/login", "/js/**", "/images/**").permitAll()
+            .antMatchers("/css/**", "/login", "/js/**", "/images/**","/cambioContrasenia/recuperar").permitAll()
             .antMatchers("/colonia/**").hasRole("ENLACE")
             .antMatchers("/comite/**").hasRole("ENLACE")
             .antMatchers("/participante/**").hasRole("ENLACE")
