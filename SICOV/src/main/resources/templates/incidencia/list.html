@@ -85,7 +85,11 @@
           <input type="text" id="idincidencia" name="idincidencia" hidden>
           <div class="form-group col">
             <label class="col-form-label">Descripción</label>
-            <textarea type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Escribe la descripción"></textarea>
+            <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Escribe la descripción" 
+              pattern="[a-zA-ZñÑáéíóú\s]{2,200}"
+              title="La descripción no puede contener números y/o caracteres especiales" 
+              maxlength="200" required
+            />
           </div>
           <div class="form-group col">
             <label for="categoria">Categoría</label>
@@ -118,7 +122,11 @@
           <input type="text" id="idcomite" name="idcomite" th:value="${idcomite}" hidden>
           <div class="form-group col">
             <label class="col-form-label">Descripción</label>
-            <textarea type="text" class="form-control" th:field="*{descripcion}" placeholder="Escribe la descripción"></textarea>
+            <input type="text" class="form-control" th:field="*{descripcion}" placeholder="Escribe la descripción" 
+              pattern="[a-zA-ZñÑáéíóú\s]{2,200}"
+              title="La descripción no puede contener números y/o caracteres especiales" 
+              maxlength="200" required
+            />
           </div>
           <div class="form-group col">
             <label for="categoria2">Categoría</label>

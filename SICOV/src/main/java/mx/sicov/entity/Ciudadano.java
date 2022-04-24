@@ -50,9 +50,10 @@ public class Ciudadano {
     @Size(max = 100, message = "El correo electrónico no deber ser mayor a 100 caracteres")
     private String correoElectronico;
 
-    @Column(length = 30)
+    @Column(length = 30, unique = true)
     @Size(max = 6, message = "El número del empleado no puede tener más de 6 caracteres")
     @Size(min = 4, message = "El número del empleado debe ser mayor a 4 caracteres")
+    @Pattern(regexp = "[0-9]+", message = "El número del empleado no puede contener letras")
     private String numeroEmpleado;
 
     @Column(columnDefinition = "tinyint not null", name = "enabled")

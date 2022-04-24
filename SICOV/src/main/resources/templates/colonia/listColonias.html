@@ -133,8 +133,7 @@
                             title="El código postal debe contener 5 dígitos" maxlength="5" required
                         />
 
-                        <label class="mt-3">Municipio</label>
-                        <select id="municipio" name="municipio" class="form-control form-control-lg">
+                        <select id="municipio" name="municipio" class="form-control form-control-lg" hidden>
                             <option selected th:value="${listMunicipio.idmunicipio}" th:text="${listMunicipio.nombre}"></option>
                         </select>
                     </div>

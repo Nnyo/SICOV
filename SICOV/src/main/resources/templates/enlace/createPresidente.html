@@ -35,17 +35,17 @@
               <div class="form-group col-md-4">
                 <label for="nombre">Nombre</label>
                 <input name="nombre" id="nombre" th:field="*{nombre}" type="text" class="form-control" placeholder="Escribe el nombre..."
-                  pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+                pattern="[a-zA-ZñÑáéíóú\s]{2,50}"
                   title="El nombre no puede contener números y/o caracteres especiales" 
-                  maxlength="100" required
+                  maxlength="50" required
                 >
               </div>
               <div class="form-group col-md-4">
                 <label for="primerApellido">Primer Apellido</label>
                 <input name="primerApellido" id="primerApellido" th:field="*{primerApellido}" type="text" class="form-control" placeholder="Escribe el primer apellido..."
-                  pattern="^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$"
+                  pattern="[a-zA-ZñÑáéíóú\s]{2,50}"
                   title="El primer apellido no puede contener números y/o caracteres especiales" 
-                  maxlength="100" required  
+                  maxlength="50" required  
                 >
               </div>
               <div class="form-group col-md-4">
@@ -67,7 +67,7 @@
                 <input max="10" name="numeroTelefonico" id="numeroTelefonico" th:field="*{numeroTelefonico}" type="text" class="form-control" placeholder="Escribe el teléfono..."
                   pattern="^([0-9]{10})$"
                   title="El teléfono debe contener 10 dígitos" 
-                  maxlength="10"
+                  maxlength="10" required
                 >
               </div>
               <div class="form-group col-md-4" hidden>
@@ -78,13 +78,16 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="correoElectronico">Correo electrónico</label>
-                <input name="correoElectronico" id="correoElectronico" th:field="*{correoElectronico}" type="email" class="form-control" placeholder="Escribe el correo electrónico...">
+                <input name="correoElectronico" id="correoElectronico" th:field="*{correoElectronico}" type="email" class="form-control" placeholder="Escribe el correo electrónico..." required>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="password">Contraseña</label>
-                <input name="password" id="password" type="password" th:field="*{password}" class="form-control">
+                <input name="password" id="password" type="password" th:field="*{password}" class="form-control"
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}"
+                  title="La contraseña debe contener al menos una mayúscula, una minúscula, un número y un caracter especial" required
+                >
               </div>
               <div class="form-group col-md-6">
                 <label for="file">Fotografía</label>
