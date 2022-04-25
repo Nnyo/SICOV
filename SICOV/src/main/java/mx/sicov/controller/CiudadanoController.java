@@ -17,7 +17,6 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.*;
-import java.nio.charset.Charset;
 import java.util.Base64;
 
 @Controller

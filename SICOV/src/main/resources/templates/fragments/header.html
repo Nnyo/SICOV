@@ -52,14 +52,16 @@
 				</a>
 			</li>
 		</ul>
-		<ul class="nav justify-content-end">
-			<li class="nav-item">
-				<form th:action="@{/logout}" method="post" class="d-flex">
-					<button type="submit" th:href="@{/logout}" class="btn btnCerrar" >Cerrar Sesión
-						<ion-icon name="log-out-outline" style="color: black;"></ion-icon>
-					</button>
-				</form>
-			</li>
-		</ul>
+		<div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent"></div>
+			<ul class="navbar-nav text-right">
+				<li class="nav-item">
+					<form th:action="@{/logout}" method="post" class="d-flex">
+						<button type="submit" th:href="@{/logout}" class="btn btnCerrar" >Cerrar Sesión
+							<ion-icon name="log-out-outline" style="color: black;"></ion-icon>
+						</button>
+					</form>
+				</li>
+			</ul>
+		</div>
 	</div>
 </nav>

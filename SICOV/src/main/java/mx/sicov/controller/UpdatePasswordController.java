@@ -37,7 +37,7 @@ public class UpdatePasswordController {
 
     @PostMapping("/recuperar")
     public String recuperarCuenta(String correo, Model model){
-        Ciudadano ciudadano = ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(correo);
+        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(correo);
         if(ciudadano != null){
             String pswd = "";
             for (int i = 0; i < 10; i++) {
