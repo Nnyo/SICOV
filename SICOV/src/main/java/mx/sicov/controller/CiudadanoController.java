@@ -1,6 +1,5 @@
 package mx.sicov.controller;
 
-import mx.sicov.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,9 @@ import mx.sicov.service.municipio.MunicipioServiceImpl;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.*;
+import java.nio.charset.Charset;
 import java.util.Base64;
 
 @Controller
@@ -24,9 +26,6 @@ public class CiudadanoController {
     
     @Autowired
     private CiudadanoServiceImpl ciudadanoServiceImpl;
-
-    @Autowired
-    private EmailService emailService;
 
     @Autowired
     private MunicipioServiceImpl municipioServiceImpl;
@@ -81,7 +80,23 @@ public class CiudadanoController {
             if(ciudadanoServiceImpl.save(ciudadano)){
                 model.addAttribute("alert","success");
                 if(id == null){
-                    emailService.sendSimpleMail(ciudadano.getCorreoElectronico(),"Bienvenid@","Has sido registrado exitosamente al sistema SICOV. Tu usuario es: " + ciudadano.getCorreoElectronico() + " y tu contraseña es : " + password);
+                    try{
+                        String uri = "http://localhost:3443/sendEmail/" + ciudadano.getCorreoElectronico() + "/Bienvenido/Has sido registrado exitosamente al sistema SICOV. Tu usuario es: " + ciudadano.getCorreoElectronico() + " y tu password es : " + password;
+                        uri = uri.replace(" ","%20");
+                        URL url = new URL(uri);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setConnectTimeout(200);
+                        con.setReadTimeout(200);
+                        con.setRequestMethod("GET");
+                        con.getResponseCode();
+                        con.disconnect();
+                    }catch (SocketTimeoutException | MalformedURLException e){
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     model.addAttribute("message","Ciudadano registrado");
                 }else{
                     model.addAttribute("message","Ciudadano actualizado");
@@ -106,7 +121,23 @@ public class CiudadanoController {
     public String deleteCiudadano(Long idciudadano, Authentication authentication, Model model){
         Ciudadano ciudadano = ciudadanoServiceImpl.findById(idciudadano);
         if(ciudadanoServiceImpl.delete(idciudadano)){
-            emailService.sendSimpleMail(ciudadano.getCorreoElectronico(),"Usuario eliminado","Tu usuario ha sido elimimando por el Administrador. Ya no podrás acceder al sistema");
+            try{
+                String uri = "http://localhost:3443/sendEmail/" + ciudadano.getCorreoElectronico() + "/Usuario eliminado/Tu usuario ha sido elimimando por el Administrador.";
+                uri = uri.replace(" ","%20");
+                URL url = new URL(uri);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setConnectTimeout(200);
+                con.setReadTimeout(200);
+                con.setRequestMethod("GET");
+                con.getResponseCode();
+                con.disconnect();
+            }catch (SocketTimeoutException | MalformedURLException e){
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             model.addAttribute("message","Ciudadano eliminado");
             model.addAttribute("alert","success");
         }else{

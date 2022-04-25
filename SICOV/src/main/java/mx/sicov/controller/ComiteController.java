@@ -8,7 +8,6 @@ import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
 import mx.sicov.service.colonia.ColoniaServiceImpl;
 import mx.sicov.service.comite.ComiteService;
 import mx.sicov.service.comitevecinal.ComiteVecinalService;
-import mx.sicov.service.email.EmailService;
 import mx.sicov.service.municipio.MunicipioServiceImpl;
 import mx.sicov.service.participante.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.*;
 import java.util.List;
 
 @Controller
@@ -44,9 +45,6 @@ public class ComiteController {
 
     @Autowired
     private ParticipanteService participanteService;
-
-    @Autowired
-    private EmailService emailService;
 
     @GetMapping("/*")
     public String handle() {
@@ -152,7 +150,23 @@ public class ComiteController {
                 if(id != null){
                     model.addAttribute("message2","Presidente actualizado");
                 }else{
-                    emailService.sendSimpleMail(ciudadano.getCorreoElectronico(),"Bienvenid@","Has sido registrado exitosamente al sistema SICOV. Tu usuario es: " + ciudadano.getCorreoElectronico() + " y tu contraseña es : " + password);
+                    try{
+                        String uri = "http://localhost:3443/sendEmail/" + ciudadano.getCorreoElectronico() + "/Bienvenido/Has sido registrado exitosamente al sistema SICOV. Tu usuario es: " + ciudadano.getCorreoElectronico() + " y tu password es : " + password;
+                        uri = uri.replace(" ","%20");
+                        URL url = new URL(uri);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setConnectTimeout(200);
+                        con.setReadTimeout(200);
+                        con.setRequestMethod("GET");
+                        con.getResponseCode();
+                        con.disconnect();
+                    }catch (SocketTimeoutException | MalformedURLException e){
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     model.addAttribute("message2","Presidente registrado");
                     ComiteVecinal comiteVecinal = new ComiteVecinal();
                     comiteVecinal.setCiudadano(ciudadano);
@@ -176,7 +190,23 @@ public class ComiteController {
                 if(ciudadanoService.delete(idpresidente)){
                     model.addAttribute("alert","success");
                     model.addAttribute("message","El Presidente ha sido eliminado");
-                    emailService.sendSimpleMail(ciudadano.getCorreoElectronico(),"Usuario eliminado","Tu usuario ha sido elimimando por el Enlace. Ya no podrás acceder al sistema");
+                    try{
+                        String uri = "http://localhost:3443/sendEmail/" + ciudadano.getCorreoElectronico() + "/Usuario eliminado/Tu usuario ha sido elimimando por el Enlace.";
+                        uri = uri.replace(" ","%20");
+                        URL url = new URL(uri);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setConnectTimeout(200);
+                        con.setReadTimeout(200);
+                        con.setRequestMethod("GET");
+                        con.getResponseCode();
+                        con.disconnect();
+                    }catch (SocketTimeoutException | MalformedURLException e){
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }else{
                     model = errorToDeletePresidente(model);
                 }
