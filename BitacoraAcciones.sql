@@ -44,7 +44,9 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraCategoriaDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraCategoriaDel` AFTER DELETE ON `categoria`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'CATEGORIA')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) 
+  VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'CATEGORIA',
+	CONCAT('Dato ELIMINADO: ',' [Categoria: ',old.nombre,']'));
 //
 
 --
@@ -84,7 +86,8 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraCiudadanoDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraCiudadanoDel` AFTER DELETE ON `ciudadano`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'CIUDADANO')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'CIUDADANO',
+	CONCAT('Dato ELIMINADO: ',' [Ciudadano: ',old.nombre,']'));
 //
 
 --
@@ -114,7 +117,8 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraColoniaDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraColoniaDel` AFTER DELETE ON `colonia`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'COLONIA')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'COLONIA',
+	CONCAT('Dato ELIMINADO: ',' [Colonia: ',old.nombre,']'));
 //
 
 --
@@ -144,7 +148,8 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraComentarioDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraComentarioDel` AFTER DELETE ON `comentario`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'COMENTARIO')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'COMENTARIO',
+	CONCAT('Dato ELIMINADO: ',' [Comentario: ',old.comentario,']'));
 //
 
 --
@@ -174,7 +179,8 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraComiteDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraComiteDel` AFTER DELETE ON `comite`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'COMITE')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'COMITE',
+	CONCAT('Dato ELIMINADO: ',' [Comite: ',old.nombre,']'));
 //
 
 --
@@ -204,7 +210,8 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraMunicipioDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraMunicipioDel` AFTER DELETE ON `municipio`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'MUNICIPIO')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'MUNICIPIO',
+	CONCAT('Dato ELIMINADO: ',' [Municipio: ',old.nombre,']'));
 //
 
 --
@@ -234,5 +241,6 @@ DELIMITER //
 DROP TRIGGER IF EXISTS `bitacoraParticipanteDel`;
 DELIMITER //
   CREATE TRIGGER `bitacoraParticipanteDel` AFTER DELETE ON `participante`
-  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'PARTICIPANTE')
+  FOR EACH ROW INSERT INTO bitacoraacciones(host, usuario, operacion, fecha, tabla, datos) VALUES (SUBSTRING(USER(), (INSTR(USER(),'@')+1)), SUBSTRING(USER(),1,(instr(user(),'@')-1)), 'ELIMINAR', NOW(), 'PARTICIPANTE',
+	CONCAT('Dato ELIMINADO: ',' [Participante: ',old.nombre,']'));
 //
