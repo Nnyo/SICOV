@@ -1,5 +1,6 @@
 package mx.sicov.controller;
 
+import mx.sicov.entity.Ciudadano;
 import mx.sicov.entity.Comentario;
 import mx.sicov.entity.Incidencia;
 import mx.sicov.service.ciudadano.CiudadanoServiceImpl;
@@ -40,10 +41,15 @@ public class ComentarioController {
         return getStringComentarioEnlace(idincidencia, model, authentication);
     }
 
+    @PostMapping("/ver")
+    public String findComentarybyIdIncidenciaPost(Long idincidencia, Model model, Authentication authentication){
+        return getStringComentarioEnlace(idincidencia, model, authentication);
+    }
+
     private String getStringComentarioEnlace(Long idincidencia, Model model, Authentication authentication){
+        Ciudadano ciudadano = ciudadanoService.findObjCiudadanoByCorreoElectronico(authentication.getName());
         model.addAttribute("role",authentication.getAuthorities().toString());
-        Incidencia incidencia = incidenciaService.findById(idincidencia);
-        List<Comentario> comentarios = comentarioService.findComentarioByIncidencia(incidencia);
+        List<Comentario> comentarios = comentarioService.findComentarioByMunicipio(ciudadano.getMunicipio().getIdmunicipio(),idincidencia);
         if(comentarios.size() == 0){
             model.addAttribute("alert","info");
             model.addAttribute("message","Este incidente aún no tiene comentarios. Sé el primero!");

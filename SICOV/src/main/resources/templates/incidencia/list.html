@@ -51,15 +51,21 @@
               <td th:text="${solicitud.comite.nombre}"></td>
               <td th:text="${solicitud.fechaRegistro}"></td>
               <td>
-                <a class="btn btn-opciones" type="button" th:href="@{/anexo/ver/{idincidencia} (idincidencia=${solicitud.idincidencia})}">
-                  <ion-icon name="newspaper-outline"></ion-icon>
-                </a>
-                <a class="btn btn-opciones" type="button" th:href="@{/comentarios/ver/{idincidencia} (idincidencia=${solicitud.idincidencia})}">
-                  <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                </a>
-                <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#actualizar" th:onclick="actualizarIncidencia([[(${solicitud.idincidencia})]],[[(${solicitud.descripcion})]],[[(${solicitud.categoria.idcategoria})]])">
-                  <ion-icon name="create"></ion-icon>
-                </a>
+                <div class="row">
+                  <a class="btn btn-opciones" type="button" th:href="@{/anexo/ver/{idincidencia} (idincidencia=${solicitud.idincidencia})}">
+                    <ion-icon name="newspaper-outline"></ion-icon>
+                  </a>
+                  <form th:action="@{/comentarios/ver}" method="post">
+                    <input name="idincidencia" th:value="${solicitud.idincidencia}" hidden />
+                    <button class="btn btn-opciones" type="submit">
+                      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                    </button>
+                  </form>
+                  <a class="btn btn-opciones" type="button" data-toggle="modal" data-target="#actualizar" th:onclick="actualizarIncidencia([[(${solicitud.idincidencia})]],[[(${solicitud.descripcion})]],[[(${solicitud.categoria.idcategoria})]])">
+                    <ion-icon name="create"></ion-icon>
+                  </a>
+                </div>
+
               </td>
             </tr>
             </tbody>

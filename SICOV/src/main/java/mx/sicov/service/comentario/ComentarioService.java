@@ -15,6 +15,10 @@ public class ComentarioService {
     @Autowired
     ComentarioRepository comentarioRepository;
 
+    public List<Comentario> findComentarioByMunicipio(Long municipio, Long incidencia){
+        return comentarioRepository.findComentarioByMunicipio(municipio, incidencia);
+    }
+
     public boolean save(Comentario comentario){
         try {
             comentarioRepository.saveAndFlush(comentario);
